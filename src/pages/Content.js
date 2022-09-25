@@ -9,6 +9,7 @@ import PrivateRouteUser from './PrivateRouteUser';
 import PrivateRouteAdmin from './PrivateRouteAdmin';
 import ApplePage from './ApplePage';
 import Regform from './User/Regform';
+import Status from './Status';
 
 function Content() {
     return (
@@ -22,6 +23,7 @@ function Content() {
                     <Route path="*" element={<Error_role />} />
 
                     <Route path="/testform" element={<Regform />} />
+                    <Route path="/checkstatus" element={<Status />} />
                     
 
 

@@ -72,7 +72,7 @@ function AdminNav() {
                         </NavDropdown.Item>
                     </NavDropdown>
 
-                    <Button variant="danger" className='justify-content-end test' onClick={logout}>
+                    <Button variant="danger" className='justify-content-end signout' onClick={logout}>
                         ออกจากระบบ
 
                     </Button>
