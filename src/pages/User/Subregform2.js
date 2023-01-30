@@ -49,7 +49,6 @@ function Autocomp({ formData, setFormData, sethouseregis, houseregis }) {
       zipcode: address[district.value].zipcode
 
     })
-
   }
 
   const options = [];
@@ -116,7 +115,7 @@ function Autocomp({ formData, setFormData, sethouseregis, houseregis }) {
 
         <Form.Group as={Col} controlId="formGridPassword">
           <Form.Label>E-mail</Form.Label>
-          <Form.Control type="email" placeholder="nrru@ac.th" value={formData.email}
+          <Form.Control type="email" placeholder="@nrru.ac.th" value={formData.email}
             onChange={(event) =>
               setFormData({ ...formData, email: event.target.value })
             } />

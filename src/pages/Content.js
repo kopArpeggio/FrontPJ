@@ -15,35 +15,7 @@ function Content() {
     return (
         <div className="App">
 
-            <BrowserRouter>
-                <Routes>
-                    <Route path="/login" element={<Login />} />
-                    <Route path="/" element={<Login />} />
-                    <Route path="/apple" element={<ApplePage />} />
-                    <Route path="*" element={<Error_role />} />
-
-                    <Route path="/testform" element={<Regform />} />
-                    <Route path="/checkstatus" element={<Status />} />
-                    
-
-
-                    <Route element={<PrivateRouteUser />}>
-                        <Route element={<User />} path='/user' />
-                    </Route>
-                    <Route element={<PrivateRouteAdmin />}>
-                        <Route element={<Admin />} path='/admin' />
-                    </Route>
-
-                    {/* {role === 'Admin' ?
-          <Route path="/home" element={<Admin/>}
-           />
-          :
-          <Route path="/home" element={<User/>} />
-          } */}
-
-                </Routes>
-            </BrowserRouter>
-
+           
         </div>
     )
 }

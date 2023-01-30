@@ -1,5 +1,6 @@
 import React from 'react'
 import { Outlet, useNavigate, Navigate } from 'react-router-dom'
+import AdminNav from '../components/AdminNav';
 
 const PrivateRouteAdmin = () => {
     const navigate = useNavigate()
@@ -12,7 +13,7 @@ const PrivateRouteAdmin = () => {
         navigate(-1)
     }
 
-    return  role.role === 'Admin' ? <Outlet /> : test ;
+    return  role.role === 2? <Outlet /> : test   ;
 
     
 };

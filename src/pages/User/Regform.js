@@ -8,8 +8,11 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Container from 'react-bootstrap/Container';
 import axios from "axios";
-import { useContext } from 'react';
-import { UserContext } from '../ContextStudent'
+import TestNav from '../../components/TestNav';
+import PDFFile from '../../components/PDFFile'
+import { PDFDownloadLink } from '@react-pdf/renderer'
+
+
 
 
 export default function Regform() {
@@ -52,6 +55,9 @@ export default function Regform() {
 
     });
     const [companyadd, setcompanyadd] = useState({
+        bossname: "",
+        position: "",
+        department: "",
         distri: "",
         amphoe: "",
         province: "",
@@ -75,7 +81,7 @@ export default function Regform() {
             .then((response) => response.json())
             .then((data) => {
                 if (data.status == "ok") {
-                    axios.get(`http://localhost:3001/test3/${data.decoded.username}`, { 
+                    axios.get(`http://localhost:3001/test3/${data.decoded.username}`, {
                     })
                         .then(function (response) {
                             setUser(response.data)
@@ -83,7 +89,6 @@ export default function Regform() {
                         .catch(function (error) {
                             console.log(error);
                         })
-
                 }
             })
             .catch((error) => {
@@ -97,13 +102,17 @@ export default function Regform() {
 
     return (
         <div>
-
-
-
-            <div className="header">
+            <TestNav />
+            <br></br>
+            <br></br>
+            <br></br>
+            <br></br>
+            <br></br>
+            <div className="header mt-5" >
                 <h1>{FormTitles[page]}</h1>
             </div>
             <div className="body">
+
                 <Container>
                     <Form>
                         {page === 0
@@ -132,6 +141,7 @@ export default function Regform() {
                     if (page === FormTitles.length - 1) {
                         alert("เอาไว้ก่อน");
                         console.log(formData);
+
                     } else if (page === 0) {
                         setFormData({ ...formData, firstname: user[0].username, lastname: user[0].user_id })
                         console.log('yes')
@@ -143,11 +153,32 @@ export default function Regform() {
                 }}>
 
                     {page === FormTitles.length - 1 ? "ยืนยัน" : "ต่อไป"}
+
                 </Button>
+
+                {page === FormTitles.length - 1
+                    ?
+                    <div><PDFDownloadLink document={<PDFFile />} fileName="FORM">
+                        {({ loading }) => (loading ? <button> Loading Document ...</button>
+                            : <Button>Download PDF</Button>)}
+                    </PDFDownloadLink></div> : ""}
+
+                {/* <Button onClick={() => {
+                    <PDFDownloadLink document={<PDFFile />} fileName="FORM">
+                        {({ loading }) => (loading ? <button> Loading Document ...</button> : 'Download')}
+                    </PDFDownloadLink>
+                }}>
+                    {page === FormTitles.length - 1 ? "Download PDF" : console.log('')}
+                </Button> */}
 
 
             </div>
 
-        </div>
+
+
+
+
+        </div >
+
     );
 }

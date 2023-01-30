@@ -9,13 +9,10 @@ import { useNavigate } from "react-router-dom";
 
 
 function TextLinkExample() {
-    const a = 2;
     const navigate = useNavigate();
     const Goto_login = () => {
         navigate('/login')
     }
-  
-
     return (
         <Navbar className='nav-color'>
             <Container>
@@ -23,7 +20,6 @@ function TextLinkExample() {
                     <img className='logo' src={logo} alt='logo' />
                     <Navbar.Text className='nav-text2'>
                         หน้าแรก 
-                        
                     </Navbar.Text>
                 </Navbar.Brand>
                 <Navbar.Toggle />

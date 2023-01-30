@@ -1,24 +1,34 @@
 @import url('https://fonts.googleapis.com/css2?family=Prompt&display=swap');
 
+
 .App {
   text-align: center;
   font-family: 'Prompt';
+}
+
+.content-nav {
+  margin-left: 10%;
+  margin-right: 40%;
+  font-size: 20px;
+
 }
 
 .nav-color {
   background-color: rgb(255, 255, 255);
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   border-radius: 0px 0px 25px 25px;
-  padding: 20px;
+  padding-bottom: 2%;
+
+
+}
+
+.test-logo {
+  margin-left: 100%;
 }
 
 .logo {
   width: 6%;
   height: 6%;
-  border-radius: 50%;
-  overflow: hidden;
-  margin-top: -6px;
-  
 }
 
 
@@ -50,11 +60,14 @@
 
 .nav-text {
   text-align: left;
-  margin-bottom: 0px;
+
 }
 
+
+
 .nav-text2 {
-  margin-left: 8%;
+  margin-left: 10%;
+  margin-right: 10%;
   color: #000000;
 
 }
@@ -132,6 +145,7 @@
   background-color: #76c57d;
   border: none;
 }
+
 .submit-black-ground:disabled {
   color: #000000;
   background-color: #96c59a;
@@ -169,101 +183,123 @@
   box-shadow: 0px 4px 6px 2px rgba(0, 0, 0, 0.25);
 
 }
+
 .tablealign {
   text-align: center;
 }
 
-.editbutton{
+.editbutton {
   border-radius: 11px;
 }
-.correct{
+
+.correct {
   color: #5fb867;
   font-size: 20px;
 }
-.correct:hover{
+
+.correct:hover {
   cursor: pointer;
 }
-.Wrong{
+
+.Wrong {
   color: #e63010;
   font-size: 20px;
 }
-.Wrong:hover{
+
+.Wrong:hover {
   cursor: pointer;
 }
-.Checking{
+
+.Checking {
   color: #e3c068;
   font-size: 20px;
 }
-.Checking:hover{
+
+.Checking:hover {
   cursor: pointer;
 }
 
-.navlink{
-  display: inline-block;
-  
+.navlink {
+  text-decoration: none;
+  top: 0;
+  transition: top ease 0.1s;
+  padding: 15px;
+  position: relative;
+
 }
-.navlink:hover{
+
+.navlink:hover {
   cursor: pointer;
+  top: -5px;
 }
 
 
-.signout{
+.signout {
   margin-left: 100px;
 }
 
 /* ล่าสุดdddddddddddddddddddddddddddddddddddd */
 
-.table_size{
-  width:70% ;
+.table_size {
+  width: 70%;
 }
 
-.background_test{
+.background_test {
   background: #000000;
 }
 
 
-.button_edit_table{
+.button_edit_table {
   border-radius: 9px;
 }
 
 
-.majin_top{
+.majin_top {
   margin-top: 15%;
 }
 
-.majin_status_top{
+.majin_status_top {
   margin-top: 2%;
 }
 
-.majin_statusbox_top{
+.majin_statusbox_top {
   margin-top: 10%;
 }
 
 
-.majin_top_name{
+.majin_top_name {
   margin-top: 3%;
 }
 
-.status_box{
-width: 230px;
-height: 170px;
-background: #D9D9D9;
-box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-border-radius: 26px;
+.status_box {
+  width: 230px;
+  height: 170px;
+  background: #D9D9D9;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 26px;
 }
 
 
-.icon_size{
-width: 200px;
-height: 150px;
+.icon_size {
+  width: 200px;
+  height: 150px;
 }
 
 
-.frame_status{
-width: 1000;
-height: 600px;
-left: 60px;
-top: 75px;
-background: #FAFAFA;
-box-shadow: 0px 4px 6px 2px rgba(0, 0, 0, 0.25);
+.frame_status {
+  width: 1000;
+  height: 600px;
+  left: 60px;
+  top: 75px;
+  background: #FAFAFA;
+  box-shadow: 0px 4px 6px 2px rgba(0, 0, 0, 0.25);
+}
+
+.usernav {
+  transition: 0.3s;
+}
+
+.usernav:hover {
+  background-color: red;
+  color: white;
 }

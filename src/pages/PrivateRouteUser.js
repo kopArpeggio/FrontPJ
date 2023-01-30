@@ -11,7 +11,7 @@ const PrivateRouteUser = () => {
     navigate(-1)
   }
 
-  return role.role === 'User' ? <Outlet /> :test;
+  return role.role === 1 ? <Outlet /> :test;
 };
 
 export default PrivateRouteUser
