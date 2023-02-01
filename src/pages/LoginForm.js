@@ -57,14 +57,20 @@ export default function LoginForm() {
   //         });
   // }
 
+
+
   const api = `http://localhost:3001/api`;
 
   const login = async () => {
     try {
-      const login = await axios.post(`${api}/login`, {
-        username: username,
-        password: password,
-      });
+      const login = await axios.post(
+        `${api}/login`,
+        {
+          username: username,
+          password: password,
+        },
+        
+      );
       console.log(login.data);
       localStorage.setItem("token", login.data.accessToken);
       window.location.reload();

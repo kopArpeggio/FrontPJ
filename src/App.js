@@ -42,7 +42,7 @@ function App() {
         {!isAuthorized ? (
           <Route path="/" element={<Navigate to="/" replace={true} />} />
         ) : (
-          <Route exact path="/apple" element={<ApplePage />} />
+          <Route exact path="/" element={<ApplePage />} />
         )}
         {/* <Route path="/login" element={<Login />} />
           <Route path="/" element={<Login />} />
