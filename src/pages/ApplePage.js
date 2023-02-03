@@ -9,10 +9,11 @@ import { setupAxios } from "../axios";
 import NewNav from "../components/NewNav";
 import TestNav from "../components/TestNav";
 import Regform from "./User/Regform";
+import BasepageAdmin from "./Admin/BasepageAdmin";
+import { Route, Routes } from "react-router-dom";
+import Admin from "./Admin/Admin";
 
 export default function ApplePage() {
-  setupAxios(axios);
-
   const [latlong, setLatlong] = useState("");
   const [user, setUser] = useState([]);
   const [address, setAddress] = useState("");
@@ -22,9 +23,6 @@ export default function ApplePage() {
     setLatlong(getCoordinatesFromGoogleMapURL(url));
     console.log(latlong);
   };
-
-  const token = localStorage.getItem("token");
-  console.log(token);
   const api = "http://localhost:3001/api/";
   var url;
   // axios.defaults.headers.Authorization = `Bearer ${token}`;
@@ -45,7 +43,7 @@ export default function ApplePage() {
           setRole(res.data.data.Role);
         }
 
-        console.log(res.data.data.Role);
+        console.log(res.data.data);
       });
     } catch (error) {
       console.error(error);
@@ -80,6 +78,8 @@ export default function ApplePage() {
   return (
     <div>
       <TestNav user={user} role={role} />
+      {console.log(role)}
+      {role === "student" ? <div> Sutdent</div> : <BasepageAdmin />}
       {/* <PDFDownloadLink document={<PDFFile />} fileName="FORM">
         {({ loading }) =>
           loading ? <button> Loading Document ...</button> : "Download"

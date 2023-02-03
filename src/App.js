@@ -23,9 +23,13 @@ import "../node_modules/react-bootstrap-submenu/dist/index.css";
 import Userinfo from "./pages/User/Userinfo";
 import Jobdesc from "./pages/User/Jobdesc";
 import LoginForm from "./pages/LoginForm";
+import axios from "axios";
+import { setupAxios } from "./axios";
+import BasepageAdmin from "./pages/Admin/BasepageAdmin";
 
 function App() {
   const isAuthorized = localStorage.getItem("token");
+  setupAxios(axios);
 
   return (
     <div className="App">
@@ -57,14 +61,14 @@ function App() {
           <Route path="/jobdesc" element={<Jobdesc />} />
           <Route path="/userinfo" element={<Userinfo />} />
           <Route path="/testpdf" element={<ApplePage />} />
-          <Route path="/testform" element={<Regform />} />
+          <Route path="/testform" element={<Regform />} /> */}
 
-          <Route element={<PrivateRouteUser />}>
-            <Route element={<User />} path='/user' />
-          </Route>
-          <Route element={<PrivateRouteAdmin />}>
-            <Route element={<Admin />} path='/admin' />
-          </Route> */}
+        <Route element={<PrivateRouteUser />}>
+          <Route element={<User />} path="/user" />
+        </Route>
+        <Route element={<PrivateRouteAdmin />}>
+          <Route element={<Admin />} path="/admin" />
+        </Route>
       </Routes>
     </div>
   );

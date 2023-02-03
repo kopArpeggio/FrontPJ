@@ -27,6 +27,10 @@ function Autocomp({ user, formData, setFormData, sethouseregis, houseregis }) {
     )
       .then((response) => response.json())
       .then((result) => {
+<<<<<<< HEAD
+=======
+        console.log(result);
+>>>>>>> bd6da2b3bf36d87e6d7bea05247ea861d4a053ee
         setAddress(result);
       });
   };
