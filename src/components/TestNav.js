@@ -28,36 +28,6 @@ function TestNav({ user, role }) {
     { name: "รายละเอียดงาน", path: "/jobdesc" },
   ];
 
-  // useEffect(() => {
-  //   // getUser()
-
-  //   const token = localStorage.getItem("token");
-  //   fetch("http://localhost:3001/authen", {
-  //     method: "POST", // or 'PUT'
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //       Authorization: "Bearer " + token,
-  //     },
-  //   })
-  //     .then((response) => response.json())
-  //     .then((data) => {
-  //       if (data.status === "ok") {
-  //         axios
-  //           .get(`http://localhost:3001/testrole/${data.decoded.username}`, {})
-  //           .then(function (response) {
-  //             setRole(response.data.results);
-  //             console.log(response.data);
-  //             setUserinfo(response.data.results);
-  //           })
-  //           .catch(function (error) {
-  //             console.log(error);
-  //           });
-  //       }
-  //     })
-  //     .catch((error) => {
-  //       console.error("Error:", error);
-  //     });
-  // }, []);
 
   const logout = () => {
     localStorage.removeItem("token");
@@ -66,20 +36,6 @@ function TestNav({ user, role }) {
   };
 
   return (
-    // <BrowserRouter>
-    //     <div>
-    //         {roleUser[getRoleUser].map((item) => (
-    //             <Link className="link" to={item.path}>
-    //                 {item.name}
-    //             </Link>
-    //         ))}
-    //     </div>
-    //     <Routes>
-    //         {roleUser[getRoleUser].map((item) => (
-    //             <Route path={item.path} element={item.element} />
-    //         ))}
-    //     </Routes>
-    // </BrowserRouter>
     <div>
       <Navbar className="nav-color " expand="lg" fixed="top">
         <Container fluid>
@@ -135,9 +91,7 @@ function TestNav({ user, role }) {
                     อาจารย์ {user.firstname} {user.lastname}
                   </div>
                 ) : (
-                  <div>
-                    คุณ {user.firstname} {user.lastname}
-                  </div>
+                  <div>บริษัท {user.companyName}</div>
                 )
               }
             >

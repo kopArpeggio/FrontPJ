@@ -1,21 +1,33 @@
-import React from 'react'
-import { Outlet, useNavigate, Navigate } from 'react-router-dom'
-import AdminNav from '../components/AdminNav';
+import React, { useState, useEffect } from "react";
+import { Outlet, useNavigate, } from "react-router-dom";
+
+import axios from "axios";
 
 const PrivateRouteAdmin = () => {
-    const navigate = useNavigate()
-    const get_role = localStorage.getItem('role')
-    const role = ('role: ', JSON.parse(get_role))
+  const api = "http://localhost:3001/api/";
+  const [role, setRole] = useState("");
 
-    const test = () => {
-        localStorage.removeItem('token');
-        localStorage.removeItem('role');
-        navigate(-1)
+  const navigate = useNavigate();
+  async function getUser() {
+    try {
+      await axios.get(`${api}`).then(function (res) {
+        setRole(res.data.data.Role);
+      });
+    } catch (error) {
+      console.error(error);
     }
+  }
+  useEffect(() => {
+    getUser();
+  }, []);
 
-    return  role.role === 2? <Outlet /> : test   ;
+  const test = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("role");
+    navigate(-1);
+  };
 
-    
+  return role === "teacher" ? <Outlet /> : navigate(-1);
 };
 
-export default PrivateRouteAdmin
+export default PrivateRouteAdmin;

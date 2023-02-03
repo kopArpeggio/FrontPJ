@@ -23,11 +23,12 @@ function Autocomp({ user, formData, setFormData, sethouseregis, houseregis }) {
 
   const fetchAPI = () => {
     fetch(
-      "https://raw.githubusercontent.com/kongvut/thai-province-data/master/api_province.json"
+      "https://gist.githubusercontent.com/ChaiyachetU/a72a3af3c6561b97883d7af935188c6b/raw/0e9389fa1fc06b532f9081793b3e36db31a1e1c6/thailand.json"
     )
       .then((response) => response.json())
       .then((result) => {
-        console.log(result)
+        console.log(result);
+        setAddress(result);
       });
   };
 
