@@ -11,13 +11,15 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Col from "react-bootstrap/Col";
 import Select from "react-select";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useOutletContext } from "react-router-dom";
 
 export default function Admin() {
   const navigate = useNavigate();
   const [company, setcompany] = useState([]);
   const [add, setadd] = useState(false);
   const [sel, setsel] = useState("");
+
+ 
 
   const insertcompany = () => {
     addcomp(compdetail);

@@ -27,10 +27,7 @@ function Autocomp({ user, formData, setFormData, sethouseregis, houseregis }) {
     )
       .then((response) => response.json())
       .then((result) => {
-<<<<<<< HEAD
-=======
         console.log(result);
->>>>>>> bd6da2b3bf36d87e6d7bea05247ea861d4a053ee
         setAddress(result);
       });
   };
@@ -81,7 +78,12 @@ function Autocomp({ user, formData, setFormData, sethouseregis, houseregis }) {
     <div>
       <Row className="mb-3 mt-5">
         <Form.Group as={Col} controlId="formGridEmail">
-          <Form.Label>ชื่อจริง</Form.Label>
+          <Form.Label
+            style={{ fontSize: 20, color: "" }}
+            className="d-flex flex-row"
+          >
+            ชื่อจริง
+          </Form.Label>
           <Form.Control
             type="text"
             placeholder="ชื่อจริง"
@@ -93,7 +95,12 @@ function Autocomp({ user, formData, setFormData, sethouseregis, houseregis }) {
         </Form.Group>
 
         <Form.Group as={Col} controlId="formGridPassword">
-          <Form.Label>นามสกุล</Form.Label>
+          <Form.Label
+            style={{ fontSize: 20, color: "" }}
+            className="d-flex flex-row"
+          >
+            นามสกุล
+          </Form.Label>
           <Form.Control
             type="text"
             placeholder="นามสกุล"
@@ -104,12 +111,22 @@ function Autocomp({ user, formData, setFormData, sethouseregis, houseregis }) {
       </Row>
       <Row className="mb-3">
         <Form.Group as={Col} controlId="formGridEmail">
-          <Form.Label>เลขประจำตัวนักศึกษา</Form.Label>
+          <Form.Label
+            style={{ fontSize: 20, color: "" }}
+            className="d-flex flex-row"
+          >
+            เลขประจำตัวนักศึกษา
+          </Form.Label>
           <Form.Control type="text" disabled placeholder="6240207512" />
         </Form.Group>
 
         <Form.Group as={Col} controlId="formGridPassword">
-          <Form.Label>สาขาวิชา</Form.Label>
+          <Form.Label
+            style={{ fontSize: 20, color: "" }}
+            className="d-flex flex-row"
+          >
+            สาขาวิชา
+          </Form.Label>
           <Form.Control
             type="text"
             disabled
@@ -119,18 +136,33 @@ function Autocomp({ user, formData, setFormData, sethouseregis, houseregis }) {
       </Row>
       <Row className="mb-3">
         <Form.Group as={Col} controlId="formGridEmail">
-          <Form.Label>คณะ</Form.Label>
+          <Form.Label
+            style={{ fontSize: 20, color: "" }}
+            className="d-flex flex-row"
+          >
+            คณะ
+          </Form.Label>
           <Form.Control type="text" disabled placeholder="วิทยาศาสตร์" />
         </Form.Group>
 
         <Form.Group as={Col} controlId="formGridPassword">
-          <Form.Label>เกรดเฉลี่ยสะสม</Form.Label>
+          <Form.Label
+            style={{ fontSize: 20, color: "" }}
+            className="d-flex flex-row"
+          >
+            เกรดเฉลี่ยสะสม
+          </Form.Label>
           <Form.Control type="text" disabled placeholder="4.00" />
         </Form.Group>
       </Row>
       <Row className="mb-3">
         <Form.Group as={Col} controlId="formGridEmail">
-          <Form.Label>เบอร์โทรศัพท์</Form.Label>
+          <Form.Label
+            style={{ fontSize: 20, color: "" }}
+            className="d-flex flex-row"
+          >
+            เบอร์โทรศัพท์
+          </Form.Label>
           <Form.Control
             type="tel"
             maxLength="10"
@@ -142,7 +174,12 @@ function Autocomp({ user, formData, setFormData, sethouseregis, houseregis }) {
         </Form.Group>
 
         <Form.Group as={Col} controlId="formGridPassword">
-          <Form.Label>E-mail</Form.Label>
+          <Form.Label
+            style={{ fontSize: 20, color: "" }}
+            className="d-flex flex-row"
+          >
+            E-mail
+          </Form.Label>
           <Form.Control
             type="email"
             placeholder="@nrru.ac.th"
@@ -155,25 +192,50 @@ function Autocomp({ user, formData, setFormData, sethouseregis, houseregis }) {
       </Row>
       <Row className="mb-3">
         <Form.Group as={Col} sm="6" controlId="formGridPassword">
-          <Form.Label>อาจารย์ที่ปรึกษา</Form.Label>
+          <Form.Label
+            style={{ fontSize: 20, color: "" }}
+            className="d-flex flex-row"
+          >
+            อาจารย์ที่ปรึกษา
+          </Form.Label>
           <Form.Control type="text" disabled placeholder="ชื่ออาจารย์" />
         </Form.Group>
       </Row>
       <Row className="mb-3">
         <Form.Group as={Col} controlId="formGridEmail">
-          <Form.Label>สถานที่เกิด</Form.Label>
+          <Form.Label
+            style={{ fontSize: 20, color: "" }}
+            className="d-flex flex-row"
+          >
+            สถานที่เกิด
+          </Form.Label>
           <Form.Control type="text" placeholder="โรงพยาบาล" disabled />
         </Form.Group>
         <Form.Group as={Col} controlId="formGridPassword">
-          <Form.Label>วันที่เกิด</Form.Label>
+          <Form.Label
+            style={{ fontSize: 20, color: "" }}
+            className="d-flex flex-row"
+          >
+            วันที่เกิด
+          </Form.Label>
           <Form.Control type="date" />
         </Form.Group>
         <Form.Group as={Col} controlId="formGridEmail">
-          <Form.Label>อายุ</Form.Label>
+          <Form.Label
+            style={{ fontSize: 20, color: "" }}
+            className="d-flex flex-row"
+          >
+            อายุ
+          </Form.Label>
           <Form.Control type="text" placeholder="21" />
         </Form.Group>
         <Form.Group as={Col} sm="1" controlId="formGridEmail">
-          <Form.Label>กรุ๊ปเลือด</Form.Label>
+          <Form.Label
+            style={{ fontSize: 20, color: "" }}
+            className="d-flex flex-row"
+          >
+            กรุ๊ปเลือด
+          </Form.Label>
           <Form.Select>
             <option value="O">O</option>
             <option value="A">A</option>
@@ -185,7 +247,12 @@ function Autocomp({ user, formData, setFormData, sethouseregis, houseregis }) {
 
       <Row className="mb-3">
         <Form.Group as={Col} controlId="formGridEmail">
-          <Form.Label>ส่วนสูง</Form.Label>
+          <Form.Label
+            style={{ fontSize: 20, color: "" }}
+            className="d-flex flex-row"
+          >
+            ส่วนสูง
+          </Form.Label>
           <Form.Control
             type="text"
             placeholder="ซม."
@@ -198,7 +265,12 @@ function Autocomp({ user, formData, setFormData, sethouseregis, houseregis }) {
         </Form.Group>
 
         <Form.Group as={Col} controlId="formGridPassword">
-          <Form.Label>น้ำหนัก</Form.Label>
+          <Form.Label
+            style={{ fontSize: 20, color: "" }}
+            className="d-flex flex-row"
+          >
+            น้ำหนัก
+          </Form.Label>
           <Form.Control
             type="text"
             placeholder="กก."
@@ -211,28 +283,53 @@ function Autocomp({ user, formData, setFormData, sethouseregis, houseregis }) {
         </Form.Group>
 
         <Form.Group as={Col} controlId="formGridEmail">
-          <Form.Label>เชื้อชาติ</Form.Label>
+          <Form.Label
+            style={{ fontSize: 20, color: "" }}
+            className="d-flex flex-row"
+          >
+            เชื้อชาติ
+          </Form.Label>
           <Form.Control type="text" placeholder="ไทย" disabled />
         </Form.Group>
         <Form.Group as={Col} controlId="formGridEmail">
-          <Form.Label>สัญชาติ</Form.Label>
+          <Form.Label
+            style={{ fontSize: 20, color: "" }}
+            className="d-flex flex-row"
+          >
+            สัญชาติ
+          </Form.Label>
           <Form.Control type="text" placeholder="ไทย" disabled />
         </Form.Group>
         <Form.Group as={Col} controlId="formGridEmail">
-          <Form.Label>ศาสนา</Form.Label>
+          <Form.Label
+            style={{ fontSize: 20, color: "" }}
+            className="d-flex flex-row"
+          >
+            ศาสนา
+          </Form.Label>
           <Form.Control type="text" placeholder="พุธ" disabled />
         </Form.Group>
       </Row>
       <Row className="mb-3">
         <Form.Group as={Col} sm="3" controlId="formGridEmail">
-          <Form.Label>เลขที่บัตรประชาชน</Form.Label>
+          <Form.Label
+            style={{ fontSize: 20, color: "" }}
+            className="d-flex flex-row"
+          >
+            เลขที่บัตรประชาชน
+          </Form.Label>
           <Form.Control type="text" placeholder="1309801388086" disabled />
         </Form.Group>
       </Row>
 
       <Row className="mb-3 ">
         <Form.Group as={Col} sm="5" controlId="formGridEmail">
-          <Form.Label>ชื่อ - สกุลบิดา</Form.Label>
+          <Form.Label
+            style={{ fontSize: 20, color: "" }}
+            className="d-flex flex-row"
+          >
+            ชื่อ - สกุลบิดา
+          </Form.Label>
           <Form.Control
             type="text"
             placeholder="ชื่อจริง"
@@ -244,7 +341,12 @@ function Autocomp({ user, formData, setFormData, sethouseregis, houseregis }) {
         </Form.Group>
 
         <Form.Group as={Col} sm="2" controlId="formGridPassword">
-          <Form.Label>อาชีพ</Form.Label>
+          <Form.Label
+            style={{ fontSize: 20, color: "" }}
+            className="d-flex flex-row"
+          >
+            อาชีพ
+          </Form.Label>
           <Form.Control
             type="text"
             placeholder="เกษตกร"
@@ -258,7 +360,12 @@ function Autocomp({ user, formData, setFormData, sethouseregis, houseregis }) {
 
       <Row className="mb-3 ">
         <Form.Group as={Col} sm="5" controlId="formGridEmail">
-          <Form.Label>ชื่อ - สกุลมารดา</Form.Label>
+          <Form.Label
+            style={{ fontSize: 20, color: "" }}
+            className="d-flex flex-row"
+          >
+            ชื่อ - สกุลมารดา
+          </Form.Label>
           <Form.Control
             type="text"
             placeholder="ชื่อจริง"
@@ -270,7 +377,12 @@ function Autocomp({ user, formData, setFormData, sethouseregis, houseregis }) {
         </Form.Group>
 
         <Form.Group as={Col} sm="2" controlId="formGridPassword">
-          <Form.Label>อาชีพ</Form.Label>
+          <Form.Label
+            style={{ fontSize: 20, color: "" }}
+            className="d-flex flex-row"
+          >
+            อาชีพ
+          </Form.Label>
           <Form.Control
             type="search"
             placeholder="ข้าราชการครู"
@@ -283,33 +395,66 @@ function Autocomp({ user, formData, setFormData, sethouseregis, houseregis }) {
       </Row>
 
       <Row className="mb-3 ">
-        <Form.Label className="mt-2">ที่อยู่ตามทะเบียนบ้าน</Form.Label>
+        <Form.Label
+          className="mt-4 mb-3"
+          style={{ fontSize: 22, color: "", fontWeight: "bold" }}
+        >
+          ที่อยู่ตามทะเบียนบ้าน
+        </Form.Label>
         <Form.Group as={Col} sm="3">
-          <Form.Label>ตำบล</Form.Label>
+          <Form.Label
+            style={{ fontSize: 20, color: "" }}
+            className="d-flex flex-row"
+          >
+            ตำบล
+          </Form.Label>
           <Form.Control type="text" disabled />
         </Form.Group>
         <Form.Group as={Col} sm="3">
-          <Form.Label>อำเภอ</Form.Label>
+          <Form.Label
+            style={{ fontSize: 20, color: "" }}
+            className="d-flex flex-row"
+          >
+            อำเภอ
+          </Form.Label>
           <Form.Control type="text" disabled />
         </Form.Group>
         <Form.Group as={Col} sm="3">
-          <Form.Label>จังหวัด</Form.Label>
+          <Form.Label
+            style={{ fontSize: 20, color: "" }}
+            className="d-flex flex-row"
+          >
+            จังหวัด
+          </Form.Label>
           <Form.Control type="text" disabled />
         </Form.Group>
         <Form.Group as={Col} sm="3">
-          <Form.Label>รหัสไปรษณีย์</Form.Label>
+          <Form.Label
+            style={{ fontSize: 20, color: "" }}
+            className="d-flex flex-row"
+          >
+            รหัสไปรษณีย์
+          </Form.Label>
           <Form.Control type="text" disabled />
         </Form.Group>
       </Row>
       <Row className="mb-3 ">
         <Form.Group as={Col} sm="8">
-          <Form.Label>บ้านเลขที่</Form.Label>
+          <Form.Label
+            style={{ fontSize: 20, color: "" }}
+            className="d-flex flex-row"
+          >
+            บ้านเลขที่
+          </Form.Label>
           <Form.Control type="text" disabled />
         </Form.Group>
       </Row>
 
       <Row className="mb-3 mt-5 ">
-        <Form.Label className="col-form-label-lg">
+        <Form.Label
+          className="col-form-label-lg"
+          style={{ fontSize: 22, color: "", fontWeight: "bold" }}
+        >
           ที่อยู่ที่ติดต่อได้สะดวก
         </Form.Label>
         <Row className=" ">
@@ -319,13 +464,16 @@ function Autocomp({ user, formData, setFormData, sethouseregis, houseregis }) {
             sm="4"
             controlId="formGridPassword"
           >
-            {/* <Form.Label>อาชีพ</Form.Label>
+            {/*<Form.Label
+            style={{ fontSize: 20, color: "" }}
+            className="d-flex flex-row"
+          >อาชีพ</Form.Label>
       <Form.Select aria-label="Default select example">
         {address.map((item, index) =>
           <option key={index}> {item.district} </option>
         )}
       </Form.Select> */}
-            <Form.Label className="mt-2">โปลดเลือกตำบล</Form.Label>
+            <Form.Label className="mt-2">โปรดเลือกตำบล</Form.Label>
             <Select
               options={options}
               value={options.value}
@@ -335,26 +483,51 @@ function Autocomp({ user, formData, setFormData, sethouseregis, houseregis }) {
           </Form.Group>
         </Row>
         <Form.Group as={Col} sm="3">
-          <Form.Label>ตำบล</Form.Label>
+          <Form.Label
+            style={{ fontSize: 20, color: "" }}
+            className="d-flex flex-row"
+          >
+            ตำบล
+          </Form.Label>
           <Form.Control type="search" disabled value={houseregis.distri} />
         </Form.Group>
         <Form.Group as={Col} sm="3">
-          <Form.Label>อำเภอ</Form.Label>
+          <Form.Label
+            style={{ fontSize: 20, color: "" }}
+            className="d-flex flex-row"
+          >
+            อำเภอ
+          </Form.Label>
           <Form.Control type="search" disabled value={houseregis.amphoe} />
         </Form.Group>
         <Form.Group as={Col} sm="3">
-          <Form.Label>จังหวัด</Form.Label>
+          <Form.Label
+            style={{ fontSize: 20, color: "" }}
+            className="d-flex flex-row"
+          >
+            จังหวัด
+          </Form.Label>
           <Form.Control type="search" disabled value={houseregis.province} />
         </Form.Group>
         <Form.Group as={Col} sm="3">
-          <Form.Label>รหัสไปรษณีย์</Form.Label>
+          <Form.Label
+            style={{ fontSize: 20, color: "" }}
+            className="d-flex flex-row"
+          >
+            รหัสไปรษณีย์
+          </Form.Label>
           <Form.Control type="search" disabled value={houseregis.zipcode} />
         </Form.Group>
       </Row>
 
       <Row className="mb-3 ">
         <Form.Group as={Col} sm="8">
-          <Form.Label>บ้านเลขที่</Form.Label>
+          <Form.Label
+            style={{ fontSize: 20, color: "" }}
+            className="d-flex flex-row"
+          >
+            บ้านเลขที่
+          </Form.Label>
           <Form.Control type="text" placeholder="5/1 หมู่ 2 ถนน" />
         </Form.Group>
       </Row>
