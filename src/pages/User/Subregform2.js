@@ -4,11 +4,21 @@ import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
 import Row from "react-bootstrap/Row";
-import Select from "react-select";
+import Select, { createFilter } from "react-select";
+import { FixedSizeList as List } from "react-window";
+import { MenuList } from "./Helper";
 
-function Autocomp({ user, formData, setFormData, sethouseregis, houseregis }) {
+function Autocomp({
+  user,
+  formData,
+  setFormData,
+  sethouseregis,
+  houseregis,
+  setBirthData,
+  birthData,
+}) {
   const [address, setAddress] = useState([]);
-
+  console.log(user);
   const getAddress = async () => {
     try {
       const response = await axios.get(
@@ -117,7 +127,15 @@ function Autocomp({ user, formData, setFormData, sethouseregis, houseregis }) {
           >
             เลขประจำตัวนักศึกษา
           </Form.Label>
-          <Form.Control type="text" disabled placeholder="6240207512" />
+          <Form.Control
+            type="text"
+            disabled
+            placeholder="6240207512"
+            value={formData.stuNo}
+            onChange={(event) => {
+              setFormData({ ...formData, stuNo: event.target.value });
+            }}
+          />
         </Form.Group>
 
         <Form.Group as={Col} controlId="formGridPassword">
@@ -131,6 +149,10 @@ function Autocomp({ user, formData, setFormData, sethouseregis, houseregis }) {
             type="text"
             disabled
             placeholder="วิทยาการคอมพิวเตอร์"
+            value={formData.branch}
+            onChange={(event) =>
+              setFormData({ ...formData, branch: event.target.value })
+            }
           />
         </Form.Group>
       </Row>
@@ -142,7 +164,15 @@ function Autocomp({ user, formData, setFormData, sethouseregis, houseregis }) {
           >
             คณะ
           </Form.Label>
-          <Form.Control type="text" disabled placeholder="วิทยาศาสตร์" />
+          <Form.Control
+            type="text"
+            disabled
+            placeholder="วิทยาศาสตร์"
+            value={formData.faculty}
+            onChange={(event) =>
+              setFormData({ ...formData, faculty: event.target.value })
+            }
+          />
         </Form.Group>
 
         <Form.Group as={Col} controlId="formGridPassword">
@@ -152,7 +182,15 @@ function Autocomp({ user, formData, setFormData, sethouseregis, houseregis }) {
           >
             เกรดเฉลี่ยสะสม
           </Form.Label>
-          <Form.Control type="text" disabled placeholder="4.00" />
+          <Form.Control
+            type="text"
+            disabled
+            placeholder="4.00"
+            value={formData.gpa}
+            onChange={(event) =>
+              setFormData({ ...formData, gpa: event.target.value })
+            }
+          />
         </Form.Group>
       </Row>
       <Row className="mb-3">
@@ -166,9 +204,9 @@ function Autocomp({ user, formData, setFormData, sethouseregis, houseregis }) {
           <Form.Control
             type="tel"
             maxLength="10"
-            value={formData.phoneNum}
+            value={formData.phoneNumber}
             onChange={(event) =>
-              setFormData({ ...formData, phoneNum: event.target.value })
+              setFormData({ ...formData, phoneNumber: event.target.value })
             }
           />
         </Form.Group>
@@ -209,7 +247,15 @@ function Autocomp({ user, formData, setFormData, sethouseregis, houseregis }) {
           >
             สถานที่เกิด
           </Form.Label>
-          <Form.Control type="text" placeholder="โรงพยาบาล" disabled />
+          <Form.Control
+            type="text"
+            placeholder="โรงพยาบาล"
+            disabled
+            value={birthData.placeOfBirth}
+            onChange={(event) => {
+              setFormData({ ...birthData, placeOfBirth: event.target.value });
+            }}
+          />
         </Form.Group>
         <Form.Group as={Col} controlId="formGridPassword">
           <Form.Label
@@ -218,7 +264,13 @@ function Autocomp({ user, formData, setFormData, sethouseregis, houseregis }) {
           >
             วันที่เกิด
           </Form.Label>
-          <Form.Control type="date" />
+          <Form.Control
+            type="date"
+            value={birthData.birthDay}
+            onChange={(event) => {
+              setBirthData({ ...birthData, birthDay: event.target.value });
+            }}
+          />
         </Form.Group>
         <Form.Group as={Col} controlId="formGridEmail">
           <Form.Label
@@ -227,7 +279,14 @@ function Autocomp({ user, formData, setFormData, sethouseregis, houseregis }) {
           >
             อายุ
           </Form.Label>
-          <Form.Control type="text" placeholder="21" />
+          <Form.Control
+            type="text"
+            placeholder="21"
+            value={birthData.age}
+            onChange={(event) => {
+              setBirthData({ ...birthData, age: event.target.value });
+            }}
+          />
         </Form.Group>
         <Form.Group as={Col} sm="1" controlId="formGridEmail">
           <Form.Label
@@ -236,7 +295,12 @@ function Autocomp({ user, formData, setFormData, sethouseregis, houseregis }) {
           >
             กรุ๊ปเลือด
           </Form.Label>
-          <Form.Select>
+          <Form.Select
+            value={birthData.bloodTypes}
+            onChange={(event) => {
+              setBirthData({ ...birthData, bloodTypes: event.target.value });
+            }}
+          >
             <option value="O">O</option>
             <option value="A">A</option>
             <option value="B">B</option>
@@ -253,15 +317,19 @@ function Autocomp({ user, formData, setFormData, sethouseregis, houseregis }) {
           >
             ส่วนสูง
           </Form.Label>
-          <Form.Control
-            type="text"
-            placeholder="ซม."
-            value={formData.height}
-            onChange={(event) =>
-              setFormData({ ...formData, height: event.target.value })
-            }
-          />
-          <InputGroup.Text>ซม.</InputGroup.Text>
+
+          <InputGroup className="mb-2">
+            <Form.Control
+              type="text"
+              placeholder="ซม."
+              value={birthData.height}
+              onChange={(event) => {
+                setBirthData({ ...birthData, height: event.target.value });
+              }}
+            />
+
+            <InputGroup.Text>ซม.</InputGroup.Text>
+          </InputGroup>
         </Form.Group>
 
         <Form.Group as={Col} controlId="formGridPassword">
@@ -271,15 +339,17 @@ function Autocomp({ user, formData, setFormData, sethouseregis, houseregis }) {
           >
             น้ำหนัก
           </Form.Label>
-          <Form.Control
-            type="text"
-            placeholder="กก."
-            value={formData.weight}
-            onChange={(event) =>
-              setFormData({ ...formData, weight: event.target.value })
-            }
-          />
-          <InputGroup.Text>กก.</InputGroup.Text>
+          <InputGroup className="mb-2">
+            <Form.Control
+              type="text"
+              placeholder="กก."
+              value={birthData.weight}
+              onChange={(event) => {
+                setBirthData({ ...birthData, weight: event.target.value });
+              }}
+            />
+            <InputGroup.Text>กก.</InputGroup.Text>
+          </InputGroup>
         </Form.Group>
 
         <Form.Group as={Col} controlId="formGridEmail">
@@ -289,7 +359,15 @@ function Autocomp({ user, formData, setFormData, sethouseregis, houseregis }) {
           >
             เชื้อชาติ
           </Form.Label>
-          <Form.Control type="text" placeholder="ไทย" disabled />
+          <Form.Control
+            type="text"
+            placeholder="ไทย"
+            disabled
+            value={birthData.ethnicity}
+            onChange={(event) => {
+              setBirthData({ ...birthData, ethnicity: event.target.value });
+            }}
+          />
         </Form.Group>
         <Form.Group as={Col} controlId="formGridEmail">
           <Form.Label
@@ -298,7 +376,15 @@ function Autocomp({ user, formData, setFormData, sethouseregis, houseregis }) {
           >
             สัญชาติ
           </Form.Label>
-          <Form.Control type="text" placeholder="ไทย" disabled />
+          <Form.Control
+            type="text"
+            placeholder="ไทย"
+            disabled
+            value={birthData.nationality}
+            onChange={(event) => {
+              setBirthData({ ...birthData, nationality: event.target.value });
+            }}
+          />
         </Form.Group>
         <Form.Group as={Col} controlId="formGridEmail">
           <Form.Label
@@ -307,7 +393,15 @@ function Autocomp({ user, formData, setFormData, sethouseregis, houseregis }) {
           >
             ศาสนา
           </Form.Label>
-          <Form.Control type="text" placeholder="พุธ" disabled />
+          <Form.Control
+            type="text"
+            placeholder="พุธ"
+            disabled
+            value={birthData.religion}
+            onChange={(event) => {
+              setBirthData({ ...birthData, religion: event.target.value });
+            }}
+          />
         </Form.Group>
       </Row>
       <Row className="mb-3">
@@ -318,7 +412,15 @@ function Autocomp({ user, formData, setFormData, sethouseregis, houseregis }) {
           >
             เลขที่บัตรประชาชน
           </Form.Label>
-          <Form.Control type="text" placeholder="1309801388086" disabled />
+          <Form.Control
+            type="text"
+            placeholder="1301546744602"
+            disabled
+            value={formData.idCardNumber}
+            onChange={(event) => {
+              setFormData({ ...formData, idCardNumber: event.target.value });
+            }}
+          />
         </Form.Group>
       </Row>
 
@@ -475,6 +577,8 @@ function Autocomp({ user, formData, setFormData, sethouseregis, houseregis }) {
       </Form.Select> */}
             <Form.Label className="mt-2">โปรดเลือกตำบล</Form.Label>
             <Select
+              filterOption={createFilter({ ignoreAccents: false })}
+              components={{ MenuList }}
               options={options}
               value={options.value}
               placeholder="กรอกชื่อตำบล"

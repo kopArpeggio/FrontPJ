@@ -22,6 +22,10 @@ function TestNav({ user, role }) {
   const [userinfo, setUserinfo] = useState("");
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+  }, []);
+
   // const user = 'just_user'
   const userMenu = [
     { name: "Home", path: "/user" },
@@ -29,10 +33,10 @@ function TestNav({ user, role }) {
     { name: "รายละเอียดงาน", path: "/jobdesc" },
   ];
 
-
   const logout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("role");
+    navigate("/");
     window.location.reload();
   };
 

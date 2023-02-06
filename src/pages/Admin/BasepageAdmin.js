@@ -1,17 +1,14 @@
-import React from "react";
-import {
-  Route,
-  Routes,
-  Navigate,
-  useOutletContext,
-  Outlet,
-} from "react-router-dom";
+import React, { useEffect } from "react";
+import { useNavigate, useOutletContext, Outlet } from "react-router-dom";
 import TestNav from "../../components/TestNav";
-import ApplePage from "../ApplePage";
-import Admin from "./Admin";
 
 function BasepageAdmin() {
   const { hiuser, hirole } = useOutletContext();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    navigate("/admin/dashboard");
+  }, []);
 
   return (
     <div>

@@ -1,8 +1,8 @@
 
 import React, { useEffect, useState } from 'react'
-import Navbar from '../components/Navbar';
+import Navbar from '../../components/Navbar';
 import { useNavigate } from "react-router-dom";
-import TestNav from '../components/TestNav';
+import TestNav from '../../components/TestNav';
 import Container from 'react-bootstrap/esm/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';

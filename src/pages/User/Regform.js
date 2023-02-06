@@ -22,20 +22,38 @@ export default function Regform({ user }) {
   const [formData, setFormData] = useState({
     firstname: "",
     lastname: "",
-    phoneNum: "",
+    phoneNumber: "",
     email: "",
-    fatherFirstname: "",
-    fatherLastname: "",
-    fatherjob: "",
-    mothername: "",
-    motherjob: "",
-    district: "",
-    amphoe: "",
-    province: "",
-    zipcode: "",
     weight: "",
     height: "",
+    idCardNumber: "",
   });
+
+  const [birthData, setBirthData] = useState({
+    age: "",
+    birthDay: "",
+    bloodTypes: "",
+    ethnicity: "",
+    height: "",
+    weight: "",
+    nationality: "",
+    placeOfBirth: "",
+    religion: "",
+  });
+
+  const [father, setFather] = useState({
+    firstname: "",
+    lastname: "",
+    job: "",
+  });
+
+  const [mother, setMother] = useState({
+    firstname: "",
+    lastname: "",
+    job: "",
+  });
+
+  // IDK *****************************************************
   const [jobData, setjobData] = useState({
     position: "",
     jobDescription: "",
@@ -57,6 +75,7 @@ export default function Regform({ user }) {
     company: "",
     subadd: "",
   });
+  // IDK *****************************************************
 
   const FormTitles = [
     "หน้าแรก",
@@ -66,32 +85,27 @@ export default function Regform({ user }) {
     "",
   ];
 
-  //   useEffect(() => {
-  //     const token = localStorage.getItem("token");
-  //     fetch("http://localhost:3001/authen", {
-  //       method: "POST", // or 'PUT'
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //         Authorization: "Bearer " + token,
-  //       },
-  //     })
-  //       .then((response) => response.json())
-  //       .then((data) => {
-  //         if (data.status == "ok") {
-  //           axios
-  //             .get(`http://localhost:3001/test3/${data.decoded.username}`, {})
-  //             .then(function (response) {
-  //               setUser(response.data);
-  //             })
-  //             .catch(function (error) {
-  //               console.log(error);
-  //             });
-  //         }
-  //       })
-  //       .catch((error) => {
-  //         console.error("Error:", error);
-  //       });
-  //   }, []);
+  const api = "http://localhost:3001/api/";
+
+  async function getUser() {
+    try {
+      await axios.get(`${api}`).then(function (res) {
+        if (res.data.data.student) {
+          setFormData(res.data.data.student);
+          setBirthData(res.data.data.student.Birth);
+          setFather(res.data.data.student.Father);
+          setMother(res.data.data.student.Mother);
+          console.log(formData);
+        }
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  useEffect(() => {
+    getUser();
+  }, []);
 
   return (
     <div>
@@ -108,18 +122,21 @@ export default function Regform({ user }) {
         <Container>
           <Form>
             {page === 0 ? (
-              <Form1 formData={formData} setFormData={setFormData} />
-            ) : page === 1 ? (
               <Form2
-                user={user}
                 formData={formData}
                 setFormData={setFormData}
                 sethouseregis={sethouseregis}
                 houseregis={houseregis}
+                setBirthData={setBirthData}
+                birthData={birthData}
+                father={father}
+                setFather={setFather}
+                mother={mother}
+                setMother={setMother}
               />
-            ) : page === 2 ? (
+            ) : page === 1 ? (
               <Form3 jobData={jobData} setjobData={setjobData} />
-            ) : page === 3 ? (
+            ) : page === 2 ? (
               <Form4
                 formData={formData}
                 setFormData={setFormData}
@@ -134,7 +151,8 @@ export default function Regform({ user }) {
       </div>
       <div className="footer">
         <Button
-          disabled={page == 0 || page == 1}
+          // disabled={page == 0 || page == 1}
+          disabled={page == 0}
           onClick={() => {
             setPage((currPage) => currPage - 1);
           }}
@@ -149,12 +167,6 @@ export default function Regform({ user }) {
               alert("เอาไว้ก่อน");
               console.log(formData);
             } else if (page === 0) {
-              setFormData({
-                ...formData,
-                firstname: user.firstname,
-                lastname: user.lastname,
-              });
-              console.log("yes");
               setPage((currPage) => currPage + 1);
             } else {
               setPage((currPage) => currPage + 1);

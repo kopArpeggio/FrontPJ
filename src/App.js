@@ -1,32 +1,19 @@
 import "./App.css";
-import {
-  Routes,
-  Route,
-  redirect,
-  Navigate,
-  BrowserRouter,
-} from "react-router-dom";
-import Login from "./pages/LoginForm";
-import Error_role from "./pages/Error_role";
-import User from "./pages/User";
+import { Routes, Route, Navigate } from "react-router-dom";
+
+import User from "./pages/User/User";
 import Admin from "./pages/Admin/Admin";
-import PrivateRouteUser from "./pages/PrivateRouteUser";
-import PrivateRouteAdmin from "./pages/PrivateRouteAdmin";
+import PrivateRouteUser from "./pages/Private/PrivateRouteUser";
+import PrivateRouteAdmin from "./pages/Private/PrivateRouteAdmin";
 import ApplePage from "./pages/ApplePage";
-import Regform from "./pages/User/Regform";
-import Status from "./pages/Status";
-import Fromtech from "./pages/Fromtech";
-import TestNav from "./components/TestNav";
-import Uploadfile from "./pages/User/Uploadfile";
-import Actionform from "./pages/Actionform";
 import "../node_modules/react-bootstrap-submenu/dist/index.css";
-import Userinfo from "./pages/User/Userinfo";
-import Jobdesc from "./pages/User/Jobdesc";
 import LoginForm from "./pages/LoginForm";
 import axios from "axios";
 import { setupAxios } from "./axios";
 import BasepageAdmin from "./pages/Admin/BasepageAdmin";
 import { useEffect, useState } from "react";
+import Error_role from "./pages/Error_role";
+import BasepageUser from "./pages/User/BasepageUser";
 
 function App() {
   const isAuthorized = localStorage.getItem("token");
@@ -53,8 +40,6 @@ function App() {
           setUser(res.data.data.workplace);
           setRole(res.data.data.Role);
         }
-
-        console.log(res.data.data);
       });
     } catch (error) {
       console.error(error);
@@ -69,7 +54,7 @@ function App() {
     <div className="App">
       <Routes>
         {!isAuthorized ? (
-          <Route exact path="/" element={<LoginForm />} />
+          <Route path="/" element={<LoginForm />} />
         ) : (
           <Route
             path="/apple"
@@ -80,7 +65,7 @@ function App() {
         {!isAuthorized ? (
           <Route path="/" element={<Navigate to="/" replace={true} />} />
         ) : (
-          <Route exact path="/" element={<ApplePage />} />
+          <Route exact path="/" element={<ApplePage /> } />
         )}
         {/* <Route path="/login" element={<Login />} />
           <Route path="/" element={<Login />} />
@@ -96,9 +81,11 @@ function App() {
           <Route path="/userinfo" element={<Userinfo />} />
           <Route path="/testpdf" element={<ApplePage />} />
           <Route path="/testform" element={<Regform />} /> */}
+        {/* <Route index element={<LoginForm />} /> */}
+        <Route path="*" element={<Error_role />} />
 
         <Route element={<PrivateRouteUser />}>
-          <Route element={<User />} path="/user" />
+          <Route element={<BasepageUser />} path="/user" />
         </Route>
         <Route element={<PrivateRouteAdmin />}>
           <Route element={<BasepageAdmin />} path="/admin">

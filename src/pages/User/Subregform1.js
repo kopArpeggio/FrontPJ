@@ -1,9 +1,7 @@
-import React from 'react'
+import React from "react";
 
-function Autocomp3() {
-  return (
-    <div>โปรดกรอกข้อมูลต่อไปนี้ตามความเป็นจริง</div>
-  )
+function Autocomp3({ user }) {
+  return <div>โปรดกรอกข้อมูลต่อไปนี้ตามความเป็นจริง </div>;
 }
 
-export default Autocomp3
+export default Autocomp3;

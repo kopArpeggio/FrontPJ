@@ -12,6 +12,7 @@ import Regform from "./User/Regform";
 import BasepageAdmin from "./Admin/BasepageAdmin";
 import { Route, Routes } from "react-router-dom";
 import Admin from "./Admin/Admin";
+import { useNavigate } from "react-router-dom";
 
 export default function ApplePage() {
   const [latlong, setLatlong] = useState("");
@@ -25,6 +26,8 @@ export default function ApplePage() {
   };
   const api = "http://localhost:3001/api/";
   var url;
+  const navigate = useNavigate();
+
   // axios.defaults.headers.Authorization = `Bearer ${token}`;
   async function getUser() {
     try {
@@ -78,8 +81,7 @@ export default function ApplePage() {
   return (
     <div>
       <TestNav user={user} role={role} />
-      {console.log(role)}
-      {role === "student" ? <div> Sutdent</div> : <BasepageAdmin />}
+      {role === "student" ? navigate("/user") : navigate("/admin")}
       {/* <PDFDownloadLink document={<PDFFile />} fileName="FORM">
         {({ loading }) =>
           loading ? <button> Loading Document ...</button> : "Download"
@@ -111,7 +113,7 @@ export default function ApplePage() {
       </div>
        */}
 
-      <Regform user={user} />
+      {/* <Regform user={user} /> */}
     </div>
   );
 }

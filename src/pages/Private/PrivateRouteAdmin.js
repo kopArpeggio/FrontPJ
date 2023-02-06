@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 
 import axios from "axios";
-import TestNav from "../components/TestNav";
 
 const PrivateRouteAdmin = () => {
   const api = "http://localhost:3001/api/";
