@@ -9,27 +9,27 @@ import { FixedSizeList as List } from "react-window";
 import { MenuList } from "./Helper";
 
 function Autocomp({
-  user,
   formData,
   setFormData,
   sethouseregis,
   houseregis,
   setBirthData,
   birthData,
+  father,
+  mother,
 }) {
   const [address, setAddress] = useState([]);
-  console.log(user);
-  const getAddress = async () => {
-    try {
-      const response = await axios.get(
-        "https://gist.githubusercontent.com/ChaiyachetU/a72a3af3c6561b97883d7af935188c6b/raw/0e9389fa1fc06b532f9081793b3e36db31a1e1c6/thailand.json"
-      );
-      setAddress(response.data);
-      console.log(response.data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  // const getAddress = async () => {
+  //   try {
+  //     const response = await axios.get(
+  //       "https://gist.githubusercontent.com/ChaiyachetU/a72a3af3c6561b97883d7af935188c6b/raw/0e9389fa1fc06b532f9081793b3e36db31a1e1c6/thailand.json"
+  //     );
+  //     setAddress(response.data);
+  //     console.log(response.data);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
 
   const fetchAPI = () => {
     fetch(
@@ -37,7 +37,6 @@ function Autocomp({
     )
       .then((response) => response.json())
       .then((result) => {
-        console.log(result);
         setAddress(result);
       });
   };
@@ -47,7 +46,7 @@ function Autocomp({
   // console.log(a)
 
   useEffect(() => {
-    getAddress();
+    // getAddress();
     fetchAPI();
   }, []);
 
@@ -251,7 +250,7 @@ function Autocomp({
             type="text"
             placeholder="โรงพยาบาล"
             disabled
-            value={birthData.placeOfBirth}
+            value={birthData?.placeOfBirth}
             onChange={(event) => {
               setFormData({ ...birthData, placeOfBirth: event.target.value });
             }}
@@ -266,7 +265,7 @@ function Autocomp({
           </Form.Label>
           <Form.Control
             type="date"
-            value={birthData.birthDay}
+            value={birthData?.birthDay}
             onChange={(event) => {
               setBirthData({ ...birthData, birthDay: event.target.value });
             }}
@@ -282,7 +281,7 @@ function Autocomp({
           <Form.Control
             type="text"
             placeholder="21"
-            value={birthData.age}
+            value={birthData?.age}
             onChange={(event) => {
               setBirthData({ ...birthData, age: event.target.value });
             }}
@@ -296,7 +295,7 @@ function Autocomp({
             กรุ๊ปเลือด
           </Form.Label>
           <Form.Select
-            value={birthData.bloodTypes}
+            value={birthData?.bloodTypes}
             onChange={(event) => {
               setBirthData({ ...birthData, bloodTypes: event.target.value });
             }}
@@ -322,7 +321,7 @@ function Autocomp({
             <Form.Control
               type="text"
               placeholder="ซม."
-              value={birthData.height}
+              value={birthData?.height}
               onChange={(event) => {
                 setBirthData({ ...birthData, height: event.target.value });
               }}
@@ -343,7 +342,7 @@ function Autocomp({
             <Form.Control
               type="text"
               placeholder="กก."
-              value={birthData.weight}
+              value={birthData?.weight}
               onChange={(event) => {
                 setBirthData({ ...birthData, weight: event.target.value });
               }}
@@ -363,7 +362,7 @@ function Autocomp({
             type="text"
             placeholder="ไทย"
             disabled
-            value={birthData.ethnicity}
+            value={birthData?.ethnicity}
             onChange={(event) => {
               setBirthData({ ...birthData, ethnicity: event.target.value });
             }}
@@ -380,7 +379,7 @@ function Autocomp({
             type="text"
             placeholder="ไทย"
             disabled
-            value={birthData.nationality}
+            value={birthData?.nationality}
             onChange={(event) => {
               setBirthData({ ...birthData, nationality: event.target.value });
             }}
@@ -397,7 +396,7 @@ function Autocomp({
             type="text"
             placeholder="พุธ"
             disabled
-            value={birthData.religion}
+            value={birthData?.religion}
             onChange={(event) => {
               setBirthData({ ...birthData, religion: event.target.value });
             }}
@@ -425,19 +424,35 @@ function Autocomp({
       </Row>
 
       <Row className="mb-3 ">
-        <Form.Group as={Col} sm="5" controlId="formGridEmail">
+        <Form.Group as={Col} sm="4" controlId="formGridEmail">
           <Form.Label
             style={{ fontSize: 20, color: "" }}
             className="d-flex flex-row"
           >
-            ชื่อ - สกุลบิดา
+            ชื่อบิดา
           </Form.Label>
           <Form.Control
             type="text"
             placeholder="ชื่อจริง"
-            value={formData.fathername}
+            value={father.firstname}
             onChange={(event) =>
-              setFormData({ ...formData, fathername: event.target.value })
+              setFormData({ ...father, firstname: event.target.value })
+            }
+          />
+        </Form.Group>
+        <Form.Group as={Col} sm="4" controlId="formGridEmail">
+          <Form.Label
+            style={{ fontSize: 20, color: "" }}
+            className="d-flex flex-row"
+          >
+            นามสกุล
+          </Form.Label>
+          <Form.Control
+            type="text"
+            placeholder="นามสกุล"
+            value={father.firstname}
+            onChange={(event) =>
+              setFormData({ ...father, firstname: event.target.value })
             }
           />
         </Form.Group>
@@ -452,28 +467,43 @@ function Autocomp({
           <Form.Control
             type="text"
             placeholder="เกษตกร"
-            value={formData.fatherjob}
+            value={father.job}
             onChange={(event) =>
-              setFormData({ ...formData, fatherjob: event.target.value })
+              setFormData({ ...father, job: event.target.value })
             }
           />
         </Form.Group>
       </Row>
-
       <Row className="mb-3 ">
-        <Form.Group as={Col} sm="5" controlId="formGridEmail">
+        <Form.Group as={Col} sm="4" controlId="formGridEmail">
           <Form.Label
             style={{ fontSize: 20, color: "" }}
             className="d-flex flex-row"
           >
-            ชื่อ - สกุลมารดา
+            ชื่อมารดา
           </Form.Label>
           <Form.Control
             type="text"
             placeholder="ชื่อจริง"
-            value={formData.mothername}
+            value={mother.firstname}
             onChange={(event) =>
-              setFormData({ ...formData, mothername: event.target.value })
+              setFormData({ ...mother, firstname: event.target.value })
+            }
+          />
+        </Form.Group>
+        <Form.Group as={Col} sm="4" controlId="formGridEmail">
+          <Form.Label
+            style={{ fontSize: 20, color: "" }}
+            className="d-flex flex-row"
+          >
+            นามสกุล
+          </Form.Label>
+          <Form.Control
+            type="text"
+            placeholder="นามสกุล"
+            value={mother.lastname}
+            onChange={(event) =>
+              setFormData({ ...mother, lastname: event.target.value })
             }
           />
         </Form.Group>
@@ -486,11 +516,11 @@ function Autocomp({
             อาชีพ
           </Form.Label>
           <Form.Control
-            type="search"
-            placeholder="ข้าราชการครู"
-            value={formData.motherjob}
+            type="text"
+            placeholder="เกษตกร"
+            value={mother.job}
             onChange={(event) =>
-              setFormData({ ...formData, motherjob: event.target.value })
+              setFormData({ ...mother, job: event.target.value })
             }
           />
         </Form.Group>

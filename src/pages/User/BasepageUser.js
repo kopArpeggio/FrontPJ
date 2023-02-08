@@ -5,10 +5,12 @@ import TestNav from "../../components/TestNav";
 function BasepageUser() {
   const { hiuser, hirole } = useOutletContext();
   const navigate = useNavigate();
-  console.log(hiuser, hirole);
+
+  useEffect(() => {
+  }, []);
   return (
     <div>
-     
+      <TestNav user={hiuser} role={hirole} />
       <Outlet />
     </div>
   );

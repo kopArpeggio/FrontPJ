@@ -27,6 +27,7 @@
     "react-thai-address": "^1.0.4",
     "react-window": "^1.8.8",
     "styled-components": "^5.3.5",
+    "sweetalert2": "^11.7.1",
     "web-vitals": "^2.1.4"
   },
   "scripts": {

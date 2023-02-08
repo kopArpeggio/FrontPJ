@@ -81,7 +81,7 @@ export default function ApplePage() {
   return (
     <div>
       <TestNav user={user} role={role} />
-      {role === "student" ? navigate("/user") : navigate("/admin")}
+      {role === "student" ? navigate("/user/dashboard") : navigate("/admin")}
       {/* <PDFDownloadLink document={<PDFFile />} fileName="FORM">
         {({ loading }) =>
           loading ? <button> Loading Document ...</button> : "Download"

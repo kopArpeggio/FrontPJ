@@ -14,6 +14,8 @@ import BasepageAdmin from "./pages/Admin/BasepageAdmin";
 import { useEffect, useState } from "react";
 import Error_role from "./pages/Error_role";
 import BasepageUser from "./pages/User/BasepageUser";
+import Regform from "./pages/User/Regform";
+import Uploadfile from "./pages/User/Uploadfile";
 
 function App() {
   const isAuthorized = localStorage.getItem("token");
@@ -65,7 +67,7 @@ function App() {
         {!isAuthorized ? (
           <Route path="/" element={<Navigate to="/" replace={true} />} />
         ) : (
-          <Route exact path="/" element={<ApplePage /> } />
+          <Route exact path="/" element={<ApplePage />} />
         )}
         {/* <Route path="/login" element={<Login />} />
           <Route path="/" element={<Login />} />
@@ -85,7 +87,11 @@ function App() {
         <Route path="*" element={<Error_role />} />
 
         <Route element={<PrivateRouteUser />}>
-          <Route element={<BasepageUser />} path="/user" />
+          <Route element={<BasepageUser />} path="/user">
+            <Route element={<User />} path="dashboard" />
+            <Route element={<Regform />} path="register" />
+            <Route element={<Uploadfile />} path="upload" />
+          </Route>
         </Route>
         <Route element={<PrivateRouteAdmin />}>
           <Route element={<BasepageAdmin />} path="/admin">

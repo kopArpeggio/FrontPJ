@@ -2,10 +2,9 @@ import axios from "axios";
 import DataTable, { createTheme } from "react-data-table-component";
 import React, { useEffect, useState } from "react";
 import Container from "react-bootstrap/esm/Container";
-import AdminNav from "../../components/AdminNav";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck, faRotate, faXmark } from "@fortawesome/free-solid-svg-icons";
-import TestNav from "../../components/TestNav";
+import Swal from "sweetalert2";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
@@ -18,8 +17,6 @@ export default function Admin() {
   const [company, setcompany] = useState([]);
   const [add, setadd] = useState(false);
   const [sel, setsel] = useState("");
-
- 
 
   const insertcompany = () => {
     addcomp(compdetail);
@@ -41,6 +38,7 @@ export default function Admin() {
     setremove(false);
     del();
   };
+  
 
   const editshow = () => seteditCommp(true);
   const [editCommp, seteditCommp] = useState(false);

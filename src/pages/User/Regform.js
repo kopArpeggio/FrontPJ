@@ -17,6 +17,7 @@ export default function Regform({ user }) {
 
   // const { user } = useContext(UserContext);
 
+
   const [page, setPage] = useState(0);
 
   const [formData, setFormData] = useState({
@@ -95,7 +96,6 @@ export default function Regform({ user }) {
           setBirthData(res.data.data.student.Birth);
           setFather(res.data.data.student.Father);
           setMother(res.data.data.student.Mother);
-          console.log(formData);
         }
       });
     } catch (error) {
@@ -123,6 +123,7 @@ export default function Regform({ user }) {
           <Form>
             {page === 0 ? (
               <Form2
+                user={user}
                 formData={formData}
                 setFormData={setFormData}
                 sethouseregis={sethouseregis}

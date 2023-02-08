@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 import axios from "axios";
+import Swal from "sweetalert2";
 
 const PrivateRouteUser = () => {
   const api = "http://localhost:3001/api/";
@@ -13,18 +14,37 @@ const PrivateRouteUser = () => {
       await axios.get(`${api}`).then(function (res) {
         setUser(res.data.data.student);
         setRole(res.data.data.Role);
+        console.log("Do it");
       });
     } catch (error) {
       console.error(error);
     }
   }
+
+  const leave = () => {
+    Swal.fire({
+      title: "Error!",
+      text: "หน้านี้ไม่มีอยู่",
+      icon: "error",
+      confirmButtonText: "OK",
+      showLoaderOnConfirm: true,
+    }).then(() => {
+      navigate(-1);
+    });
+  };
+  const isLogin = localStorage.getItem("token");
+
   useEffect(() => {
+    if (!isLogin) {
+      leave();
+    }
     getUser();
   }, []);
 
   return hirole === "student" ? (
     <Outlet context={{ hiuser, hirole }} />
   ) : (
+    // leave()
     navigate(-1)
   );
 };

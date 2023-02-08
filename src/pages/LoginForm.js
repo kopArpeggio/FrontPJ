@@ -5,11 +5,13 @@ import Button from "react-bootstrap/Button";
 import { useNavigate } from "react-router-dom";
 import Container from "react-bootstrap/Container";
 import axios from "axios";
+import Swal from "sweetalert2";
 
 export default function LoginForm() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(true);
 
   // const login = () => {
   //     const data = { username, password };
@@ -57,29 +59,48 @@ export default function LoginForm() {
   //         });
   // }
 
-
-
   const api = `http://localhost:3001/api`;
+
+  const Toast = Swal.mixin({
+    toast: true,
+    position: "top-end",
+    showConfirmButton: false,
+    timer: 1500,
+    timerProgressBar: true,
+    didOpen: (toast) => {
+      toast.addEventListener("mouseenter", Swal.stopTimer);
+      toast.addEventListener("mouseleave", Swal.resumeTimer);
+    },
+  });
 
   const login = async () => {
     try {
-      const login = await axios.post(
-        `${api}/login`,
-        {
-          username: username,
-          password: password,
-        },
-        
-      );
+      const login = await axios.post(`${api}/login`, {
+        username: username,
+        password: password,
+      });
+
+      await Toast.fire({
+        icon: "success",
+        title: "Signed in successfully",
+      });
       console.log(login.data);
       localStorage.setItem("token", login.data.accessToken);
       window.location.reload();
     } catch (error) {
-      console.log(error);
+      // console.log(error);
+      Toast.fire({
+        icon: "error",
+        title: "Signed Failed",
+      });
     }
   };
 
   useEffect(() => {
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 2000);
+
     // const token = localStorage.getItem("token");
     // fetch("http://localhost:3001/authen", {
     //   method: "POST", // or 'PUT'
@@ -99,10 +120,16 @@ export default function LoginForm() {
     //     console.error("Error:", error);
     //   });
   }, []);
+
   return (
     <div>
       <Navbar />
       <Container>
+        {isLoading ? (
+          <p>Loading...</p>
+        ) : (
+          <p>Data has been successfully fetched</p>
+        )}
         <Form className="App-login-form font-css ">
           <br />
           <Form.Group className="mb-3 font-css ">

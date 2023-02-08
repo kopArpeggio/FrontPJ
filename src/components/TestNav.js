@@ -19,23 +19,18 @@ import Nav from "react-bootstrap/Nav";
 import { DropdownSubmenu, NavDropdownMenu } from "react-bootstrap-submenu";
 
 function TestNav({ user, role }) {
-  const [userinfo, setUserinfo] = useState("");
-
   const navigate = useNavigate();
 
-  useEffect(() => {
-  }, []);
-
-  // const user = 'just_user'
   const userMenu = [
-    { name: "Home", path: "/user" },
-    { name: "ข้อมูลนักศึกษา", path: "/userinfo" },
+    { name: "Home", path: "/user/dashboard" },
+    { name: "ข้อมูลนักศึกษา", path: "/user/register" },
     { name: "รายละเอียดงาน", path: "/jobdesc" },
   ];
 
+  const adminMenu = [{ name: "Home", path: "/admin/dashboard" }];
+
   const logout = () => {
     localStorage.removeItem("token");
-    localStorage.removeItem("role");
     navigate("/");
     window.location.reload();
   };
@@ -70,14 +65,18 @@ function TestNav({ user, role }) {
                 </div>
               ) : (
                 <div>
-                  <Navbar.Text
-                    className="navlink "
-                    style={{ color: "black" }}
-                    onClick={logout}
-                  >
-                    ออกจากระบบ
-                  </Navbar.Text>
-                  {/* <Link style={{ color: "black" }} className="navlink" to="/" ></Link> */}
+                  <Nav className="me-auto">
+                    {adminMenu.map((item, index) => (
+                      <Navbar.Text className=" " key={index}>
+                        <Link
+                          className="navlink d-flex flex-row"
+                          to={item.path}
+                        >
+                          <li>{item.name}</li>
+                        </Link>
+                      </Navbar.Text>
+                    ))}
+                  </Nav>
                 </div>
               )}
             </div>
