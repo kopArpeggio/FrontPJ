@@ -2,25 +2,41 @@ import React from "react";
 import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import Select from "react-select";
+import Select, { createFilter } from "react-select";
+import { MenuList } from "./Helper";
 
 function Subregform3({
   work,
   setWork,
   workplace,
-  workplaceAddress,
-  setWorkplaceAddress,
+  finalWorkplace,
+  setFinalWorkplace,
 }) {
   const onChangedistrict = (value) => {
-    setcompanyadd({
-      ...companyadd,
-      company: company[value.value].name,
-      distri: company[value.value].district,
-      amphoe: company[value.value].amphoe,
-      province: company[value.value].province,
-      subadd: company[value.value].subadd,
+    setFinalWorkplace({
+      ...finalWorkplace,
+      companyName: workplace[value.value].companyName,
+      district: workplace[value.value].district,
+      amphoe: workplace[value.value].amphoe,
+      province: workplace[value.value].province,
+      houseNumber: workplace[value.value].houseNumber,
     });
   };
+
+  const options = [];
+  for (var i = 0; i < workplace.length; i++) {
+    var obj = {};
+    obj["value"] = i;
+    obj["label"] =
+      workplace[i].companyName +
+      " >> " +
+      workplace[i].province +
+      " >> " +
+      workplace[i].amphoe +
+      " >> " +
+      workplace[i].district;
+    options.push(obj);
+  }
 
   console.log(workplace);
   return (
@@ -120,24 +136,35 @@ function Subregform3({
         </Form.Group>
       </Row>
 
-      {/* <Row className="mb-3 mt-5 ">
+      <Row className="mb-3 mt-5 ">
         <Form.Group as={Col} sm="8">
           <Form.Label>ค้นหาหน่วยงาน</Form.Label>
           <Select
+            filterOption={createFilter({ ignoreAccents: false })}
             options={options}
             value={options.value}
             onChange={(e) => onChangedistrict(e)}
+            components={{ MenuList }}
+            placeholder="กรอกชื่อหน่วยงาน"
           />
         </Form.Group>
       </Row>
       <Row className="mb-3 mt-5 ">
         <Form.Group as={Col} sm="8">
           <Form.Label>ชื่อหน่วยงาน</Form.Label>
-          <Form.Control placeholder="" value={companyadd.company} disabled />
+          <Form.Control
+            placeholder=""
+            value={finalWorkplace.companyName}
+            disabled
+          />
         </Form.Group>
         <Form.Group as={Col} sm="4">
           <Form.Label>บ้านเลขที่</Form.Label>
-          <Form.Control placeholder="" value={companyadd.subadd} disabled />
+          <Form.Control
+            placeholder=""
+            value={finalWorkplace.houseNumber}
+            disabled
+          />
         </Form.Group>
       </Row>
 
@@ -145,17 +172,17 @@ function Subregform3({
         <Row className=" "></Row>
         <Form.Group as={Col} sm="3">
           <Form.Label>ตำบล</Form.Label>
-          <Form.Control type="text" disabled value={companyadd.distri} />
+          <Form.Control type="text" disabled value={finalWorkplace.district} />
         </Form.Group>
         <Form.Group as={Col} sm="3">
           <Form.Label>อำเภอ</Form.Label>
-          <Form.Control type="text" disabled value={companyadd.amphoe} />
+          <Form.Control type="text" disabled value={finalWorkplace.amphoe} />
         </Form.Group>
         <Form.Group as={Col} sm="3">
           <Form.Label>จังหวัด</Form.Label>
-          <Form.Control type="text" disabled value={companyadd.province} />
+          <Form.Control type="text" disabled value={finalWorkplace.province} />
         </Form.Group>
-      </Row> */}
+      </Row>
     </div>
   );
 }

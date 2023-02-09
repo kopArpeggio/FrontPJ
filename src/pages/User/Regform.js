@@ -11,6 +11,7 @@ import axios from "axios";
 import TestNav from "../../components/TestNav";
 import PDFFile from "../../components/PDFFile";
 import { PDFDownloadLink } from "@react-pdf/renderer";
+import { faTry } from "@fortawesome/free-solid-svg-icons";
 
 export default function Regform({ user }) {
   // console.log(useContext(UserContext))
@@ -27,6 +28,11 @@ export default function Regform({ user }) {
     weight: "",
     height: "",
     idCardNumber: "",
+    district: "",
+    amphoe: "",
+    province: "",
+    zipCode: "",
+    houseNumber: "",
   });
 
   const [birthData, setBirthData] = useState({
@@ -76,9 +82,6 @@ export default function Regform({ user }) {
 
   const [workplace, setWorkplace] = useState({
     companyName: "",
-  });
-
-  const [workplaceAddress, setWorkplaceAddress] = useState({
     amphoe: "",
     district: "",
     houseNumber: "",
@@ -88,18 +91,25 @@ export default function Regform({ user }) {
     zipCode: "",
   });
 
+  const [finalWorkplace, setFinalWorkplace] = useState({
+    companyName: "",
+    district: "",
+    amphoe: "",
+    province: "",
+    houseNumber: "",
+    latitude: "",
+    longtitude: "",
+  });
+
+  const [houseregis, sethouseregis] = useState({});
+
   // IDK *****************************************************
   const [jobData, setjobData] = useState({
     position: "",
     jobDescription: "",
     welfare: "",
   });
-  const [houseregis, sethouseregis] = useState({
-    distri: "",
-    amphoe: "",
-    province: "",
-    zipcode: "",
-  });
+
   const [companyadd, setcompanyadd] = useState({
     bossname: "",
     position: "",
@@ -132,8 +142,6 @@ export default function Regform({ user }) {
           setFather(res.data.data.student.Father);
           setMother(res.data.data.student.Mother);
           setWork(res.data.data.student.Work);
-          setWorkplace(res.data.data.student.Work.Workplace);
-          setWorkplaceAddress(res.data.data.student.Work.Workplace.Address);
         }
       });
     } catch (error) {
@@ -141,8 +149,19 @@ export default function Regform({ user }) {
     }
   }
 
+  async function getCompany() {
+    try {
+      const res = await axios.get(`${api}/workplace/get-all-workplace`);
+      setWorkplace(res.data.data);
+      console.log(res.data.data);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   useEffect(() => {
     getUser();
+    getCompany();
   }, []);
 
   return (
@@ -178,8 +197,8 @@ export default function Regform({ user }) {
                 work={work}
                 setWork={setWork}
                 workplace={workplace}
-                workplaceAddress={workplaceAddress}
-                setWorkplaceAddress={setWorkplaceAddress}
+                finalWorkplace={finalWorkplace}
+                setFinalWorkplace={setFinalWorkplace}
               />
             ) : page === 2 ? (
               <Form4

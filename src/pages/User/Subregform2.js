@@ -1,11 +1,9 @@
-import axios from "axios";
 import React, { useState, useEffect } from "react";
 import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
 import Row from "react-bootstrap/Row";
 import Select, { createFilter } from "react-select";
-import { FixedSizeList as List } from "react-window";
 import { MenuList } from "./Helper";
 
 function Autocomp({
@@ -19,17 +17,6 @@ function Autocomp({
   mother,
 }) {
   const [address, setAddress] = useState([]);
-  // const getAddress = async () => {
-  //   try {
-  //     const response = await axios.get(
-  //       "https://gist.githubusercontent.com/ChaiyachetU/a72a3af3c6561b97883d7af935188c6b/raw/0e9389fa1fc06b532f9081793b3e36db31a1e1c6/thailand.json"
-  //     );
-  //     setAddress(response.data);
-  //     console.log(response.data);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
 
   const fetchAPI = () => {
     fetch(
@@ -41,32 +28,17 @@ function Autocomp({
       });
   };
 
-  // console.log(address[0].district)
-  // var a = address.length
-  // console.log(a)
-
   useEffect(() => {
-    // getAddress();
     fetchAPI();
   }, []);
 
-  // const options = [
-  //   { value: 'chocolate', label: 'Chocolate' },
-  //   { value: 'strawberry', label: 'Strawberry' },
-  //   { value: 'vanilla', label: 'Vanilla' }
-  // ]
-
   const onChangedistrict = (district) => {
-    // setamphoe(address[district.value].amphoe)
-    // setprovince(address[district.value].province)
-    // setzipcode(address[district.value].zipcode)
-    // setDistrict(address[district.value].district)
-    sethouseregis({
-      ...houseregis,
-      distri: address[district.value].district,
+    setFormData({
+      ...formData,
+      district: address[district.value].district,
       amphoe: address[district.value].amphoe,
       province: address[district.value].province,
-      zipcode: address[district.value].zipcode,
+      zipCode: address[district.value].zipcode,
     });
   };
 
@@ -614,7 +586,7 @@ function Autocomp({
           >
             ตำบล
           </Form.Label>
-          <Form.Control type="search" disabled value={houseregis.distri} />
+          <Form.Control type="search" disabled value={formData.district} />
         </Form.Group>
         <Form.Group as={Col} sm="3">
           <Form.Label
@@ -623,7 +595,7 @@ function Autocomp({
           >
             อำเภอ
           </Form.Label>
-          <Form.Control type="search" disabled value={houseregis.amphoe} />
+          <Form.Control type="search" disabled value={formData.amphoe} />
         </Form.Group>
         <Form.Group as={Col} sm="3">
           <Form.Label
@@ -632,7 +604,7 @@ function Autocomp({
           >
             จังหวัด
           </Form.Label>
-          <Form.Control type="search" disabled value={houseregis.province} />
+          <Form.Control type="search" disabled value={formData.province} />
         </Form.Group>
         <Form.Group as={Col} sm="3">
           <Form.Label
@@ -641,7 +613,7 @@ function Autocomp({
           >
             รหัสไปรษณีย์
           </Form.Label>
-          <Form.Control type="search" disabled value={houseregis.zipcode} />
+          <Form.Control type="search" disabled value={formData.zipCode} />
         </Form.Group>
       </Row>
 
@@ -653,7 +625,14 @@ function Autocomp({
           >
             บ้านเลขที่
           </Form.Label>
-          <Form.Control type="text" placeholder="5/1 หมู่ 2 ถนน" />
+          <Form.Control
+            type="text"
+            placeholder="5/1 หมู่ 2 ถนน"
+            value={formData.houseNumber}
+            onChange={(val) =>
+              setFormData({ ...formData, houseNumber: val.target.value })
+            }
+          />
         </Form.Group>
       </Row>
     </div>
