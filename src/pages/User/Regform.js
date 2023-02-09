@@ -17,7 +17,6 @@ export default function Regform({ user }) {
 
   // const { user } = useContext(UserContext);
 
-
   const [page, setPage] = useState(0);
 
   const [formData, setFormData] = useState({
@@ -52,6 +51,41 @@ export default function Regform({ user }) {
     firstname: "",
     lastname: "",
     job: "",
+  });
+
+  const [work, setWork] = useState({
+    jobTitle: "",
+    jobDetail: "",
+    benefit: "",
+    bossFirstname: "",
+    bossLastname: "",
+    bossPosition: "",
+    phoneNumber: "",
+    email: "",
+    advisorFirstname: "",
+    advisorLastname: "",
+    advisorDepartment: "",
+    advisorPhoneNumber: "",
+    advisorEmail: "",
+    contactStatus: "",
+    workingStatus: "",
+    workplaceId: "",
+    startAt: "",
+    bossDepartment: "",
+  });
+
+  const [workplace, setWorkplace] = useState({
+    companyName: "",
+  });
+
+  const [workplaceAddress, setWorkplaceAddress] = useState({
+    amphoe: "",
+    district: "",
+    houseNumber: "",
+    latitude: "",
+    longtitude: "",
+    province: "",
+    zipCode: "",
   });
 
   // IDK *****************************************************
@@ -92,10 +126,14 @@ export default function Regform({ user }) {
     try {
       await axios.get(`${api}`).then(function (res) {
         if (res.data.data.student) {
+          console.log(res.data.data.student);
           setFormData(res.data.data.student);
           setBirthData(res.data.data.student.Birth);
           setFather(res.data.data.student.Father);
           setMother(res.data.data.student.Mother);
+          setWork(res.data.data.student.Work);
+          setWorkplace(res.data.data.student.Work.Workplace);
+          setWorkplaceAddress(res.data.data.student.Work.Workplace.Address);
         }
       });
     } catch (error) {
@@ -136,7 +174,13 @@ export default function Regform({ user }) {
                 setMother={setMother}
               />
             ) : page === 1 ? (
-              <Form3 jobData={jobData} setjobData={setjobData} />
+              <Form3
+                work={work}
+                setWork={setWork}
+                workplace={workplace}
+                workplaceAddress={workplaceAddress}
+                setWorkplaceAddress={setWorkplaceAddress}
+              />
             ) : page === 2 ? (
               <Form4
                 formData={formData}

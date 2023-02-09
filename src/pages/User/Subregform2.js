@@ -485,7 +485,7 @@ function Autocomp({
           <Form.Control
             type="text"
             placeholder="ชื่อจริง"
-            value={mother.firstname}
+            value={mother?.firstname}
             onChange={(event) =>
               setFormData({ ...mother, firstname: event.target.value })
             }
@@ -596,15 +596,6 @@ function Autocomp({
             sm="4"
             controlId="formGridPassword"
           >
-            {/*<Form.Label
-            style={{ fontSize: 20, color: "" }}
-            className="d-flex flex-row"
-          >อาชีพ</Form.Label>
-      <Form.Select aria-label="Default select example">
-        {address.map((item, index) =>
-          <option key={index}> {item.district} </option>
-        )}
-      </Form.Select> */}
             <Form.Label className="mt-2">โปรดเลือกตำบล</Form.Label>
             <Select
               filterOption={createFilter({ ignoreAccents: false })}

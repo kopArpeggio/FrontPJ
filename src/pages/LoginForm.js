@@ -125,11 +125,11 @@ export default function LoginForm() {
     <div>
       <Navbar />
       <Container>
-        {isLoading ? (
+        {/* {isLoading ? (
           <p>Loading...</p>
         ) : (
           <p>Data has been successfully fetched</p>
-        )}
+        )} */}
         <Form className="App-login-form font-css ">
           <br />
           <Form.Group className="mb-3 font-css ">
