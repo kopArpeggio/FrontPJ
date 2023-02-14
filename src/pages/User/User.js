@@ -1,7 +1,5 @@
-import React, { useEffect, useState } from "react";
-import Navbar from "../../components/Navbar";
+import React from "react";
 import { useNavigate } from "react-router-dom";
-import TestNav from "../../components/TestNav";
 import Container from "react-bootstrap/esm/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
@@ -10,12 +8,6 @@ import Col from "react-bootstrap/Col";
 
 export default function User() {
   const navigate = useNavigate();
-
-  const logout = () => {
-    localStorage.removeItem("token");
-    // localStorage.removeItem('role');
-    navigate("/login");
-  };
 
   return (
     <div>
@@ -65,7 +57,7 @@ export default function User() {
                 height="250"
                 src="https://www.youtube.com/embed/w7x_lWJNnNg"
                 title="YouTube video player"
-                frameborder="0"
+                frameBorder="0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowfullscreen
               ></iframe>
@@ -86,13 +78,20 @@ export default function User() {
                 height="250"
                 src="https://www.youtube.com/embed/w7x_lWJNnNg"
                 title="YouTube video player"
-                frameborder="0"
+                frameBorder="0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowfullscreen
               ></iframe>
             }
           </Col>
         </Row>
+        <iframe
+          src="/pdf/Hi.pdf"
+          width="450"
+          height="250"
+        ></iframe>
+        
+        {/* <img src="/pdf/HOHO.jpg" alt="image" /> */}
       </Container>
     </div>
   );

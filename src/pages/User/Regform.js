@@ -216,7 +216,7 @@ export default function Regform({ user }) {
       <div className="footer">
         <Button
           // disabled={page == 0 || page == 1}
-          disabled={page == 0}
+          disabled={page === 0}
           onClick={() => {
             setPage((currPage) => currPage - 1);
           }}

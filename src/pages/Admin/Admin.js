@@ -5,18 +5,27 @@ import Container from "react-bootstrap/esm/Container";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck, faRotate, faXmark } from "@fortawesome/free-solid-svg-icons";
 import Swal from "sweetalert2";
+import { Document, Page, pdfjs } from "react-pdf";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Col from "react-bootstrap/Col";
+import ReactLoading from "react-loading";
 import Select from "react-select";
 import { useNavigate, useOutletContext } from "react-router-dom";
+import "react-pdf/dist/esm/Page/TextLayer.css";
+import "react-pdf/dist/esm/Page/AnnotationLayer.css";
 
 export default function Admin() {
   const navigate = useNavigate();
   const [company, setcompany] = useState([]);
   const [add, setadd] = useState(false);
   const [sel, setsel] = useState("");
+  const [student, setStudent] = useState("");
+  const [loading, setLoading] = useState(true);
+  const [numPages, setNumPages] = useState(null);
+  const [pageNumber, setPageNumber] = useState(1);
+  const [file, setFile] = useState("/pdf/Hi.pdf");
 
   const insertcompany = () => {
     addcomp(compdetail);
@@ -38,7 +47,6 @@ export default function Admin() {
     setremove(false);
     del();
   };
-  
 
   const editshow = () => seteditCommp(true);
   const [editCommp, seteditCommp] = useState(false);
@@ -49,18 +57,7 @@ export default function Admin() {
   };
 
   const rshow = () => setremove(true);
-
-  const [user, setUser] = useState([]);
   const [q, SetQ] = useState("");
-
-  const getUser = async () => {
-    try {
-      const response = await axios.get("http://localhost:3001/allusers");
-      setUser(response.data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
   const getAddress = async () => {
     try {
@@ -194,6 +191,18 @@ export default function Admin() {
     },
   };
 
+  const getStudent = async () => {
+    const api = "http://localhost:3001/api/";
+    try {
+      const res = await axios.get(`${api}/student/get-all-student`);
+      console.log(res.data.data);
+      setStudent(res.data.data);
+      setLoading(false);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const columns = [
     {
       name: "ชื่อจริง",
@@ -209,7 +218,7 @@ export default function Admin() {
     },
     {
       name: "สาขาวิชา",
-      selector: (row) => row.role,
+      selector: (row) => row.faculty,
       sortable: true,
       center: true,
     },
@@ -231,7 +240,7 @@ export default function Admin() {
       center: true,
       cell: (row) => (
         <div>
-          {row.status_id == 2 ? check : row.status_id == 1 ? wrong : checking}
+          {row.status_id === 2 ? check : row.status_id === 1 ? wrong : checking}
 
           {/* {role.role == 'Admin' 
             ? (<Admin />) 
@@ -244,9 +253,19 @@ export default function Admin() {
     },
   ];
 
+  // const onDocumentLoadSuccess = (numPages) => {
+  //   setNumPages(numPages);
+  // };
+
+  function onDocumentLoadSuccess({ numPages }) {
+    setNumPages(numPages);
+  }
+
   useEffect(() => {
     getAddress();
-    getUser();
+    getStudent();
+    pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.js`;
+    // pdfjs.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
   }, []);
 
   function Searchtest(rows) {
@@ -268,6 +287,7 @@ export default function Admin() {
       <br></br>
       <br></br>
       <br></br>
+
       <Container className="tablecustom ">
         <Button variant="primary" onClick={handleShow}>
           เพิ่มสถานประกอบการ
@@ -484,17 +504,28 @@ export default function Admin() {
           </Modal.Footer>
         </Modal>
         <DataTable
+          progressPending={loading}
+          progressComponent={
+            <ReactLoading
+              type={"spin"}
+              color={"green"}
+              height={"3%"}
+              width={"3%"}
+            />
+          }
           customStyles={customStyles}
           theme="solarized"
           title="จัดการนักศึกษา"
           className=" "
           columns={columns}
-          data={Searchtest(user)}
+          data={student}
+          expandableRows
+          expandableRowsComponent={(value) => <pre>{value.data.firstname}</pre>}
           pagination
           fixedHeader
           fixedHeaderScrollHeight="80vh"
           //selectableRows
-          selectableRowsHighlight
+          responsive
           highlightOnHover
           subHeader
           subHeaderComponent={
@@ -508,6 +539,17 @@ export default function Admin() {
           }
           subHeaderAlign="left"
         />
+        {/* <div>
+          <Document file={file} onLoadSuccess={onDocumentLoadSuccess}>
+            {Array.from(new Array(numPages), (el, index) => (
+              <Page key={`page_${index + 1}`} pageNumber={index + 1} />
+            ))}
+          </Document>
+          <p>
+            Page {pageNumber} of {numPages}
+          </p>
+        </div> */}
+        <iframe src="/pdf/Hi.pdf" width="450" height="250"></iframe>
       </Container>
     </div>
   );

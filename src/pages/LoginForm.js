@@ -13,52 +13,6 @@ export default function LoginForm() {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(true);
 
-  // const login = () => {
-  //     const data = { username, password };
-  //     fetch('http://localhost:3001/api/login', {
-  //         method: 'POST', // or 'PUT'
-  //         headers: {
-  //             'Content-Type': 'application/json',
-  //         },
-  //         body: JSON.stringify(data),
-  //     })
-  //         .then((response) => response.json())
-  //         .then((data) => {
-  //             if (data.login == "pass") {
-  //                 alert('login success')
-
-  //                 console.log(data.test) //role
-  //                 localStorage.setItem('token', data.token);
-  //                 localStorage.setItem('role', JSON.stringify(data.test));
-
-  //                 // navigate(0)
-
-  //                 if (data.test.role === 'User') {
-  //                     navigate('/user')
-
-  //                 } else if (data.test.role === 2) {
-  //                     navigate('/admin')
-
-  //                 }
-  //                 else if (data.test.role === 1) {
-  //                     navigate('/user')
-  //                 }
-  //                 else {
-  //                     localStorage.removeItem('token');
-  //                     localStorage.removeItem('role');
-  //                     alert('User Type ของคุณ ไม่มีในระบบ กรุณาติดต่อพนักงาน')
-  //                 }
-
-  //             } else {
-  //                 alert('username หรือ password ไม่ถูกต้อง')
-  //             }
-  //             console.log('Success:', data);
-  //         })
-  //         .catch((error) => {
-  //             console.error('Error:', error);
-  //         });
-  // }
-
   const api = `http://localhost:3001/api`;
 
   const Toast = Swal.mixin({
@@ -100,25 +54,6 @@ export default function LoginForm() {
     setTimeout(() => {
       setIsLoading(false);
     }, 2000);
-
-    // const token = localStorage.getItem("token");
-    // fetch("http://localhost:3001/authen", {
-    //   method: "POST", // or 'PUT'
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //     Authorization: "Bearer " + token,
-    //   },
-    // })
-    //   .then((response) => response.json())
-    //   .then((data) => {
-    //     if (data.status == "ok") {
-    //       alert("คุณ Login ไปแล้วกรุณาออกจากระบบก่อน");
-    //       navigate(-1);
-    //     }
-    //   })
-    //   .catch((error) => {
-    //     console.error("Error:", error);
-    //   });
   }, []);
 
   return (

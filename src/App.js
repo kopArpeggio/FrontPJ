@@ -84,7 +84,7 @@ function App() {
           <Route path="/testpdf" element={<ApplePage />} />
           <Route path="/testform" element={<Regform />} /> */}
         {/* <Route index element={<LoginForm />} /> */}
-        <Route path="*" element={<Error_role />} />
+        {/* <Route path="*" element={<Error_role />} /> */}
 
         <Route element={<PrivateRouteUser />}>
           <Route element={<BasepageUser />} path="/user">

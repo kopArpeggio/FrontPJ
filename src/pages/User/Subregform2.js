@@ -568,7 +568,12 @@ function Autocomp({
             sm="4"
             controlId="formGridPassword"
           >
-            <Form.Label className="mt-2">โปรดเลือกตำบล</Form.Label>
+            <Form.Label
+              style={{ fontSize: 20, color: "" }}
+              className="d-flex flex-row"
+            >
+              โปรดเลือกตำบล
+            </Form.Label>
             <Select
               filterOption={createFilter({ ignoreAccents: false })}
               components={{ MenuList }}
