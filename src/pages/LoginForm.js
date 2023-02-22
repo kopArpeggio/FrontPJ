@@ -8,8 +8,8 @@ import axios from "axios";
 import Swal from "sweetalert2";
 
 export default function LoginForm() {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const [username, setUsername] = useState("" || undefined);
+  const [password, setPassword] = useState("" || undefined);
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(true);
 

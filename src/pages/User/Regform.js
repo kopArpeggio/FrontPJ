@@ -12,6 +12,7 @@ import TestNav from "../../components/TestNav";
 import PDFFile from "../../components/PDFFile";
 import { PDFDownloadLink } from "@react-pdf/renderer";
 import { faTry } from "@fortawesome/free-solid-svg-icons";
+import { getCoordinatesFromGoogleMapURL } from "../../utils/utils";
 
 export default function Regform({ user }) {
   // console.log(useContext(UserContext))
@@ -21,118 +22,131 @@ export default function Regform({ user }) {
   const [page, setPage] = useState(0);
 
   const [formData, setFormData] = useState({
-    firstname: "",
-    lastname: "",
-    phoneNumber: "",
-    email: "",
-    weight: "",
-    height: "",
-    idCardNumber: "",
-    district: "",
-    amphoe: "",
-    province: "",
-    zipCode: "",
-    houseNumber: "",
+    firstname: undefined || "",
+    lastname: undefined || "",
+    phoneNumber: undefined || "",
+    email: undefined || "",
+    weight: undefined || "",
+    height: undefined || "",
+    idCardNumber: undefined || "",
+    latitude: undefined || "",
+    longtitude: undefined || "",
+  });
+
+  const [newAddress, setNewAddress] = useState({
+    district: undefined || "",
+    amphoe: undefined || "",
+    province: undefined || "",
+    zipCode: undefined || "",
+    houseNumber: undefined || "",
+  });
+  const [oldAddress, setOldAddress] = useState({
+    district: undefined || "",
+    amphoe: undefined || "",
+    province: undefined || "",
+    zipCode: undefined || "",
+    houseNumber: undefined || "",
   });
 
   const [birthData, setBirthData] = useState({
-    age: "",
-    birthDay: "",
-    bloodTypes: "",
-    ethnicity: "",
-    height: "",
-    weight: "",
-    nationality: "",
-    placeOfBirth: "",
-    religion: "",
+    age: undefined || "",
+    birthDay: undefined || "",
+    bloodTypes: undefined || "",
+    ethnicity: undefined || "",
+    height: undefined || "",
+    weight: undefined || "",
+    nationality: undefined || "",
+    placeOfBirth: undefined || "",
+    religion: undefined || "",
   });
 
   const [father, setFather] = useState({
-    firstname: "",
-    lastname: "",
-    job: "",
+    firstname: undefined || "",
+    lastname: undefined || "",
+    job: undefined || "",
   });
 
   const [mother, setMother] = useState({
-    firstname: "",
-    lastname: "",
-    job: "",
+    firstname: undefined || "",
+    lastname: undefined || "",
+    job: undefined || "",
   });
 
   const [work, setWork] = useState({
-    jobTitle: "",
-    jobDetail: "",
-    benefit: "",
-    bossFirstname: "",
-    bossLastname: "",
-    bossPosition: "",
-    phoneNumber: "",
-    email: "",
-    advisorFirstname: "",
-    advisorLastname: "",
-    advisorDepartment: "",
-    advisorPhoneNumber: "",
-    advisorEmail: "",
-    contactStatus: "",
-    workingStatus: "",
-    workplaceId: "",
-    startAt: "",
-    bossDepartment: "",
+    jobTitle: undefined || "",
+    jobDetail: undefined || "",
+    benefit: undefined || "",
+    bossFirstname: undefined || "",
+    bossLastname: undefined || "",
+    bossPosition: undefined || "",
+    phoneNumber: undefined || "",
+    email: undefined || "",
+    advisorFirstname: undefined || "",
+    advisorLastname: undefined || "",
+    advisorDepartment: undefined || "",
+    advisorPhoneNumber: undefined || "",
+    advisorEmail: undefined || "",
+    contactStatus: undefined || "",
+    workingStatus: undefined || "",
+    workplaceId: undefined || "",
+    startAt: undefined || "",
+    bossDepartment: undefined || "",
   });
 
   const [workplace, setWorkplace] = useState({
-    companyName: "",
-    amphoe: "",
-    district: "",
-    houseNumber: "",
-    latitude: "",
-    longtitude: "",
-    province: "",
-    zipCode: "",
+    companyName: undefined || "",
+    amphoe: undefined || "",
+    district: undefined || "",
+    houseNumber: undefined || "",
+    province: undefined || "",
+    zipCode: undefined || "",
   });
 
   const [finalWorkplace, setFinalWorkplace] = useState({
-    companyName: "",
-    district: "",
-    amphoe: "",
-    province: "",
-    houseNumber: "",
-    latitude: "",
-    longtitude: "",
+    companyName: undefined || "",
+    district: undefined || "",
+    amphoe: undefined || "",
+    province: undefined || "",
+    houseNumber: undefined || "",
+    googleMapUrl: undefined || "",
   });
-
-  const [houseregis, sethouseregis] = useState({});
 
   // IDK *****************************************************
   const [jobData, setjobData] = useState({
-    position: "",
-    jobDescription: "",
-    welfare: "",
+    position: undefined || "",
+    jobDescription: undefined || "",
+    welfare: undefined || "",
   });
 
   const [companyadd, setcompanyadd] = useState({
-    bossname: "",
-    position: "",
-    department: "",
-    distri: "",
-    amphoe: "",
-    province: "",
-    company: "",
-    subadd: "",
+    bossname: undefined || undefined || "",
+    position: undefined || undefined || "",
+    department: undefined || undefined || "",
+    distri: undefined || undefined || "",
+    amphoe: undefined || "",
+    province: undefined || "",
+    company: undefined || "",
+    subadd: undefined || "",
   });
   // IDK *****************************************************
 
   const FormTitles = [
-    "หน้าแรก",
     "ใบสมัครโครงการสหกิจศึกษามหาวิทยาลัยราชภัฏนครราชสีมา",
     "รายละเอียดงานที่ไปปฏิบัติ",
     "สถานประกอบการที่ต้องการไปปฏิบัติสหกิจศึกษา",
-    "",
+    undefined || "",
   ];
+
+  // update logic
+  const handleUpdateStudent = async () => {
+    try {
+      const { status } = await axios.put();
+    } catch (error) {}
+  };
 
   const api = "http://localhost:3001/api/";
 
-  async function getUser() {
+  const getUser = async () => {
     try {
       await axios.get(`${api}`).then(function (res) {
         if (res.data.data.student) {
@@ -142,25 +156,32 @@ export default function Regform({ user }) {
           setFather(res.data.data.student.Father);
           setMother(res.data.data.student.Mother);
           setWork(res.data.data.student.Work);
+          setOldAddress(res.data.data.student.oldAddress);
         }
       });
     } catch (error) {
       console.error(error);
     }
-  }
+  };
 
-  async function getCompany() {
+  const getCompany = async (callback) => {
     try {
       const res = await axios.get(`${api}/workplace/get-all-workplace`);
       setWorkplace(res.data.data);
-      console.log(res.data.data);
+      if (callback) {
+        callback(null, res.data.data);
+      }
     } catch (error) {
       console.log(error);
+      if (callback) {
+        callback(error, null);
+      }
     }
-  }
+  };
 
   useEffect(() => {
     getUser();
+
     getCompany();
   }, []);
 
@@ -183,14 +204,16 @@ export default function Regform({ user }) {
                 user={user}
                 formData={formData}
                 setFormData={setFormData}
-                sethouseregis={sethouseregis}
-                houseregis={houseregis}
                 setBirthData={setBirthData}
                 birthData={birthData}
                 father={father}
                 setFather={setFather}
                 mother={mother}
                 setMother={setMother}
+                setNewAddress={setNewAddress}
+                newAddress={newAddress}
+                oldAddress={oldAddress}
+                setOldAddress={setOldAddress}
               />
             ) : page === 1 ? (
               <Form3
@@ -199,6 +222,7 @@ export default function Regform({ user }) {
                 workplace={workplace}
                 finalWorkplace={finalWorkplace}
                 setFinalWorkplace={setFinalWorkplace}
+                setFormData={setFormData}
               />
             ) : page === 2 ? (
               <Form4
@@ -208,7 +232,7 @@ export default function Regform({ user }) {
                 companyadd={companyadd}
               />
             ) : (
-              <Form5 formData={formData} houseregis={houseregis} />
+              <Form5 formData={formData} />
             )}
           </Form>
         </Container>
@@ -228,8 +252,17 @@ export default function Regform({ user }) {
           className="mt-5 mb-5"
           onClick={() => {
             if (page === FormTitles.length - 1) {
-              alert("เอาไว้ก่อน");
-              console.log(formData);
+              console.log({
+                stu: formData,
+                work: work,
+                mother: mother,
+                father: father,
+                birth: birthData,
+                latlong: getCoordinatesFromGoogleMapURL(
+                  finalWorkplace?.googleMapUrl
+                ),
+                newAddress: newAddress,
+              });
             } else if (page === 0) {
               setPage((currPage) => currPage + 1);
             } else {

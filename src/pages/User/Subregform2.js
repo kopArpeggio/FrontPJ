@@ -9,12 +9,14 @@ import { MenuList } from "./Helper";
 function Autocomp({
   formData,
   setFormData,
-  sethouseregis,
-  houseregis,
   setBirthData,
   birthData,
   father,
   mother,
+  setNewAddress,
+  newAddress,
+  oldAddress,
+  setOldAddress,
 }) {
   const [address, setAddress] = useState([]);
 
@@ -33,8 +35,8 @@ function Autocomp({
   }, []);
 
   const onChangedistrict = (district) => {
-    setFormData({
-      ...formData,
+    setNewAddress({
+      ...newAddress,
       district: address[district.value].district,
       amphoe: address[district.value].amphoe,
       province: address[district.value].province,
@@ -68,9 +70,9 @@ function Autocomp({
           <Form.Control
             type="text"
             placeholder="ชื่อจริง"
-            value={formData.firstname}
+            value={formData?.firstname}
             onChange={(event) =>
-              setFormData({ ...formData, firstname: event.target.value })
+              setFormData({ ...formData, firstname: event?.target?.value })
             }
           />
         </Form.Group>
@@ -86,7 +88,7 @@ function Autocomp({
             type="text"
             placeholder="นามสกุล"
             disabled
-            value={formData.lastname}
+            value={formData?.lastname}
           />
         </Form.Group>
       </Row>
@@ -102,9 +104,9 @@ function Autocomp({
             type="text"
             disabled
             placeholder="6240207512"
-            value={formData.stuNo}
+            value={formData?.stuNo}
             onChange={(event) => {
-              setFormData({ ...formData, stuNo: event.target.value });
+              setFormData({ ...formData, stuNo: event?.target?.value });
             }}
           />
         </Form.Group>
@@ -120,9 +122,9 @@ function Autocomp({
             type="text"
             disabled
             placeholder="วิทยาการคอมพิวเตอร์"
-            value={formData.branch}
+            value={formData?.branch}
             onChange={(event) =>
-              setFormData({ ...formData, branch: event.target.value })
+              setFormData({ ...formData, branch: event?.target?.value })
             }
           />
         </Form.Group>
@@ -139,9 +141,9 @@ function Autocomp({
             type="text"
             disabled
             placeholder="วิทยาศาสตร์"
-            value={formData.faculty}
+            value={formData?.faculty}
             onChange={(event) =>
-              setFormData({ ...formData, faculty: event.target.value })
+              setFormData({ ...formData, faculty: event?.target?.value })
             }
           />
         </Form.Group>
@@ -157,9 +159,9 @@ function Autocomp({
             type="text"
             disabled
             placeholder="4.00"
-            value={formData.gpa}
+            value={formData?.gpa}
             onChange={(event) =>
-              setFormData({ ...formData, gpa: event.target.value })
+              setFormData({ ...formData, gpa: event?.target?.value })
             }
           />
         </Form.Group>
@@ -175,9 +177,9 @@ function Autocomp({
           <Form.Control
             type="tel"
             maxLength="10"
-            value={formData.phoneNumber}
+            value={formData?.phoneNumber}
             onChange={(event) =>
-              setFormData({ ...formData, phoneNumber: event.target.value })
+              setFormData({ ...formData, phoneNumber: event?.target?.value })
             }
           />
         </Form.Group>
@@ -192,9 +194,9 @@ function Autocomp({
           <Form.Control
             type="email"
             placeholder="@nrru.ac.th"
-            value={formData.email}
+            value={formData?.email}
             onChange={(event) =>
-              setFormData({ ...formData, email: event.target.value })
+              setFormData({ ...formData, email: event?.target?.value })
             }
           />
         </Form.Group>
@@ -224,7 +226,7 @@ function Autocomp({
             disabled
             value={birthData?.placeOfBirth}
             onChange={(event) => {
-              setFormData({ ...birthData, placeOfBirth: event.target.value });
+              setFormData({ ...birthData, placeOfBirth: event?.target?.value });
             }}
           />
         </Form.Group>
@@ -239,7 +241,7 @@ function Autocomp({
             type="date"
             value={birthData?.birthDay}
             onChange={(event) => {
-              setBirthData({ ...birthData, birthDay: event.target.value });
+              setBirthData({ ...birthData, birthDay: event?.target?.value });
             }}
           />
         </Form.Group>
@@ -255,7 +257,7 @@ function Autocomp({
             placeholder="21"
             value={birthData?.age}
             onChange={(event) => {
-              setBirthData({ ...birthData, age: event.target.value });
+              setBirthData({ ...birthData, age: event?.target?.value });
             }}
           />
         </Form.Group>
@@ -269,7 +271,7 @@ function Autocomp({
           <Form.Select
             value={birthData?.bloodTypes}
             onChange={(event) => {
-              setBirthData({ ...birthData, bloodTypes: event.target.value });
+              setBirthData({ ...birthData, bloodTypes: event?.target?.value });
             }}
           >
             <option value="O">O</option>
@@ -295,7 +297,7 @@ function Autocomp({
               placeholder="ซม."
               value={birthData?.height}
               onChange={(event) => {
-                setBirthData({ ...birthData, height: event.target.value });
+                setBirthData({ ...birthData, height: event?.target?.value });
               }}
             />
 
@@ -316,7 +318,7 @@ function Autocomp({
               placeholder="กก."
               value={birthData?.weight}
               onChange={(event) => {
-                setBirthData({ ...birthData, weight: event.target.value });
+                setBirthData({ ...birthData, weight: event?.target?.value });
               }}
             />
             <InputGroup.Text>กก.</InputGroup.Text>
@@ -336,7 +338,7 @@ function Autocomp({
             disabled
             value={birthData?.ethnicity}
             onChange={(event) => {
-              setBirthData({ ...birthData, ethnicity: event.target.value });
+              setBirthData({ ...birthData, ethnicity: event?.target?.value });
             }}
           />
         </Form.Group>
@@ -353,7 +355,7 @@ function Autocomp({
             disabled
             value={birthData?.nationality}
             onChange={(event) => {
-              setBirthData({ ...birthData, nationality: event.target.value });
+              setBirthData({ ...birthData, nationality: event?.target?.value });
             }}
           />
         </Form.Group>
@@ -370,7 +372,7 @@ function Autocomp({
             disabled
             value={birthData?.religion}
             onChange={(event) => {
-              setBirthData({ ...birthData, religion: event.target.value });
+              setBirthData({ ...birthData, religion: event?.target?.value });
             }}
           />
         </Form.Group>
@@ -387,9 +389,9 @@ function Autocomp({
             type="text"
             placeholder="1301546744602"
             disabled
-            value={formData.idCardNumber}
+            value={formData?.idCardNumber}
             onChange={(event) => {
-              setFormData({ ...formData, idCardNumber: event.target.value });
+              setFormData({ ...formData, idCardNumber: event?.target?.value });
             }}
           />
         </Form.Group>
@@ -406,9 +408,9 @@ function Autocomp({
           <Form.Control
             type="text"
             placeholder="ชื่อจริง"
-            value={father.firstname}
+            value={father?.firstname}
             onChange={(event) =>
-              setFormData({ ...father, firstname: event.target.value })
+              setFormData({ ...father, firstname: event?.target?.value })
             }
           />
         </Form.Group>
@@ -422,9 +424,9 @@ function Autocomp({
           <Form.Control
             type="text"
             placeholder="นามสกุล"
-            value={father.firstname}
+            value={father?.firstname}
             onChange={(event) =>
-              setFormData({ ...father, firstname: event.target.value })
+              setFormData({ ...father, firstname: event?.target?.value })
             }
           />
         </Form.Group>
@@ -439,9 +441,9 @@ function Autocomp({
           <Form.Control
             type="text"
             placeholder="เกษตกร"
-            value={father.job}
+            value={father?.job}
             onChange={(event) =>
-              setFormData({ ...father, job: event.target.value })
+              setFormData({ ...father, job: event?.target?.value })
             }
           />
         </Form.Group>
@@ -459,7 +461,7 @@ function Autocomp({
             placeholder="ชื่อจริง"
             value={mother?.firstname}
             onChange={(event) =>
-              setFormData({ ...mother, firstname: event.target.value })
+              setFormData({ ...mother, firstname: event?.target?.value })
             }
           />
         </Form.Group>
@@ -473,9 +475,9 @@ function Autocomp({
           <Form.Control
             type="text"
             placeholder="นามสกุล"
-            value={mother.lastname}
+            value={mother?.lastname}
             onChange={(event) =>
-              setFormData({ ...mother, lastname: event.target.value })
+              setFormData({ ...mother, lastname: event?.target?.value })
             }
           />
         </Form.Group>
@@ -490,9 +492,9 @@ function Autocomp({
           <Form.Control
             type="text"
             placeholder="เกษตกร"
-            value={mother.job}
+            value={mother?.job}
             onChange={(event) =>
-              setFormData({ ...mother, job: event.target.value })
+              setFormData({ ...mother, job: event?.target?.value })
             }
           />
         </Form.Group>
@@ -512,7 +514,7 @@ function Autocomp({
           >
             ตำบล
           </Form.Label>
-          <Form.Control type="text" disabled />
+          <Form.Control type="text" disabled value={oldAddress?.district} />
         </Form.Group>
         <Form.Group as={Col} sm="3">
           <Form.Label
@@ -521,7 +523,7 @@ function Autocomp({
           >
             อำเภอ
           </Form.Label>
-          <Form.Control type="text" disabled />
+          <Form.Control type="text" disabled value={oldAddress?.amphoe} />
         </Form.Group>
         <Form.Group as={Col} sm="3">
           <Form.Label
@@ -530,7 +532,7 @@ function Autocomp({
           >
             จังหวัด
           </Form.Label>
-          <Form.Control type="text" disabled />
+          <Form.Control type="text" disabled value={oldAddress?.province} />
         </Form.Group>
         <Form.Group as={Col} sm="3">
           <Form.Label
@@ -539,7 +541,7 @@ function Autocomp({
           >
             รหัสไปรษณีย์
           </Form.Label>
-          <Form.Control type="text" disabled />
+          <Form.Control type="text" disabled value={oldAddress?.zipCode} />
         </Form.Group>
       </Row>
       <Row className="mb-3 ">
@@ -550,7 +552,7 @@ function Autocomp({
           >
             บ้านเลขที่
           </Form.Label>
-          <Form.Control type="text" disabled />
+          <Form.Control type="text" disabled value={oldAddress?.houseNumber} />
         </Form.Group>
       </Row>
 
@@ -591,7 +593,7 @@ function Autocomp({
           >
             ตำบล
           </Form.Label>
-          <Form.Control type="search" disabled value={formData.district} />
+          <Form.Control type="search" disabled value={newAddress?.district} />
         </Form.Group>
         <Form.Group as={Col} sm="3">
           <Form.Label
@@ -600,7 +602,7 @@ function Autocomp({
           >
             อำเภอ
           </Form.Label>
-          <Form.Control type="search" disabled value={formData.amphoe} />
+          <Form.Control type="search" disabled value={newAddress?.amphoe} />
         </Form.Group>
         <Form.Group as={Col} sm="3">
           <Form.Label
@@ -609,7 +611,7 @@ function Autocomp({
           >
             จังหวัด
           </Form.Label>
-          <Form.Control type="search" disabled value={formData.province} />
+          <Form.Control type="search" disabled value={newAddress?.province} />
         </Form.Group>
         <Form.Group as={Col} sm="3">
           <Form.Label
@@ -618,7 +620,7 @@ function Autocomp({
           >
             รหัสไปรษณีย์
           </Form.Label>
-          <Form.Control type="search" disabled value={formData.zipCode} />
+          <Form.Control type="search" disabled value={newAddress?.zipCode} />
         </Form.Group>
       </Row>
 
@@ -633,9 +635,9 @@ function Autocomp({
           <Form.Control
             type="text"
             placeholder="5/1 หมู่ 2 ถนน"
-            value={formData.houseNumber}
+            value={newAddress?.houseNumber}
             onChange={(val) =>
-              setFormData({ ...formData, houseNumber: val.target.value })
+              setNewAddress({ ...newAddress, houseNumber: val.target.value })
             }
           />
         </Form.Group>

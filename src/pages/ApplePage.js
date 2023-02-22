@@ -21,8 +21,7 @@ export default function ApplePage() {
   const [role, setRole] = useState("");
 
   const map = (url) => {
-    setLatlong(getCoordinatesFromGoogleMapURL(url));
-    console.log(latlong);
+    console.log(getCoordinatesFromGoogleMapURL(url));
   };
   const api = "http://localhost:3001/api/";
   var url;
@@ -74,8 +73,8 @@ export default function ApplePage() {
     nrru.latitude,
     nrru.longtitude,
     // Work Location
-    address.latitude,
-    address.longtitude
+    address?.latitude,
+    address?.longtitude
   );
 
   return (

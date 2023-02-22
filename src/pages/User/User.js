@@ -86,11 +86,12 @@ export default function User() {
           </Col>
         </Row>
         <iframe
-          src="/pdf/Hi.pdf"
+          src="/pdf/test.pdf"
           width="450"
           height="250"
+          title="pdf"
         ></iframe>
-        
+
         {/* <img src="/pdf/HOHO.jpg" alt="image" /> */}
       </Container>
     </div>

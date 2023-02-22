@@ -11,8 +11,10 @@ function Subregform3({
   workplace,
   finalWorkplace,
   setFinalWorkplace,
+  setFormData,
 }) {
   const onChangedistrict = (value) => {
+    console.log(finalWorkplace);
     setFinalWorkplace({
       ...finalWorkplace,
       companyName: workplace[value.value].companyName,
@@ -37,8 +39,6 @@ function Subregform3({
       workplace[i].district;
     options.push(obj);
   }
-
-  console.log(workplace);
   return (
     <div>
       <Row className="mb-3 mt-5 ">
@@ -49,7 +49,12 @@ function Subregform3({
           รายระเอียดงานที่ไปปฎิบัติ
         </Form.Label>
         <Form.Group as={Col} sm="4">
-          <Form.Label>ชื่อตำแหน่งที่เข้าฝึกงาน</Form.Label>
+          <Form.Label
+            style={{ fontSize: 20, color: "" }}
+            className="d-flex flex-row"
+          >
+            รายระเอียดงานที่ไปปฎิบัติ
+          </Form.Label>
           <Form.Control
             type="text"
             placeholder="Programmer"
@@ -60,7 +65,12 @@ function Subregform3({
           />
         </Form.Group>
         <Form.Group as={Col} sm="8">
-          <Form.Label>รายละเอียดลักษณะงาน</Form.Label>
+          <Form.Label
+            style={{ fontSize: 20, color: "" }}
+            className="d-flex flex-row"
+          >
+            รายละเอียดลักษณะงาน
+          </Form.Label>
           <Form.Control
             as="textarea"
             rows={3}
@@ -75,7 +85,12 @@ function Subregform3({
 
       <Row className="mb-3 mt-4 ">
         <Form.Group as={Col} sm="12">
-          <Form.Label>สวัสดิการจากสถานประกอบการที่ได้รับ (ถ้ามี)</Form.Label>
+          <Form.Label
+            style={{ fontSize: 20, color: "" }}
+            className="d-flex flex-row"
+          >
+            สวัสดิการจากสถานประกอบการที่ได้รับ (ถ้ามี)
+          </Form.Label>
           <Form.Control
             as="textarea"
             rows={3}
@@ -95,7 +110,12 @@ function Subregform3({
           สถานประกอบการที่ต้องการไปปฏิบัติสหกิจศึกษา
         </Form.Label>
         <Form.Group as={Col} sm="3">
-          <Form.Label>ชื่อหัวหน้าหน่วยงาน</Form.Label>
+          <Form.Label
+            style={{ fontSize: 20, color: "" }}
+            className="d-flex flex-row"
+          >
+            ชื่อหัวหน้าหน่วยงาน
+          </Form.Label>
           <Form.Control
             placeholder=""
             value={work.bossFirstname}
@@ -105,7 +125,12 @@ function Subregform3({
           />
         </Form.Group>
         <Form.Group as={Col} sm="3">
-          <Form.Label>นามสกุล</Form.Label>
+          <Form.Label
+            style={{ fontSize: 20, color: "" }}
+            className="d-flex flex-row"
+          >
+            นามสกุล
+          </Form.Label>
           <Form.Control
             placeholder=""
             value={work.bossLastname}
@@ -115,7 +140,12 @@ function Subregform3({
           />
         </Form.Group>
         <Form.Group as={Col} sm="4">
-          <Form.Label>ตำแหน่ง</Form.Label>
+          <Form.Label
+            style={{ fontSize: 20, color: "" }}
+            className="d-flex flex-row"
+          >
+            ตำแหน่ง
+          </Form.Label>
           <Form.Control
             placeholder=""
             value={work.bossPosition}
@@ -125,7 +155,12 @@ function Subregform3({
           />
         </Form.Group>
         <Form.Group as={Col} sm="2">
-          <Form.Label>แผนก/ฝ่าย</Form.Label>
+          <Form.Label
+            style={{ fontSize: 20, color: "" }}
+            className="d-flex flex-row"
+          >
+            แผนก/ฝ่าย
+          </Form.Label>
           <Form.Control
             placeholder=""
             value={work.bossDepartment}
@@ -137,8 +172,35 @@ function Subregform3({
       </Row>
 
       <Row className="mb-3 mt-5 ">
+        <Form.Group as={Col} sm="12">
+          <Form.Label
+            style={{ fontSize: 20, color: "" }}
+            className="d-flex flex-row"
+          >
+            Url Google Map
+          </Form.Label>
+          <Form.Control
+            as="textarea"
+            placeholder=""
+            value={finalWorkplace?.googleMapUrl}
+            onChange={(event) =>
+              setFinalWorkplace({
+                ...finalWorkplace,
+                googleMapUrl: event.target.value,
+              })
+            }
+          />
+        </Form.Group>
+      </Row>
+
+      <Row className="mb-3 mt-5 ">
         <Form.Group as={Col} sm="8">
-          <Form.Label>ค้นหาหน่วยงาน</Form.Label>
+          <Form.Label
+            style={{ fontSize: 20, color: "" }}
+            className="d-flex flex-row"
+          >
+            ค้นหาหน่วยงาน
+          </Form.Label>
           <Select
             filterOption={createFilter({ ignoreAccents: false })}
             options={options}
@@ -151,7 +213,12 @@ function Subregform3({
       </Row>
       <Row className="mb-3 mt-5 ">
         <Form.Group as={Col} sm="8">
-          <Form.Label>ชื่อหน่วยงาน</Form.Label>
+          <Form.Label
+            style={{ fontSize: 20, color: "" }}
+            className="d-flex flex-row"
+          >
+            ชื่อหน่วยงาน
+          </Form.Label>
           <Form.Control
             placeholder=""
             value={finalWorkplace.companyName}
@@ -159,7 +226,12 @@ function Subregform3({
           />
         </Form.Group>
         <Form.Group as={Col} sm="4">
-          <Form.Label>บ้านเลขที่</Form.Label>
+          <Form.Label
+            style={{ fontSize: 20, color: "" }}
+            className="d-flex flex-row"
+          >
+            บ้านเลขที่
+          </Form.Label>
           <Form.Control
             placeholder=""
             value={finalWorkplace.houseNumber}
@@ -171,15 +243,30 @@ function Subregform3({
       <Row className="mb-3 mt-5 ">
         <Row className=" "></Row>
         <Form.Group as={Col} sm="3">
-          <Form.Label>ตำบล</Form.Label>
+          <Form.Label
+            style={{ fontSize: 20, color: "" }}
+            className="d-flex flex-row"
+          >
+            ตำบล
+          </Form.Label>
           <Form.Control type="text" disabled value={finalWorkplace.district} />
         </Form.Group>
         <Form.Group as={Col} sm="3">
-          <Form.Label>อำเภอ</Form.Label>
+          <Form.Label
+            style={{ fontSize: 20, color: "" }}
+            className="d-flex flex-row"
+          >
+            อำเภอ
+          </Form.Label>
           <Form.Control type="text" disabled value={finalWorkplace.amphoe} />
         </Form.Group>
         <Form.Group as={Col} sm="3">
-          <Form.Label>จังหวัด</Form.Label>
+          <Form.Label
+            style={{ fontSize: 20, color: "" }}
+            className="d-flex flex-row"
+          >
+            จังหวัด
+          </Form.Label>
           <Form.Control type="text" disabled value={finalWorkplace.province} />
         </Form.Group>
       </Row>
