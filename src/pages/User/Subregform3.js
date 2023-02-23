@@ -77,7 +77,7 @@ function Subregform3({
             placeholder="ถ่ายเอกสาร ถูพื้น ล้างจาน ตัดต่อวีดีโอ ตัดย่า"
             value={work.jobDetail}
             onChange={(event) =>
-              setWork({ ...work, jobDescription: event.target.value })
+              setWork({ ...work, jobDetail: event.target.value })
             }
           />
         </Form.Group>
@@ -97,7 +97,7 @@ function Subregform3({
             placeholder="เงิน ประกัน เบิกค่ารถ "
             value={work.benefit}
             onChange={(event) =>
-              setWork({ ...work, welfare: event.target.value })
+              setWork({ ...work, benefit: event.target.value })
             }
           />
         </Form.Group>

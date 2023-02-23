@@ -5,7 +5,7 @@ export default function setupAxios(axios, _store) {
             if (authToken) {
                 config.headers.Authorization = `Bearer ${authToken}`;
             }
-            if (config.url === "upload/upload-image") {
+            if (config.url === "upload/upload-file") {
                 config.baseURL = `${process.env.REACT_APP_UPLOAD_HOST}/${process.env.REACT_APP_API_PATH}/`;
             } else {
                 config.baseURL = `${process.env.REACT_APP_API_HOST}/${process.env.REACT_APP_API_PATH}/`;

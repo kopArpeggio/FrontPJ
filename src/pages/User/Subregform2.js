@@ -12,7 +12,9 @@ function Autocomp({
   setBirthData,
   birthData,
   father,
+  setMother,
   mother,
+  setFather,
   setNewAddress,
   newAddress,
   oldAddress,
@@ -410,7 +412,7 @@ function Autocomp({
             placeholder="ชื่อจริง"
             value={father?.firstname}
             onChange={(event) =>
-              setFormData({ ...father, firstname: event?.target?.value })
+              setFather({ ...father, firstname: event?.target?.value })
             }
           />
         </Form.Group>
@@ -424,9 +426,9 @@ function Autocomp({
           <Form.Control
             type="text"
             placeholder="นามสกุล"
-            value={father?.firstname}
+            value={father?.lastname}
             onChange={(event) =>
-              setFormData({ ...father, firstname: event?.target?.value })
+              setFather({ ...father, lastname: event?.target?.value })
             }
           />
         </Form.Group>
@@ -443,7 +445,7 @@ function Autocomp({
             placeholder="เกษตกร"
             value={father?.job}
             onChange={(event) =>
-              setFormData({ ...father, job: event?.target?.value })
+              setFather({ ...father, job: event?.target?.value })
             }
           />
         </Form.Group>
@@ -461,7 +463,7 @@ function Autocomp({
             placeholder="ชื่อจริง"
             value={mother?.firstname}
             onChange={(event) =>
-              setFormData({ ...mother, firstname: event?.target?.value })
+              setMother({ ...mother, firstname: event?.target?.value })
             }
           />
         </Form.Group>
@@ -477,7 +479,7 @@ function Autocomp({
             placeholder="นามสกุล"
             value={mother?.lastname}
             onChange={(event) =>
-              setFormData({ ...mother, lastname: event?.target?.value })
+              setMother({ ...mother, lastname: event?.target?.value })
             }
           />
         </Form.Group>
@@ -494,7 +496,7 @@ function Autocomp({
             placeholder="เกษตกร"
             value={mother?.job}
             onChange={(event) =>
-              setFormData({ ...mother, job: event?.target?.value })
+              setMother({ ...mother, job: event?.target?.value })
             }
           />
         </Form.Group>

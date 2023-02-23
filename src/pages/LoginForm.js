@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import Container from "react-bootstrap/Container";
 import axios from "axios";
 import Swal from "sweetalert2";
+import { signIn } from "../apis/rootApi";
 
 export default function LoginForm() {
   const [username, setUsername] = useState("" || undefined);
@@ -29,7 +30,7 @@ export default function LoginForm() {
 
   const login = async () => {
     try {
-      const login = await axios.post(`${api}/login`, {
+      const user = await signIn({
         username: username,
         password: password,
       });
@@ -38,8 +39,11 @@ export default function LoginForm() {
         icon: "success",
         title: "Signed in successfully",
       });
-      console.log(login.data);
-      localStorage.setItem("token", login.data.accessToken);
+
+      console.log(user);
+
+      localStorage.setItem("token", user.accessToken);
+
       window.location.reload();
     } catch (error) {
       // console.log(error);

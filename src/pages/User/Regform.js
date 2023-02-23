@@ -252,17 +252,27 @@ export default function Regform({ user }) {
           className="mt-5 mb-5"
           onClick={() => {
             if (page === FormTitles.length - 1) {
-              console.log({
-                stu: formData,
-                work: work,
-                mother: mother,
-                father: father,
-                birth: birthData,
-                latlong: getCoordinatesFromGoogleMapURL(
-                  finalWorkplace?.googleMapUrl
-                ),
-                newAddress: newAddress,
-              });
+              if (
+                formData &&
+                work &&
+                mother &&
+                father &&
+                birthData &&
+                finalWorkplace &&
+                newAddress
+              )
+                return console.log({
+                  stu: formData,
+                  work: work,
+                  mother: mother,
+                  father: father,
+                  birth: birthData,
+                  latlong: getCoordinatesFromGoogleMapURL(
+                    finalWorkplace?.googleMapUrl
+                  ),
+                  newAddress: newAddress,
+                });
+              console.log("Nah");
             } else if (page === 0) {
               setPage((currPage) => currPage + 1);
             } else {
