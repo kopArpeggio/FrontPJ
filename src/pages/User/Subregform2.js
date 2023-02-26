@@ -5,6 +5,7 @@ import InputGroup from "react-bootstrap/InputGroup";
 import Row from "react-bootstrap/Row";
 import Select, { createFilter } from "react-select";
 import { MenuList } from "./Helper";
+import { string } from "yup";
 
 function Autocomp({
   formData,
@@ -21,6 +22,10 @@ function Autocomp({
   setOldAddress,
 }) {
   const [address, setAddress] = useState([]);
+  const [valid, setValid] = useState({
+    firstname: "",
+    email: "",
+  });
 
   const fetchAPI = () => {
     fetch(
@@ -59,6 +64,19 @@ function Autocomp({
     options.push(obj);
   }
 
+  const handleFirstNameChange = (event) => {
+    setFormData({ ...formData, firstname: event?.target?.value });
+    setValid(string().required().isValidSync(event?.target?.value));
+  };
+
+  const handleEmailNameChange = (event) => {
+    setFormData({ ...formData, email: event?.target?.value });
+    setValid({
+      ...formData,
+      email: string().required().isValidSync(event?.target?.value),
+    });
+  };
+
   return (
     <div>
       <Row className="mb-3 mt-5">
@@ -70,13 +88,15 @@ function Autocomp({
             ชื่อจริง
           </Form.Label>
           <Form.Control
+            required
             type="text"
             placeholder="ชื่อจริง"
             value={formData?.firstname}
-            onChange={(event) =>
-              setFormData({ ...formData, firstname: event?.target?.value })
-            }
+            onChange={(event) => handleFirstNameChange(event)}
           />
+          <h4 style={{ color: "red" }}>
+            {valid ? "is email" : "is not email"}
+          </h4>
         </Form.Group>
 
         <Form.Group as={Col} controlId="formGridPassword">
@@ -197,10 +217,11 @@ function Autocomp({
             type="email"
             placeholder="@nrru.ac.th"
             value={formData?.email}
-            onChange={(event) =>
-              setFormData({ ...formData, email: event?.target?.value })
-            }
+            onChange={(event) => handleEmailNameChange(event)}
           />
+          <h4 style={{ color: "red" }}>
+            {valid.email ? "สำเร็จ" : "โปรดกรอกอีเมล"}
+          </h4>
         </Form.Group>
       </Row>
       <Row className="mb-3">

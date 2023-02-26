@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Form2 from "./Subregform2";
 import Form3 from "./Subregform3";
 import Form4 from "./Subregform4";
@@ -18,7 +18,7 @@ export default function Regform({ user }) {
   // console.log(useContext(UserContext))
 
   // const { user } = useContext(UserContext);
-
+  const submitRef = useRef();
   const [page, setPage] = useState(0);
 
   const [formData, setFormData] = useState({
@@ -198,7 +198,7 @@ export default function Regform({ user }) {
       </div>
       <div className="body">
         <Container>
-          <Form>
+          <Form id="my-form" onSubmit={console.log("you Submit already")}>
             {page === 0 ? (
               <Form2
                 user={user}
@@ -232,7 +232,7 @@ export default function Regform({ user }) {
                 companyadd={companyadd}
               />
             ) : (
-              <Form5 formData={formData} />
+              <Form5 formData={formData} submitRef={submitRef} />
             )}
           </Form>
         </Container>
@@ -248,40 +248,47 @@ export default function Regform({ user }) {
           ย้อนกลับ
         </Button>
 
-        <Button
-          className="mt-5 mb-5"
-          onClick={() => {
-            if (page === FormTitles.length - 1) {
-              if (
-                formData &&
-                work &&
-                mother &&
-                father &&
-                birthData &&
-                finalWorkplace &&
-                newAddress
-              )
-                return console.log({
-                  stu: formData,
-                  work: work,
-                  mother: mother,
-                  father: father,
-                  birth: birthData,
-                  latlong: getCoordinatesFromGoogleMapURL(
-                    finalWorkplace?.googleMapUrl
-                  ),
-                  newAddress: newAddress,
-                });
-              console.log("Nah");
-            } else if (page === 0) {
-              setPage((currPage) => currPage + 1);
-            } else {
-              setPage((currPage) => currPage + 1);
-            }
-          }}
-        >
-          {page === FormTitles.length - 1 ? "ยืนยัน" : "ต่อไป"}
-        </Button>
+        {page === FormTitles.length - 1 ? (
+          <Button onClick={() => submitRef.current.click()}>
+            ยืนยันนนนนนนน
+          </Button>
+        ) : (
+          <Button
+            className="mt-5 mb-5"
+            disabled={page === FormTitles.length - 1}
+            onClick={() => {
+              // if (page === FormTitles.length - 1) {
+              //   if (
+              //     formData &&
+              //     work &&
+              //     mother &&
+              //     father &&
+              //     birthData &&
+              //     finalWorkplace &&
+              //     newAddress
+              //   )
+              //     return console.log({
+              //       stu: formData,
+              //       work: work,
+              //       mother: mother,
+              //       father: father,
+              //       birth: birthData,
+              //       latlong: getCoordinatesFromGoogleMapURL(
+              //         finalWorkplace?.googleMapUrl
+              //       ),
+              //       newAddress: newAddress,
+              //     });
+              //   console.log("Nah");}
+              if (page === 0) {
+                setPage((currPage) => currPage + 1);
+              } else {
+                setPage((currPage) => currPage + 1);
+              }
+            }}
+          >
+            {page === FormTitles.length - 1 ? "ยืนยัน" : "ต่อไป"}
+          </Button>
+        )}
 
         {page === FormTitles.length - 1 ? (
           <div>
@@ -298,7 +305,6 @@ export default function Regform({ user }) {
         ) : (
           ""
         )}
-
         {/* <Button onClick={() => {
                     <PDFDownloadLink document={<PDFFile />} fileName="FORM">
                         {({ loading }) => (loading ? <button> Loading Document ...</button> : 'Download')}

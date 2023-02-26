@@ -16,6 +16,8 @@ import Error_role from "./pages/Error_role";
 import BasepageUser from "./pages/User/BasepageUser";
 import Regform from "./pages/User/Regform";
 import Uploadfile from "./pages/User/Uploadfile";
+import Userinfo from "./pages/User/Userinfo";
+import { Container } from "react-bootstrap";
 
 function App() {
   const isAuthorized = localStorage.getItem("token");
@@ -89,6 +91,7 @@ function App() {
         <Route element={<PrivateRouteUser />}>
           <Route element={<BasepageUser />} path="/user">
             <Route element={<User />} path="dashboard" />
+            <Route element={<Userinfo />} path="user-info" />
             <Route element={<Regform />} path="register" />
             <Route element={<Uploadfile />} path="upload" />
           </Route>

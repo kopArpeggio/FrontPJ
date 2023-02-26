@@ -110,6 +110,7 @@ function TestNav({ user, role }) {
           </Navbar.Collapse>
         </Container>
       </Navbar>
+      <div style={{ marginBottom: "40vh" }}></div>
     </div>
   );
 }
