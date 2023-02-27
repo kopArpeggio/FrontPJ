@@ -17,7 +17,7 @@ import BasepageUser from "./pages/User/BasepageUser";
 import Regform from "./pages/User/Regform";
 import Uploadfile from "./pages/User/Uploadfile";
 import Userinfo from "./pages/User/Userinfo";
-import { Container } from "react-bootstrap";
+import Jobdescription from "./pages/User/jobDescription";
 
 function App() {
   const isAuthorized = localStorage.getItem("token");
@@ -86,12 +86,13 @@ function App() {
           <Route path="/testpdf" element={<ApplePage />} />
           <Route path="/testform" element={<Regform />} /> */}
         {/* <Route index element={<LoginForm />} /> */}
-        {/* <Route path="*" element={<Error_role />} /> */}
+        <Route path="*" element={<Error_role />} />
 
         <Route element={<PrivateRouteUser />}>
           <Route element={<BasepageUser />} path="/user">
             <Route element={<User />} path="dashboard" />
             <Route element={<Userinfo />} path="user-info" />
+            <Route element={<Jobdescription />} path="user-job-description" />
             <Route element={<Regform />} path="register" />
             <Route element={<Uploadfile />} path="upload" />
           </Route>
@@ -102,6 +103,13 @@ function App() {
           </Route>
         </Route>
       </Routes>
+      <br></br>
+      <br></br>
+      <br></br>
+      <br></br>
+      <br></br>
+      <br></br>
+      <br></br>
     </div>
   );
 }

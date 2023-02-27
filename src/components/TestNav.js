@@ -23,8 +23,8 @@ function TestNav({ user, role }) {
 
   const userMenu = [
     { name: "Home", path: "/user/dashboard" },
-    { name: "ข้อมูลนักศึกษา", path: "/user/register" },
-    { name: "รายละเอียดงาน", path: "/jobdesc" },
+    { name: "ข้อมูลนักศึกษา", path: "/user/user-info" },
+    { name: "รายละเอียดงาน", path: "/user/user-job-description" },
   ];
 
   const adminMenu = [{ name: "Home", path: "/admin/dashboard" }];
@@ -38,77 +38,69 @@ function TestNav({ user, role }) {
   return (
     <div>
       <Navbar className="nav-color " expand="lg" fixed="top">
-        <Container fluid>
-          <Navbar.Brand>
-            <Link className="navlink" to="/">
-              <img src={logo} height="90" alt="logo" className="test-logo" />
-            </Link>
-          </Navbar.Brand>
-          <Navbar.Toggle aria-controls="basic-navbar-nav" />
+        <Navbar.Brand>
+          <Link className="navlink" to="/">
+            <img src={logo} height="90" alt="logo" className="test-logo" />
+          </Link>
+        </Navbar.Brand>
+        <Navbar.Toggle aria-controls="basic-navbar-nav" />
 
-          <Navbar.Collapse className="justify-content-end me-5 ">
-            <div className="content-nav">
-              {role === "student" ? (
-                <div>
-                  <Nav className="me-auto">
-                    {userMenu.map((item, index) => (
-                      <Navbar.Text className=" " key={index}>
-                        <Link
-                          className="navlink d-flex flex-row"
-                          to={item.path}
-                        >
-                          <li>{item.name}</li>
-                        </Link>
-                      </Navbar.Text>
-                    ))}
-                  </Nav>
-                </div>
-              ) : (
-                <div>
-                  <Nav className="me-auto">
-                    {adminMenu.map((item, index) => (
-                      <Navbar.Text className=" " key={index}>
-                        <Link
-                          className="navlink d-flex flex-row"
-                          to={item.path}
-                        >
-                          <li>{item.name}</li>
-                        </Link>
-                      </Navbar.Text>
-                    ))}
-                  </Nav>
-                </div>
-              )}
-            </div>
-            {/* <Button variant="primary" className='button-t '> เข้าสู่ระบบ
+        <Navbar.Collapse className="justify-content-end me-5 ">
+          <div className="content-nav">
+            {role === "student" ? (
+              <div>
+                <Nav className="me-auto">
+                  {userMenu.map((item, index) => (
+                    <Navbar.Text className=" " key={index}>
+                      <Link className="navlink d-flex flex-row" to={item.path}>
+                        <li>{item.name}</li>
+                      </Link>
+                    </Navbar.Text>
+                  ))}
+                </Nav>
+              </div>
+            ) : (
+              <div>
+                <Nav className="me-auto">
+                  {adminMenu.map((item, index) => (
+                    <Navbar.Text className=" " key={index}>
+                      <Link className="navlink d-flex flex-row" to={item.path}>
+                        <li>{item.name}</li>
+                      </Link>
+                    </Navbar.Text>
+                  ))}
+                </Nav>
+              </div>
+            )}
+          </div>
+          {/* <Button variant="primary" className='button-t '> เข้าสู่ระบบ
                             <FontAwesomeIcon icon={faIdCard} className="icon-t ms-2"></FontAwesomeIcon>
                         </Button> */}
-            <NavDropdown
-              className="navlink mt-4 me-5 "
-              title={
-                role === "student" ? (
-                  <div>
-                    นักศึกษา {user.firstname} {user.lastname}
-                  </div>
-                ) : role === "teacher" ? (
-                  <div>
-                    อาจารย์ {user.firstname} {user.lastname}
-                  </div>
-                ) : (
-                  <div>บริษัท {user.companyName}</div>
-                )
-              }
-            >
-              <NavDropdown.Item onClick={logout} className="usernav">
-                ออกจากระบบ
-              </NavDropdown.Item>
-            </NavDropdown>
+          <NavDropdown
+            className="navlink mt-4 me-5 "
+            title={
+              role === "student" ? (
+                <div>
+                  นักศึกษา {user.firstname} {user.lastname}
+                </div>
+              ) : role === "teacher" ? (
+                <div>
+                  อาจารย์ {user.firstname} {user.lastname}
+                </div>
+              ) : (
+                <div>บริษัท {user.companyName}</div>
+              )
+            }
+          >
+            <NavDropdown.Item onClick={logout} className="usernav">
+              ออกจากระบบ
+            </NavDropdown.Item>
+          </NavDropdown>
 
-            {/* <Button variant="danger" className='justify-content-end signout' onClick={logout}>
+          {/* <Button variant="danger" className='justify-content-end signout' onClick={logout}>
                             ออกจากระบบ
                         </Button> */}
-          </Navbar.Collapse>
-        </Container>
+        </Navbar.Collapse>
       </Navbar>
       <div style={{ marginBottom: "40vh" }}></div>
     </div>

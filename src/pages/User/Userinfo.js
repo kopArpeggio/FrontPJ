@@ -112,10 +112,6 @@ function Userinfo() {
     }
   };
 
-  const clearField = () => {
-    <button type="button" class="btn-close" aria-label="Close"></button>;
-  };
-
   useEffect(() => {
     fetchAPI();
     getUser();
@@ -294,10 +290,10 @@ function Userinfo() {
               required
               type="email"
               placeholder="@nrru.ac.th"
-              defaultValue={formData?.firstname}
-              //   onChange={(event) =>
-              //     setFormData({ ...formData, email: event?.target?.value })
-              //   }
+              value={formData?.email}
+              onChange={(event) =>
+                setFormData({ ...formData, email: event?.target?.value })
+              }
             />
           </Form.Group>
         </Row>
@@ -341,6 +337,7 @@ function Userinfo() {
               วันที่เกิด
             </Form.Label>
             <Form.Control
+              required
               type="date"
               value={birthData?.birthDay}
               onChange={(event) => {
@@ -356,6 +353,7 @@ function Userinfo() {
               อายุ
             </Form.Label>
             <Form.Control
+              required
               type="text"
               placeholder="21"
               value={birthData?.age}
@@ -368,8 +366,9 @@ function Userinfo() {
             <Form.Label
               style={{ fontSize: 20, color: "" }}
               className="d-flex flex-row"
-            ></Form.Label>
+            >กลุ๊ปเลือด</Form.Label>
             <Form.Select
+              required
               value={birthData?.bloodTypes}
               onChange={(event) => {
                 setBirthData({
@@ -397,6 +396,7 @@ function Userinfo() {
 
             <InputGroup className="mb-2">
               <Form.Control
+                required
                 type="text"
                 placeholder="ซม."
                 value={birthData?.height}
@@ -418,6 +418,7 @@ function Userinfo() {
             </Form.Label>
             <InputGroup className="mb-2">
               <Form.Control
+                required
                 type="text"
                 placeholder="กก."
                 value={birthData?.weight}
@@ -516,6 +517,7 @@ function Userinfo() {
               ชื่อบิดา
             </Form.Label>
             <Form.Control
+              required
               type="text"
               placeholder="ชื่อจริง"
               value={father?.firstname}
@@ -532,6 +534,7 @@ function Userinfo() {
               นามสกุล
             </Form.Label>
             <Form.Control
+              required
               type="text"
               placeholder="นามสกุล"
               value={father?.lastname}
@@ -549,6 +552,7 @@ function Userinfo() {
               อาชีพ
             </Form.Label>
             <Form.Control
+              required
               type="text"
               placeholder="เกษตกร"
               value={father?.job}
@@ -567,6 +571,7 @@ function Userinfo() {
               ชื่อมารดา
             </Form.Label>
             <Form.Control
+              required
               type="text"
               placeholder="ชื่อจริง"
               value={mother?.firstname}
@@ -583,6 +588,7 @@ function Userinfo() {
               นามสกุล
             </Form.Label>
             <Form.Control
+              required
               type="text"
               placeholder="นามสกุล"
               value={mother?.lastname}
@@ -600,6 +606,7 @@ function Userinfo() {
               อาชีพ
             </Form.Label>
             <Form.Control
+              required
               type="text"
               placeholder="เกษตกร"
               value={mother?.job}
@@ -747,6 +754,7 @@ function Userinfo() {
               บ้านเลขที่
             </Form.Label>
             <Form.Control
+              required
               type="text"
               placeholder="5/1 หมู่ 2 ถนน"
               value={newAddress?.houseNumber}

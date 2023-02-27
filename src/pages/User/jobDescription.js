@@ -1,20 +1,50 @@
-import React from "react";
-import Form from "react-bootstrap/Form";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
+import React, { useEffect, useState } from "react";
+import { Col, Form, Row } from "react-bootstrap";
 import Select, { createFilter } from "react-select";
-import { MenuList } from "./Helper";
+import { getAllWorkplace } from "../../apis/workplaceApi";
+import { MenuList } from "../../utils/utils";
 
-function Subregform3({
-  work,
-  setWork,
-  workplace,
-  finalWorkplace,
-  setFinalWorkplace,
-  setFormData,
-}) {
+function Jobdescription() {
+  const [work, setWork] = useState({
+    jobTitle: undefined || "",
+    jobDetail: undefined || "",
+    benefit: undefined || "",
+    bossFirstname: undefined || "",
+    bossLastname: undefined || "",
+    bossPosition: undefined || "",
+    phoneNumber: undefined || "",
+    email: undefined || "",
+    advisorFirstname: undefined || "",
+    advisorLastname: undefined || "",
+    advisorDepartment: undefined || "",
+    advisorPhoneNumber: undefined || "",
+    advisorEmail: undefined || "",
+    contactStatus: undefined || "",
+    workingStatus: undefined || "",
+    workplaceId: undefined || "",
+    startAt: undefined || "",
+    bossDepartment: undefined || "",
+  });
+
+  const [workplace, setWorkplace] = useState({
+    companyName: undefined || "",
+    amphoe: undefined || "",
+    district: undefined || "",
+    houseNumber: undefined || "",
+    province: undefined || "",
+    zipCode: undefined || "",
+  });
+
+  const [finalWorkplace, setFinalWorkplace] = useState({
+    companyName: undefined || "",
+    district: undefined || "",
+    amphoe: undefined || "",
+    province: undefined || "",
+    houseNumber: undefined || "",
+    googleMapUrl: undefined || "",
+  });
+
   const onChangedistrict = (value) => {
-    console.log(finalWorkplace);
     setFinalWorkplace({
       ...finalWorkplace,
       companyName: workplace[value.value].companyName,
@@ -24,6 +54,12 @@ function Subregform3({
       houseNumber: workplace[value.value].houseNumber,
     });
   };
+
+  useEffect(() => {
+    getAllWorkplace().then((res) => {
+      setWorkplace(res.data);
+    });
+  }, []);
 
   const options = [];
   for (var i = 0; i < workplace.length; i++) {
@@ -39,7 +75,9 @@ function Subregform3({
       workplace[i].district;
     options.push(obj);
   }
-  
+
+  console.log(options);
+
   return (
     <div>
       <Row className="mb-3 mt-5 ">
@@ -275,4 +313,4 @@ function Subregform3({
   );
 }
 
-export default Subregform3;
+export default Jobdescription;
