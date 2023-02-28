@@ -5,7 +5,6 @@ import InputGroup from "react-bootstrap/InputGroup";
 import Row from "react-bootstrap/Row";
 import Select, { createFilter } from "react-select";
 import { MenuList } from "./Helper";
-import { string } from "yup";
 
 function Autocomp({
   formData,
@@ -64,19 +63,6 @@ function Autocomp({
     options.push(obj);
   }
 
-  const handleFirstNameChange = (event) => {
-    setFormData({ ...formData, firstname: event?.target?.value });
-    setValid(string().required().isValidSync(event?.target?.value));
-  };
-
-  const handleEmailNameChange = (event) => {
-    setFormData({ ...formData, email: event?.target?.value });
-    setValid({
-      ...formData,
-      email: string().required().isValidSync(event?.target?.value),
-    });
-  };
-
   return (
     <div>
       <Row className="mb-3 mt-5">
@@ -92,7 +78,6 @@ function Autocomp({
             type="text"
             placeholder="ชื่อจริง"
             value={formData?.firstname}
-            onChange={(event) => handleFirstNameChange(event)}
           />
           <h4 style={{ color: "red" }}>
             {valid ? "is email" : "is not email"}
@@ -127,9 +112,6 @@ function Autocomp({
             disabled
             placeholder="6240207512"
             value={formData?.stuNo}
-            onChange={(event) => {
-              setFormData({ ...formData, stuNo: event?.target?.value });
-            }}
           />
         </Form.Group>
 
@@ -217,7 +199,6 @@ function Autocomp({
             type="email"
             placeholder="@nrru.ac.th"
             value={formData?.email}
-            onChange={(event) => handleEmailNameChange(event)}
           />
           <h4 style={{ color: "red" }}>
             {valid.email ? "สำเร็จ" : "โปรดกรอกอีเมล"}

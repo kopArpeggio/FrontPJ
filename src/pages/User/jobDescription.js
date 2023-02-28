@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Col, Form, Row } from "react-bootstrap";
+import { Button, Col, Form, Row } from "react-bootstrap";
 import Select, { createFilter } from "react-select";
 import { getAllWorkplace } from "../../apis/workplaceApi";
 import { MenuList } from "../../utils/utils";
@@ -14,11 +14,11 @@ function Jobdescription() {
     bossPosition: undefined || "",
     phoneNumber: undefined || "",
     email: undefined || "",
-    advisorFirstname: undefined || "",
-    advisorLastname: undefined || "",
-    advisorDepartment: undefined || "",
-    advisorPhoneNumber: undefined || "",
-    advisorEmail: undefined || "",
+    contactorsFirstname: undefined || "",
+    contactorsLastname: undefined || "",
+    contactorsDepartment: undefined || "",
+    contactorsPhoneNumber: undefined || "",
+    contactorsEmail: undefined || "",
     contactStatus: undefined || "",
     workingStatus: undefined || "",
     workplaceId: undefined || "",
@@ -41,8 +41,12 @@ function Jobdescription() {
     amphoe: undefined || "",
     province: undefined || "",
     houseNumber: undefined || "",
+    zipCode: undefined || "",
     googleMapUrl: undefined || "",
   });
+
+  const [validated, setValidated] = useState(false);
+  const [isConfirm, setIsConfirm] = useState(false);
 
   const onChangedistrict = (value) => {
     setFinalWorkplace({
@@ -52,6 +56,7 @@ function Jobdescription() {
       amphoe: workplace[value.value].amphoe,
       province: workplace[value.value].province,
       houseNumber: workplace[value.value].houseNumber,
+      zipCode: workplace[value.value].zipCode,
     });
   };
 
@@ -76,239 +81,463 @@ function Jobdescription() {
     options.push(obj);
   }
 
-  console.log(options);
-
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    console.log(work);
+    setValidated(true);
+  };
   return (
     <div>
-      <Row className="mb-3 mt-5 ">
-        <Form.Label
-          className="col-form-label-lg"
-          style={{ fontSize: 22, color: "", fontWeight: "bold" }}
-        >
-          รายระเอียดงานที่ไปปฎิบัติ
-        </Form.Label>
-        <Form.Group as={Col} sm="4">
+      <Form
+        noValidate
+        validated={validated}
+        onSubmit={(e) => {
+          handleSubmit(e);
+        }}
+      >
+        <Row className="mb-3 mt-5 ">
           <Form.Label
-            style={{ fontSize: 20, color: "" }}
-            className="d-flex flex-row"
+            className="col-form-label-lg"
+            style={{ fontSize: 22, color: "", fontWeight: "bold" }}
           >
             รายระเอียดงานที่ไปปฎิบัติ
           </Form.Label>
-          <Form.Control
-            type="text"
-            placeholder="Programmer"
-            value={work.jobTitle}
-            onChange={(event) =>
-              setWork({ ...work, jobTitle: event.target.value })
-            }
-          />
-        </Form.Group>
-        <Form.Group as={Col} sm="8">
-          <Form.Label
-            style={{ fontSize: 20, color: "" }}
-            className="d-flex flex-row"
-          >
-            รายละเอียดลักษณะงาน
-          </Form.Label>
-          <Form.Control
-            as="textarea"
-            rows={3}
-            placeholder="ถ่ายเอกสาร ถูพื้น ล้างจาน ตัดต่อวีดีโอ ตัดย่า"
-            value={work.jobDetail}
-            onChange={(event) =>
-              setWork({ ...work, jobDetail: event.target.value })
-            }
-          />
-        </Form.Group>
-      </Row>
+          <Form.Group as={Col} sm="4">
+            <Form.Label
+              style={{ fontSize: 20, color: "" }}
+              className="d-flex flex-row"
+            >
+              รายระเอียดงานที่ไปปฎิบัติ
+            </Form.Label>
+            <Form.Control
+              required
+              type="text"
+              placeholder="Programmer"
+              value={work.jobTitle}
+              onChange={(event) =>
+                setWork({ ...work, jobTitle: event.target.value })
+              }
+            />
+          </Form.Group>
+          <Form.Group as={Col} sm="8">
+            <Form.Label
+              style={{ fontSize: 20, color: "" }}
+              className="d-flex flex-row"
+            >
+              รายละเอียดลักษณะงาน
+            </Form.Label>
+            <Form.Control
+              required
+              as="textarea"
+              rows={3}
+              placeholder="ถ่ายเอกสาร ถูพื้น ล้างจาน ตัดต่อวีดีโอ ตัดย่า"
+              value={work.jobDetail}
+              onChange={(event) =>
+                setWork({ ...work, jobDetail: event.target.value })
+              }
+            />
+          </Form.Group>
+        </Row>
 
-      <Row className="mb-3 mt-4 ">
-        <Form.Group as={Col} sm="12">
+        <Row className="mb-3 mt-4 ">
+          <Form.Group as={Col} sm="12">
+            <Form.Label
+              style={{ fontSize: 20, color: "" }}
+              className="d-flex flex-row"
+            >
+              สวัสดิการจากสถานประกอบการที่ได้รับ (ถ้ามี)
+            </Form.Label>
+            <Form.Control
+              required
+              as="textarea"
+              rows={3}
+              placeholder="เงิน ประกัน เบิกค่ารถ "
+              value={work.benefit}
+              onChange={(event) =>
+                setWork({ ...work, benefit: event.target.value })
+              }
+            />
+          </Form.Group>
+        </Row>
+        <Row className="mb-3 mt-5 ">
           <Form.Label
-            style={{ fontSize: 20, color: "" }}
-            className="d-flex flex-row"
+            className="col-form-label-lg"
+            style={{ fontSize: 22, color: "", fontWeight: "bold" }}
           >
-            สวัสดิการจากสถานประกอบการที่ได้รับ (ถ้ามี)
+            สถานประกอบการที่ต้องการไปปฏิบัติสหกิจศึกษา
           </Form.Label>
-          <Form.Control
-            as="textarea"
-            rows={3}
-            placeholder="เงิน ประกัน เบิกค่ารถ "
-            value={work.benefit}
-            onChange={(event) =>
-              setWork({ ...work, benefit: event.target.value })
-            }
-          />
-        </Form.Group>
-      </Row>
-      <Row className="mb-3 mt-5 ">
-        <Form.Label
-          className="col-form-label-lg"
-          style={{ fontSize: 22, color: "", fontWeight: "bold" }}
-        >
-          สถานประกอบการที่ต้องการไปปฏิบัติสหกิจศึกษา
-        </Form.Label>
-        <Form.Group as={Col} sm="3">
-          <Form.Label
-            style={{ fontSize: 20, color: "" }}
-            className="d-flex flex-row"
-          >
-            ชื่อหัวหน้าหน่วยงาน
-          </Form.Label>
-          <Form.Control
-            placeholder=""
-            value={work.bossFirstname}
-            onChange={(event) =>
-              setWork({ ...work, bossFirstname: event.target.value })
-            }
-          />
-        </Form.Group>
-        <Form.Group as={Col} sm="3">
-          <Form.Label
-            style={{ fontSize: 20, color: "" }}
-            className="d-flex flex-row"
-          >
-            นามสกุล
-          </Form.Label>
-          <Form.Control
-            placeholder=""
-            value={work.bossLastname}
-            onChange={(event) =>
-              setWork({ ...work, bossLastname: event.target.value })
-            }
-          />
-        </Form.Group>
-        <Form.Group as={Col} sm="4">
-          <Form.Label
-            style={{ fontSize: 20, color: "" }}
-            className="d-flex flex-row"
-          >
-            ตำแหน่ง
-          </Form.Label>
-          <Form.Control
-            placeholder=""
-            value={work.bossPosition}
-            onChange={(event) =>
-              setWork({ ...work, bossPosition: event.target.value })
-            }
-          />
-        </Form.Group>
-        <Form.Group as={Col} sm="2">
-          <Form.Label
-            style={{ fontSize: 20, color: "" }}
-            className="d-flex flex-row"
-          >
-            แผนก/ฝ่าย
-          </Form.Label>
-          <Form.Control
-            placeholder=""
-            value={work.bossDepartment}
-            onChange={(event) =>
-              setWork({ ...work, bossDepartment: event.target.value })
-            }
-          />
-        </Form.Group>
-      </Row>
+          <Form.Group as={Col} sm="3">
+            <Form.Label
+              style={{ fontSize: 20, color: "" }}
+              className="d-flex flex-row"
+            >
+              ชื่อหัวหน้าหน่วยงาน
+            </Form.Label>
+            <Form.Control
+              required
+              placeholder=""
+              value={work.bossFirstname}
+              onChange={(event) =>
+                setWork({ ...work, bossFirstname: event.target.value })
+              }
+            />
+          </Form.Group>
+          <Form.Group as={Col} sm="3">
+            <Form.Label
+              style={{ fontSize: 20, color: "" }}
+              className="d-flex flex-row"
+            >
+              นามสกุล
+            </Form.Label>
+            <Form.Control
+              required
+              placeholder=""
+              value={work.bossLastname}
+              onChange={(event) =>
+                setWork({ ...work, bossLastname: event.target.value })
+              }
+            />
+          </Form.Group>
+          <Form.Group as={Col} sm="4">
+            <Form.Label
+              style={{ fontSize: 20, color: "" }}
+              className="d-flex flex-row"
+            >
+              ตำแหน่ง
+            </Form.Label>
+            <Form.Control
+              required
+              placeholder=""
+              value={work.bossPosition}
+              onChange={(event) =>
+                setWork({ ...work, bossPosition: event.target.value })
+              }
+            />
+          </Form.Group>
+          <Form.Group as={Col} sm="2">
+            <Form.Label
+              style={{ fontSize: 20, color: "" }}
+              className="d-flex flex-row"
+            >
+              แผนก/ฝ่าย
+            </Form.Label>
+            <Form.Control
+              required
+              placeholder=""
+              value={work.bossDepartment}
+              onChange={(event) =>
+                setWork({ ...work, bossDepartment: event.target.value })
+              }
+            />
+          </Form.Group>
+        </Row>
 
-      <Row className="mb-3 mt-5 ">
-        <Form.Group as={Col} sm="12">
-          <Form.Label
-            style={{ fontSize: 20, color: "" }}
-            className="d-flex flex-row"
-          >
-            Url Google Map
-          </Form.Label>
-          <Form.Control
-            as="textarea"
-            placeholder=""
-            value={finalWorkplace?.googleMapUrl}
-            onChange={(event) =>
-              setFinalWorkplace({
-                ...finalWorkplace,
-                googleMapUrl: event.target.value,
-              })
-            }
-          />
-        </Form.Group>
-      </Row>
+        <Row className="mb-3 mt-5 ">
+          <Form.Group as={Col} sm="12">
+            <Form.Label
+              style={{ fontSize: 20, color: "" }}
+              className="d-flex flex-row"
+            >
+              Url Google Map
+            </Form.Label>
+            <Form.Control
+              required
+              as="textarea"
+              placeholder=""
+              value={finalWorkplace?.googleMapUrl}
+              onChange={(event) =>
+                setFinalWorkplace({
+                  ...finalWorkplace,
+                  googleMapUrl: event.target.value,
+                })
+              }
+            />
+          </Form.Group>
+        </Row>
 
-      <Row className="mb-3 mt-5 ">
-        <Form.Group as={Col} sm="8">
-          <Form.Label
-            style={{ fontSize: 20, color: "" }}
-            className="d-flex flex-row"
-          >
-            ค้นหาหน่วยงาน
-          </Form.Label>
-          <Select
-            filterOption={createFilter({ ignoreAccents: false })}
-            options={options}
-            value={options.value}
-            onChange={(e) => onChangedistrict(e)}
-            components={{ MenuList }}
-            placeholder="กรอกชื่อหน่วยงาน"
-          />
-        </Form.Group>
-      </Row>
-      <Row className="mb-3 mt-5 ">
-        <Form.Group as={Col} sm="8">
-          <Form.Label
-            style={{ fontSize: 20, color: "" }}
-            className="d-flex flex-row"
-          >
-            ชื่อหน่วยงาน
-          </Form.Label>
-          <Form.Control
-            placeholder=""
-            value={finalWorkplace.companyName}
-            disabled
-          />
-        </Form.Group>
-        <Form.Group as={Col} sm="4">
-          <Form.Label
-            style={{ fontSize: 20, color: "" }}
-            className="d-flex flex-row"
-          >
-            บ้านเลขที่
-          </Form.Label>
-          <Form.Control
-            placeholder=""
-            value={finalWorkplace.houseNumber}
-            disabled
-          />
-        </Form.Group>
-      </Row>
+        <Row className="mb-3 mt-5 ">
+          <Form.Group as={Col} sm="8">
+            <Form.Label
+              style={{ fontSize: 20, color: "" }}
+              className="d-flex flex-row"
+            >
+              ค้นหาหน่วยงาน
+            </Form.Label>
+            <Select
+              filterOption={createFilter({ ignoreAccents: false })}
+              options={options}
+              value={options.value}
+              onChange={(e) => onChangedistrict(e)}
+              components={{ MenuList }}
+              placeholder="กรอกชื่อหน่วยงาน"
+            />
+          </Form.Group>
+        </Row>
+        <Row className="mb-3 mt-5 ">
+          <Form.Group as={Col} sm="8">
+            <Form.Label
+              style={{ fontSize: 20, color: "" }}
+              className="d-flex flex-row"
+            >
+              ชื่อหน่วยงาน
+            </Form.Label>
+            <Form.Control
+              required
+              placeholder=""
+              value={finalWorkplace.companyName}
+              disabled
+            />
+          </Form.Group>
+          <Form.Group as={Col} sm="4">
+            <Form.Label
+              style={{ fontSize: 20, color: "" }}
+              className="d-flex flex-row"
+            >
+              บ้านเลขที่
+            </Form.Label>
+            <Form.Control
+              required
+              placeholder=""
+              value={finalWorkplace.houseNumber}
+              disabled
+            />
+          </Form.Group>
+        </Row>
 
-      <Row className="mb-3 mt-5 ">
-        <Row className=" "></Row>
-        <Form.Group as={Col} sm="3">
-          <Form.Label
-            style={{ fontSize: 20, color: "" }}
-            className="d-flex flex-row"
+        <Row className="mb-3 mt-5 ">
+          <Row className=" "></Row>
+          <Form.Group as={Col} sm="3">
+            <Form.Label
+              style={{ fontSize: 20, color: "" }}
+              className="d-flex flex-row"
+            >
+              ตำบล
+            </Form.Label>
+            <Form.Control
+              required
+              type="text"
+              disabled
+              value={finalWorkplace.district}
+            />
+          </Form.Group>
+          <Form.Group as={Col} sm="3">
+            <Form.Label
+              style={{ fontSize: 20, color: "" }}
+              className="d-flex flex-row"
+            >
+              อำเภอ
+            </Form.Label>
+            <Form.Control
+              required
+              type="text"
+              disabled
+              value={finalWorkplace.amphoe}
+            />
+          </Form.Group>
+          <Form.Group as={Col} sm="3">
+            <Form.Label
+              style={{ fontSize: 20, color: "" }}
+              className="d-flex flex-row"
+            >
+              จังหวัด
+            </Form.Label>
+            <Form.Control
+              required
+              type="text"
+              disabled
+              value={finalWorkplace.province}
+            />
+          </Form.Group>
+          <Form.Group as={Col} sm="3">
+            <Form.Label
+              style={{ fontSize: 20, color: "" }}
+              className="d-flex flex-row"
+            >
+              รหัสไปรษณีย์
+            </Form.Label>
+            <Form.Control
+              required
+              type="search"
+              disabled
+              value={finalWorkplace?.zipCode}
+            />
+          </Form.Group>
+          <Row className="mb-3 mt-5 ">
+            <Form.Label
+              className="col-form-label-lg"
+              style={{ fontSize: 22, color: "", fontWeight: "bold" }}
+            >
+              บุลคลในสถานประกอบการที่นักศึกษาติดต่อสำหรับการปฏิบัติงานสหกิจศึกษา
+            </Form.Label>
+            <Form.Group as={Col} sm="3">
+              <Form.Label
+                style={{ fontSize: 20, color: "" }}
+                className="d-flex flex-row"
+              >
+                ชื่อจริง
+              </Form.Label>
+              <Form.Control
+                required
+                placeholder=""
+                value={work.bossFirstname}
+                onChange={(event) =>
+                  setWork({ ...work, bossFirstname: event.target.value })
+                }
+              />
+            </Form.Group>
+            <Form.Group as={Col} sm="3">
+              <Form.Label
+                style={{ fontSize: 20, color: "" }}
+                className="d-flex flex-row"
+              >
+                นามสกุล
+              </Form.Label>
+              <Form.Control
+                required
+                placeholder=""
+                value={work.bossLastname}
+                onChange={(event) =>
+                  setWork({ ...work, bossLastname: event.target.value })
+                }
+              />
+            </Form.Group>
+            <Form.Group as={Col} sm="4">
+              <Form.Label
+                style={{ fontSize: 20, color: "" }}
+                className="d-flex flex-row"
+              >
+                ตำแหน่ง
+              </Form.Label>
+              <Form.Control
+                required
+                placeholder=""
+                value={work.bossPosition}
+                onChange={(event) =>
+                  setWork({ ...work, bossPosition: event.target.value })
+                }
+              />
+            </Form.Group>
+            <Form.Group as={Col} sm="2">
+              <Form.Label
+                style={{ fontSize: 20, color: "" }}
+                className="d-flex flex-row"
+              >
+                แผนก/ฝ่าย
+              </Form.Label>
+              <Form.Control
+                required
+                placeholder=""
+                value={work.bossDepartment}
+                onChange={(event) =>
+                  setWork({ ...work, bossDepartment: event.target.value })
+                }
+              />
+            </Form.Group>
+          </Row>
+          <Row className="mb-3 mt-5 ">
+            <Form.Group as={Col} sm="4">
+              <Form.Label
+                style={{ fontSize: 20, color: "" }}
+                className="d-flex flex-row"
+              >
+                โทรศัพท์
+              </Form.Label>
+              <Form.Control
+                required
+                placeholder=""
+                value={work.contactorsPhoneNumber}
+                onChange={(event) =>
+                  setWork({
+                    ...work,
+                    contactorsPhoneNumber: event.target.value,
+                  })
+                }
+                maxLength="10"
+              />
+            </Form.Group>
+            <Form.Group as={Col} sm="8">
+              <Form.Label
+                style={{ fontSize: 20, color: "" }}
+                className="d-flex flex-row"
+              >
+                E-mail
+              </Form.Label>
+              <Form.Control
+                required
+                placeholder=""
+                value={work.contactorsEmail}
+                onChange={(event) =>
+                  setWork({ ...work, contactorsEmail: event.target.value })
+                }
+              />
+            </Form.Group>
+          </Row>
+          <Row className="mb-3 mt-5 ">
+            <Form.Label
+              className="col-form-label-lg"
+              style={{ fontSize: 22, color: "", fontWeight: "bold" }}
+            >
+              การติดต่อสถานประกอบการ เพื่อปฏิบัติงานของนักศึกษา
+            </Form.Label>
+            <Form.Group
+              as={Col}
+              sm="12"
+              className="d-flex justify-content-around"
+            >
+              <Form.Check
+                // className="d-flex justify-content-start"
+                required
+                onClick={(event) => console.log(event)}
+                value={"3"}
+                inline
+                label="มีการติดต่อและได้รับการตอบรับ"
+                type="radio"
+                name="grouped"
+              />
+              <Form.Check
+                // className="d-flex justify-content-center"
+                required
+                value={"2"}
+                inline
+                label="มีการติดต่อและอยู่ระหว่างรอการตอบรับ"
+                type="radio"
+                name="grouped"
+              />
+              <Form.Check
+                // className="d-flex justify-content-end"
+                required
+                value={"1"}
+                inline
+                label="ยังไม่ได้ติดต่อ"
+                type="radio"
+                name="grouped"
+              />
+            </Form.Group>
+          </Row>
+          <Form.Group
+            className="mb-3 d-flex flex-row"
+            controlId="formBasicCheckbox"
           >
-            ตำบล
-          </Form.Label>
-          <Form.Control type="text" disabled value={finalWorkplace.district} />
-        </Form.Group>
-        <Form.Group as={Col} sm="3">
-          <Form.Label
-            style={{ fontSize: 20, color: "" }}
-            className="d-flex flex-row"
-          >
-            อำเภอ
-          </Form.Label>
-          <Form.Control type="text" disabled value={finalWorkplace.amphoe} />
-        </Form.Group>
-        <Form.Group as={Col} sm="3">
-          <Form.Label
-            style={{ fontSize: 20, color: "" }}
-            className="d-flex flex-row"
-          >
-            จังหวัด
-          </Form.Label>
-          <Form.Control type="text" disabled value={finalWorkplace.province} />
-        </Form.Group>
-      </Row>
+            <Form.Check
+              type="checkbox"
+              label="ข้าพเจ้าขอรับรองว่าได้ให้ข้อมูลตามความเป็นจริงทุกประการ"
+              required
+              onChange={(e) => {
+                setIsConfirm(e?.target?.checked);
+              }}
+            />
+          </Form.Group>
+          <Form.Group className="d-flex flex-row justify-content-center">
+            <Button
+              as="input"
+              type="submit"
+              value="ยืนยัน"
+              disabled={!isConfirm}
+              style={{width: "20%"}}
+            />
+          </Form.Group>
+        </Row>
+      </Form>
     </div>
   );
 }

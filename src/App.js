@@ -18,41 +18,12 @@ import Regform from "./pages/User/Regform";
 import Uploadfile from "./pages/User/Uploadfile";
 import Userinfo from "./pages/User/Userinfo";
 import Jobdescription from "./pages/User/jobDescription";
+import { Container } from "react-bootstrap";
 
 function App() {
   const isAuthorized = localStorage.getItem("token");
+
   setupAxios(axios);
-  const [user, setUser] = useState([]);
-  const [address, setAddress] = useState("");
-  const [role, setRole] = useState("");
-
-  const api = "http://localhost:3001/api/";
-
-  async function getUser() {
-    try {
-      await axios.get(`${api}`).then(function (res) {
-        if (res.data.data.student) {
-          setUser(res.data.data.student);
-          setAddress(res.data.data.student.Address);
-          setRole(res.data.data.Role);
-        }
-        if (res.data.data.teacher) {
-          setUser(res.data.data.teacher);
-          setRole(res.data.data.Role);
-        }
-        if (res.data.data.workplace) {
-          setUser(res.data.data.workplace);
-          setRole(res.data.data.Role);
-        }
-      });
-    } catch (error) {
-      console.error(error);
-    }
-  }
-
-  useEffect(() => {
-    getUser();
-  }, []);
 
   return (
     <div className="App">

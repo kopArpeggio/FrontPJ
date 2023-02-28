@@ -6,9 +6,9 @@ import Row from "react-bootstrap/Row";
 import Select, { createFilter } from "react-select";
 import { MenuList } from "./Helper";
 
-import * as Yup from "yup";
 import axios from "axios";
-import { Button, CloseButton } from "react-bootstrap";
+import { Button } from "react-bootstrap";
+import { updateStudentById } from "../../apis/studentApi";
 
 function Userinfo() {
   const [address, setAddress] = useState([]);
@@ -65,6 +65,8 @@ function Userinfo() {
     houseNumber: undefined || "",
   });
 
+  const [isConfirm, setIsConfirm] = useState(false);
+
   // Manage Address Auto Complete *********************************
   const onChangedistrict = (district) => {
     setNewAddress({
@@ -87,24 +89,18 @@ function Userinfo() {
   };
   // **************************************************************
 
-  // Validate
-  const [valid, setValid] = useState({
-    firstname: "",
-    email: "",
-  });
-
   const api = "http://localhost:3001/api/";
 
   const getUser = async () => {
     try {
       await axios.get(`${api}`).then(function (res) {
         if (res.data.data.student) {
-          console.log(res.data.data.student);
           setFormData(res.data.data.student);
           setBirthData(res.data.data.student.Birth);
           setFather(res.data.data.student.Father);
           setMother(res.data.data.student.Mother);
           setOldAddress(res.data.data.student.oldAddress);
+          setNewAddress(res?.data?.data?.student?.newAddress);
         }
       });
     } catch (error) {
@@ -139,9 +135,18 @@ function Userinfo() {
       event.preventDefault();
       event.stopPropagation();
     }
-    event.preventDefault();
 
-    console.log(formData?.firstname);
+    event.preventDefault();
+    const stu = formData;
+    updateStudentById({
+      stu,
+      newAddress,
+      oldAddress,
+      birthData,
+      father,
+      mother,
+    });
+
     setValidated(true);
   };
 
@@ -366,7 +371,9 @@ function Userinfo() {
             <Form.Label
               style={{ fontSize: 20, color: "" }}
               className="d-flex flex-row"
-            >กลุ๊ปเลือด</Form.Label>
+            >
+              กลุ๊ปเลือด
+            </Form.Label>
             <Form.Select
               required
               value={birthData?.bloodTypes}
@@ -758,12 +765,37 @@ function Userinfo() {
               type="text"
               placeholder="5/1 หมู่ 2 ถนน"
               value={newAddress?.houseNumber}
-              onChange={(val) =>
-                setNewAddress({ ...newAddress, houseNumber: val.target.value })
+              onChange={(event) =>
+                setNewAddress({
+                  ...newAddress,
+                  houseNumber: event.target.value,
+                })
               }
             />
           </Form.Group>
-          <Button as="input" type="submit" value="Submit" />
+
+          <Form.Group
+            className="mt-4 mb-2 d-flex flex-row"
+            controlId="formBasicCheckbox"
+          >
+            <Form.Check
+              type="checkbox"
+              label="ข้าพเจ้าขอรับรองว่าได้ให้ข้อมูลตามความเป็นจริงทุกประการ"
+              required
+              onChange={(e) => {
+                setIsConfirm(e?.target?.checked);
+              }}
+            />
+          </Form.Group>
+          <Form.Group className="d-flex flex-row justify-content-center">
+            <Button
+              as="input"
+              type="submit"
+              value="Submit"
+              disabled={!isConfirm}
+              style={{ width: "20%" }}
+            />
+          </Form.Group>
         </Row>
       </Form>
     </div>

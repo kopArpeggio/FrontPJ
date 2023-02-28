@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import { Container } from "react-bootstrap";
 import { useNavigate, useOutletContext, Outlet } from "react-router-dom";
 import TestNav from "../../components/TestNav";
 
@@ -13,7 +14,9 @@ function BasepageAdmin() {
   return (
     <div>
       <TestNav user={hiuser} role={hirole} />
-      <Outlet />
+      <Container>
+        <Outlet />
+      </Container>
     </div>
   );
 }

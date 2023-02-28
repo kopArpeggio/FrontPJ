@@ -59,7 +59,7 @@ export default function User() {
                 title="YouTube video player"
                 frameBorder="0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowfullscreen
+                allowFullScreen
               ></iframe>
             }
           </Col>
@@ -80,7 +80,7 @@ export default function User() {
                 title="YouTube video player"
                 frameBorder="0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowfullscreen
+                allowFullScreen
               ></iframe>
             }
           </Col>
