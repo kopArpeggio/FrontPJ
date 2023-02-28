@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Button, Col, Form, Row } from "react-bootstrap";
 import Select, { createFilter } from "react-select";
+import { getData } from "../../apis/rootApi";
 import { getAllWorkplace } from "../../apis/workplaceApi";
 import { MenuList } from "../../utils/utils";
 
@@ -63,6 +64,10 @@ function Jobdescription() {
   useEffect(() => {
     getAllWorkplace().then((res) => {
       setWorkplace(res.data);
+    });
+    getData().then((res) => {
+      setFinalWorkplace(res?.data?.student?.Work?.Workplace?.Address);
+      setWork(res?.data?.student?.Work);
     });
   }, []);
 
@@ -533,7 +538,7 @@ function Jobdescription() {
               type="submit"
               value="ยืนยัน"
               disabled={!isConfirm}
-              style={{width: "20%"}}
+              style={{ width: "20%" }}
             />
           </Form.Group>
         </Row>

@@ -20,3 +20,4 @@ export const updateStudentById = async (body) => {
     console.log(error);
   }
 };
+
