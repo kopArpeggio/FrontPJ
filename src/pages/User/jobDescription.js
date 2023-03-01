@@ -386,6 +386,45 @@ function Jobdescription() {
               value={finalWorkplace?.zipCode}
             />
           </Form.Group>
+          <Row className="mb-3 mt-3 ">
+            <Form.Group as={Col} sm="4">
+              <Form.Label
+                style={{ fontSize: 20, color: "" }}
+                className="d-flex flex-row"
+              >
+                โทรศัพท์
+              </Form.Label>
+              <Form.Control
+                required
+                placeholder=""
+                value={work?.phoneNumber}
+                onChange={(event) =>
+                  setWork({
+                    ...work,
+                    phoneNumber: event.target.value,
+                  })
+                }
+                maxLength="10"
+              />
+            </Form.Group>
+            <Form.Group as={Col} sm="8">
+              <Form.Label
+                style={{ fontSize: 20, color: "" }}
+                className="d-flex flex-row"
+              >
+                E-mail
+              </Form.Label>
+              <Form.Control
+                required
+                type="email"
+                placeholder=""
+                value={work?.email}
+                onChange={(event) =>
+                  setWork({ ...work, email: event.target.value })
+                }
+              />
+            </Form.Group>
+          </Row>
           <Row className="mb-3 mt-5 ">
             <Form.Label
               className="col-form-label-lg"
@@ -458,7 +497,7 @@ function Jobdescription() {
               />
             </Form.Group>
           </Row>
-          <Row className="mb-3 mt-5 ">
+          <Row className="mb-3 mt-3 ">
             <Form.Group as={Col} sm="4">
               <Form.Label
                 style={{ fontSize: 20, color: "" }}
