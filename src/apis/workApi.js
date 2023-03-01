@@ -1,20 +1,19 @@
 import axios from "axios";
 
-const prefix = "student";
+const prefix = "work";
 
-const GET_ALL_STUDENT = `${prefix}/get-all-student`;
 const UPDATE_USER_BY_ID = `${prefix}/update-by-id`;
 
-export const updateStudentById = async (body) => {
+export const updateWorkById = async (body) => {
   try {
     console.log(body);
     const { status } = await axios.put(
-      `${UPDATE_USER_BY_ID}/${body?.stu?.id}`,
+      `${UPDATE_USER_BY_ID}/${body?.work?.id}`,
       body
     );
 
     if (status === 200) {
-      console.log("Yes it Update");
+      console.log("Yes it Update Work Succesful.");
     }
   } catch (error) {
     console.log(error);

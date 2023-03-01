@@ -134,29 +134,24 @@ function Userinfo() {
     if (form.checkValidity() === false) {
       event.preventDefault();
       event.stopPropagation();
+    } else {
+      event.preventDefault();
+      const stu = formData;
+      updateStudentById({
+        stu,
+        newAddress,
+        oldAddress,
+        birthData,
+        father,
+        mother,
+      });
     }
-
-    event.preventDefault();
-    const stu = formData;
-    updateStudentById({
-      stu,
-      newAddress,
-      oldAddress,
-      birthData,
-      father,
-      mother,
-    });
-
     setValidated(true);
   };
 
   return (
     <div>
-      <Form
-        noValidate
-        validated={validated}
-        onSubmit={(event) => handleSubmit(event)}
-      >
+      <Form noValidate validated={validated} onSubmit={handleSubmit}>
         <Row className="mb-3 mt-5">
           <Form.Group as={Col} controlId="formGridEmail">
             <Form.Label
@@ -791,7 +786,7 @@ function Userinfo() {
             <Button
               as="input"
               type="submit"
-              value="Submit"
+              value="ยืนยัน"
               disabled={!isConfirm}
               style={{ width: "20%" }}
             />

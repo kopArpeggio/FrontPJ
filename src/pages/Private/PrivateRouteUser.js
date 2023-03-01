@@ -14,7 +14,6 @@ const PrivateRouteUser = () => {
       await axios.get(`${api}`).then(function (res) {
         setUser(res.data.data.student);
         setRole(res.data.data.Role);
-        console.log("Do it");
       });
     } catch (error) {
       console.error(error);

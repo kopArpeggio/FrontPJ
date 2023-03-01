@@ -2,7 +2,9 @@ import React, { useEffect, useState } from "react";
 import { Button, Col, Form, Row } from "react-bootstrap";
 import Select, { createFilter } from "react-select";
 import { getData } from "../../apis/rootApi";
-import { getAllWorkplace } from "../../apis/workplaceApi";
+import { updateStudentById } from "../../apis/studentApi";
+import { updateWorkById } from "../../apis/workApi";
+import { getAllWorkplace, getWorkplaceById } from "../../apis/workplaceApi";
 import { MenuList } from "../../utils/utils";
 
 function Jobdescription() {
@@ -17,6 +19,7 @@ function Jobdescription() {
     email: undefined || "",
     contactorsFirstname: undefined || "",
     contactorsLastname: undefined || "",
+    contactorsPosition: undefined || "",
     contactorsDepartment: undefined || "",
     contactorsPhoneNumber: undefined || "",
     contactorsEmail: undefined || "",
@@ -44,20 +47,27 @@ function Jobdescription() {
     houseNumber: undefined || "",
     zipCode: undefined || "",
     googleMapUrl: undefined || "",
+    latitude: undefined || "",
+    longtitude: undefined || "",
   });
 
   const [validated, setValidated] = useState(false);
   const [isConfirm, setIsConfirm] = useState(false);
+  const [stu, setStu] = useState({});
 
   const onChangedistrict = (value) => {
     setFinalWorkplace({
       ...finalWorkplace,
+
+      id: workplace[value.value].id,
       companyName: workplace[value.value].companyName,
       district: workplace[value.value].district,
       amphoe: workplace[value.value].amphoe,
       province: workplace[value.value].province,
       houseNumber: workplace[value.value].houseNumber,
       zipCode: workplace[value.value].zipCode,
+      latitude: workplace[value.value].latitude,
+      longtitude: workplace[value.value].longtitude,
     });
   };
 
@@ -66,8 +76,14 @@ function Jobdescription() {
       setWorkplace(res.data);
     });
     getData().then((res) => {
-      setFinalWorkplace(res?.data?.student?.Work?.Workplace?.Address);
       setWork(res?.data?.student?.Work);
+      setStu(res?.data?.student);
+      // get workplace
+      getWorkplaceById(res?.data?.student?.Work?.Workplace?.id).then(
+        (workplace) => {
+          setFinalWorkplace(workplace?.data);
+        }
+      );
     });
   }, []);
 
@@ -87,19 +103,22 @@ function Jobdescription() {
   }
 
   const handleSubmit = (event) => {
-    event.preventDefault();
-    console.log(work);
+    const form = event.currentTarget;
+    if (form.checkValidity() === false) {
+      event.preventDefault();
+      event.stopPropagation();
+    } else {
+      const finalAddress = finalWorkplace;
+      console.log({ stu, finalAddress, work });
+      updateStudentById({ stu, finalAddress, work });
+      event.preventDefault();
+    }
     setValidated(true);
   };
+
   return (
     <div>
-      <Form
-        noValidate
-        validated={validated}
-        onSubmit={(e) => {
-          handleSubmit(e);
-        }}
-      >
+      <Form noValidate validated={validated} onSubmit={handleSubmit}>
         <Row className="mb-3 mt-5 ">
           <Form.Label
             className="col-form-label-lg"
@@ -118,7 +137,7 @@ function Jobdescription() {
               required
               type="text"
               placeholder="Programmer"
-              value={work.jobTitle}
+              value={work?.jobTitle}
               onChange={(event) =>
                 setWork({ ...work, jobTitle: event.target.value })
               }
@@ -136,7 +155,7 @@ function Jobdescription() {
               as="textarea"
               rows={3}
               placeholder="ถ่ายเอกสาร ถูพื้น ล้างจาน ตัดต่อวีดีโอ ตัดย่า"
-              value={work.jobDetail}
+              value={work?.jobDetail}
               onChange={(event) =>
                 setWork({ ...work, jobDetail: event.target.value })
               }
@@ -157,7 +176,7 @@ function Jobdescription() {
               as="textarea"
               rows={3}
               placeholder="เงิน ประกัน เบิกค่ารถ "
-              value={work.benefit}
+              value={work?.benefit}
               onChange={(event) =>
                 setWork({ ...work, benefit: event.target.value })
               }
@@ -181,7 +200,7 @@ function Jobdescription() {
             <Form.Control
               required
               placeholder=""
-              value={work.bossFirstname}
+              value={work?.bossFirstname}
               onChange={(event) =>
                 setWork({ ...work, bossFirstname: event.target.value })
               }
@@ -197,7 +216,7 @@ function Jobdescription() {
             <Form.Control
               required
               placeholder=""
-              value={work.bossLastname}
+              value={work?.bossLastname}
               onChange={(event) =>
                 setWork({ ...work, bossLastname: event.target.value })
               }
@@ -213,7 +232,7 @@ function Jobdescription() {
             <Form.Control
               required
               placeholder=""
-              value={work.bossPosition}
+              value={work?.bossPosition}
               onChange={(event) =>
                 setWork({ ...work, bossPosition: event.target.value })
               }
@@ -229,7 +248,7 @@ function Jobdescription() {
             <Form.Control
               required
               placeholder=""
-              value={work.bossDepartment}
+              value={work?.bossDepartment}
               onChange={(event) =>
                 setWork({ ...work, bossDepartment: event.target.value })
               }
@@ -246,9 +265,9 @@ function Jobdescription() {
               Url Google Map
             </Form.Label>
             <Form.Control
-              required
               as="textarea"
               placeholder=""
+              disabled={finalWorkplace?.latitude && finalWorkplace.longtitude}
               value={finalWorkplace?.googleMapUrl}
               onChange={(event) =>
                 setFinalWorkplace({
@@ -271,7 +290,7 @@ function Jobdescription() {
             <Select
               filterOption={createFilter({ ignoreAccents: false })}
               options={options}
-              value={options.value}
+              value={options?.value}
               onChange={(e) => onChangedistrict(e)}
               components={{ MenuList }}
               placeholder="กรอกชื่อหน่วยงาน"
@@ -289,7 +308,7 @@ function Jobdescription() {
             <Form.Control
               required
               placeholder=""
-              value={finalWorkplace.companyName}
+              value={finalWorkplace?.companyName}
               disabled
             />
           </Form.Group>
@@ -303,7 +322,7 @@ function Jobdescription() {
             <Form.Control
               required
               placeholder=""
-              value={finalWorkplace.houseNumber}
+              value={finalWorkplace?.houseNumber}
               disabled
             />
           </Form.Group>
@@ -322,7 +341,7 @@ function Jobdescription() {
               required
               type="text"
               disabled
-              value={finalWorkplace.district}
+              value={finalWorkplace?.district}
             />
           </Form.Group>
           <Form.Group as={Col} sm="3">
@@ -336,7 +355,7 @@ function Jobdescription() {
               required
               type="text"
               disabled
-              value={finalWorkplace.amphoe}
+              value={finalWorkplace?.amphoe}
             />
           </Form.Group>
           <Form.Group as={Col} sm="3">
@@ -350,7 +369,7 @@ function Jobdescription() {
               required
               type="text"
               disabled
-              value={finalWorkplace.province}
+              value={finalWorkplace?.province}
             />
           </Form.Group>
           <Form.Group as={Col} sm="3">
@@ -384,9 +403,9 @@ function Jobdescription() {
               <Form.Control
                 required
                 placeholder=""
-                value={work.bossFirstname}
+                value={work?.contactorsFirstname}
                 onChange={(event) =>
-                  setWork({ ...work, bossFirstname: event.target.value })
+                  setWork({ ...work, contactorsFirstname: event.target.value })
                 }
               />
             </Form.Group>
@@ -400,9 +419,9 @@ function Jobdescription() {
               <Form.Control
                 required
                 placeholder=""
-                value={work.bossLastname}
+                value={work?.contactorsLastname}
                 onChange={(event) =>
-                  setWork({ ...work, bossLastname: event.target.value })
+                  setWork({ ...work, contactorsLastname: event.target.value })
                 }
               />
             </Form.Group>
@@ -416,9 +435,9 @@ function Jobdescription() {
               <Form.Control
                 required
                 placeholder=""
-                value={work.bossPosition}
+                value={work?.contactorsPosition}
                 onChange={(event) =>
-                  setWork({ ...work, bossPosition: event.target.value })
+                  setWork({ ...work, contactorsPosition: event.target.value })
                 }
               />
             </Form.Group>
@@ -432,9 +451,9 @@ function Jobdescription() {
               <Form.Control
                 required
                 placeholder=""
-                value={work.bossDepartment}
+                value={work?.contactorsDepartment}
                 onChange={(event) =>
-                  setWork({ ...work, bossDepartment: event.target.value })
+                  setWork({ ...work, contactorsDepartment: event.target.value })
                 }
               />
             </Form.Group>
@@ -450,7 +469,7 @@ function Jobdescription() {
               <Form.Control
                 required
                 placeholder=""
-                value={work.contactorsPhoneNumber}
+                value={work?.contactorsPhoneNumber}
                 onChange={(event) =>
                   setWork({
                     ...work,
@@ -469,8 +488,9 @@ function Jobdescription() {
               </Form.Label>
               <Form.Control
                 required
+                type="email"
                 placeholder=""
-                value={work.contactorsEmail}
+                value={work?.contactorsEmail}
                 onChange={(event) =>
                   setWork({ ...work, contactorsEmail: event.target.value })
                 }
@@ -490,7 +510,6 @@ function Jobdescription() {
               className="d-flex justify-content-around"
             >
               <Form.Check
-                // className="d-flex justify-content-start"
                 required
                 onClick={(event) => console.log(event)}
                 value={"3"}
@@ -500,7 +519,6 @@ function Jobdescription() {
                 name="grouped"
               />
               <Form.Check
-                // className="d-flex justify-content-center"
                 required
                 value={"2"}
                 inline
@@ -509,7 +527,6 @@ function Jobdescription() {
                 name="grouped"
               />
               <Form.Check
-                // className="d-flex justify-content-end"
                 required
                 value={"1"}
                 inline
