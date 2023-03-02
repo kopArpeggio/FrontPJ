@@ -307,3 +307,22 @@
   background-color: red;
   color: white;
 }
+
+.masterData {
+  transition: 0.3s;
+}
+
+.masterData:hover {
+  background-color: rgb(91, 134, 96);
+  color: white;
+}
+
+.tableAction {
+  font-size: 18px;
+  color: #5fb867;
+}
+
+.tableAction:hover {
+  cursor: pointer;
+  color: #4d9252;
+}

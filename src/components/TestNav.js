@@ -63,11 +63,24 @@ function TestNav({ user, role }) {
               <div>
                 <Nav className="me-auto">
                   {adminMenu.map((item, index) => (
-                    <Navbar.Text className=" " key={index}>
-                      <Link className="navlink d-flex flex-row" to={item.path}>
-                        <li>{item.name}</li>
-                      </Link>
-                    </Navbar.Text>
+                    <div className="d-flex flex-row">
+                      <Navbar.Text className=" " key={index}>
+                        <Link className="navlink d-flex " to={item.path}>
+                          <li>{item.name}</li>
+                        </Link>
+                      </Navbar.Text>
+                      <NavDropdown
+                        className="navlink  me-5 "
+                        title={"Master Data"}
+                      >
+                        <NavDropdown.Item className="masterData">
+                          Student Management
+                        </NavDropdown.Item>
+                        <NavDropdown.Item className="masterData">
+                          Company Management
+                        </NavDropdown.Item>
+                      </NavDropdown>
+                    </div>
                   ))}
                 </Nav>
               </div>
