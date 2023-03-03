@@ -13,6 +13,7 @@ import {
   faXmark,
   faPenToSquare,
   faTrash,
+  faPlus,
 } from "@fortawesome/free-solid-svg-icons";
 import Swal from "sweetalert2";
 import { Document, Page, pdfjs } from "react-pdf";
@@ -29,14 +30,12 @@ export default function Admin() {
   const [loading, setLoading] = useState(true);
   const [modalStudent, setModalStudent] = useState("");
   const [show, setShow] = useState(false);
+  const [createMode, setCreateMode] = useState(false);
 
   const handleShow = (param) => {
     setShow(true);
     setModalStudent(param);
-    console.log(param);
   };
-
-  const handleClose = () => setShow(false);
 
   const [q, SetQ] = useState("");
 
@@ -67,7 +66,9 @@ export default function Admin() {
       </>
     );
   };
+
   const check = <FontAwesomeIcon icon={faCheck} className="correct" />;
+  const create = <FontAwesomeIcon icon={faPlus} className="correct" />;
   const wrong = <FontAwesomeIcon icon={faXmark} className="Wrong" />;
   const checking = <FontAwesomeIcon icon={faRotate} className="Checking" />;
 
@@ -75,11 +76,20 @@ export default function Admin() {
     rows: {
       style: {
         minHeight: "72px", // override the row height
+        fontSize: "14",
+        fontWeight: "400",
       },
     },
     headCells: {
       style: {
         paddingLeft: "8px", // override the cell padding for head cells
+        paddingRight: "8px",
+        fontSize: "16px",
+      },
+    },
+    cells: {
+      style: {
+        paddingLeft: "8px", // override the cell padding for data cells
         paddingRight: "8px",
       },
     },
@@ -95,6 +105,13 @@ export default function Admin() {
     } catch (error) {
       console.log(error);
     }
+  };
+
+  const handleClose = () => {
+    setShow(false);
+    setCreateMode(false);
+    console.log("123 123123");
+    getStudent();
   };
 
   const columns = [
@@ -180,7 +197,6 @@ export default function Admin() {
           customStyles={customStyles}
           theme="solarized"
           title="จัดการนักศึกษา"
-          className=" "
           columns={columns}
           data={Searchtest(student)}
           expandableRows
@@ -192,16 +208,33 @@ export default function Admin() {
           responsive
           highlightOnHover
           subHeader
+          subHeaderAlign={"left"}
           subHeaderComponent={
-            <input
-              type="text"
-              placeholder="ค้นหานักศึกษา"
-              className="w-25 form-control "
-              value={q}
-              onChange={(e) => SetQ(e.target.value)}
-            />
+            <>
+              <div style={{ justifyContent: "space-between" }}>
+                <input
+                  type="text"
+                  placeholder="ค้นหานักศึกษา"
+                  className="w-100 form-control"
+                  value={q}
+                  onChange={(e) => SetQ(e.target.value)}
+                />
+              </div>
+              {/* <Form.Control type="text" className="" /> */}
+              <div>
+                <Button
+                  className=""
+                  style={{}}
+                  onClick={() => {
+                    setCreateMode(true);
+                    handleShow();
+                  }}
+                >
+                  {create} เพิ่มนักศึกษา
+                </Button>
+              </div>
+            </>
           }
-          subHeaderAlign="left"
         />
         {/* <div>
           <Document file={file} onLoadSuccess={onDocumentLoadSuccess}>
@@ -214,7 +247,15 @@ export default function Admin() {
           </p>
         </div> */}
         <iframe src="/pdf/Hi.pdf" width="450" height="250" title="pdf"></iframe>
-        <AdminModal show={show} handleClose={handleClose} />
+        <AdminModal
+          show={show}
+          handleClose={handleClose}
+          student={modalStudent}
+          setStudent={setModalStudent}
+          createMode={createMode}
+          setCreateMode={setCreateMode}
+          setLoading={setLoading}
+        />
       </Container>
     </div>
   );

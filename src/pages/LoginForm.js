@@ -73,7 +73,7 @@ export default function LoginForm() {
           <br />
           <Form.Group className="mb-3 font-css ">
             <h1 className="app-login mt-5 mb-5">เข้าสู่ระบบ</h1>
-            <Form.Label className="font-usr-pass mb-3">ชื่อผู้ใช้ :</Form.Label>
+            <Form.Label className="font-usr-pass mb-3" >ชื่อผู้ใช้ :</Form.Label>
             <Form.Control
               className="use-pass mb-3"
               type="username"
