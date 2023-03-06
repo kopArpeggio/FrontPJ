@@ -19,8 +19,7 @@ export default function Uploadfile() {
 
     const Sendfile = () => {
         const data = new FormData();
-
-        data.append("file", file);
+        data.append("image", file);
 
         axios.post("http://localhost:3001/testupload", data)
             .then(res => console.log(res))

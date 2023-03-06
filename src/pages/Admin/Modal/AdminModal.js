@@ -14,10 +14,10 @@ function AdminModal({
   setLoading,
 }) {
   const [validated, setValidated] = useState(false);
-  
 
   const handleSubmit = async (event) => {
     setLoading(true);
+
     const form = event.currentTarget;
     if (form.checkValidity() === false) {
       event.preventDefault();
@@ -182,11 +182,11 @@ function AdminModal({
                   required
                   placeholder="4"
                   maxLength={1}
-                  value={student?.year}
+                  value={student?.yearClass}
                   onChange={(event) =>
                     setStudent({
                       ...student,
-                      year: event?.target?.value,
+                      yearClass: event?.target?.value,
                     })
                   }
                 />
@@ -206,11 +206,11 @@ function AdminModal({
                   placeholder="2556"
                   minLength={4}
                   maxLength={4}
-                  value={student?.yearClass}
+                  value={student?.year}
                   onChange={(event) =>
                     setStudent({
                       ...student,
-                      yearClass: event?.target?.value,
+                      year: event?.target?.value,
                     })
                   }
                 />
@@ -237,9 +237,14 @@ function AdminModal({
             </Row>
 
             <Modal.Footer>
-              <Button variant="secondary" onClick={handleClose}>
+              <Button
+                variant="secondary"
+                className="btn btn-primary "
+                onClick={handleClose}
+              >
                 ยกเลิก
               </Button>
+
               <Button type="submit">ยืนยัน</Button>
             </Modal.Footer>
           </Form>

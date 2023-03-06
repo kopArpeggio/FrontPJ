@@ -14,25 +14,28 @@ import {
   faTrash,
   faPlus,
 } from "@fortawesome/free-solid-svg-icons";
-
-import "react-pdf/dist/esm/Page/TextLayer.css";
-import "react-pdf/dist/esm/Page/AnnotationLayer.css";
-import { getAllWorkplace } from "../../apis/workplaceApi";
-import AdminModal from "./Modal/AdminModal";
-import { Image } from "react-bootstrap";
+import { getAllWorkplace, updateWorkplaceById } from "../../apis/workplaceApi";
+import { Form, Image } from "react-bootstrap";
 import { getImageUrl } from "../../utils/utils";
-import { deleteStudent } from "../../apis/studentApi";
+import CompanyModal from "./Modal/CompanyModal";
 
-export default function Admin() {
-  const [student, setStudent] = useState([]);
+function CompanyManagement() {
+  const [company, setCompany] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [modalStudent, setModalStudent] = useState("");
+  const [modalCompany, setModalCompany] = useState("");
   const [createMode, setCreateMode] = useState(false);
   const [show, setShow] = useState(false);
+  const [address, setAddress] = useState([]);
 
   const handleShow = (param) => {
     setShow(true);
-    setModalStudent(param);
+    setModalCompany(param);
+  };
+
+  const handleClose = () => {
+    setShow(false);
+    setCreateMode(false);
+    getWorkplace();
   };
 
   const [q, SetQ] = useState("");
@@ -57,7 +60,7 @@ export default function Admin() {
         <FontAwesomeIcon
           icon={faTrash}
           onClick={() => {
-            handleDelete(param);
+            // handleDelete(param);
           }}
           className="tableAction"
         />
@@ -93,69 +96,18 @@ export default function Admin() {
     },
   };
 
-  const getStudent = async () => {
-    const api = "http://localhost:3001/api/";
-    try {
-      const res = await axios.get(`${api}/student/get-all-student`);
-      setStudent(res.data.data);
+  const getWorkplace = async () => {
+    await getAllWorkplace().then((res) => {
+      setLoading(true);
+      setCompany(res?.data);
       setLoading(false);
-    } catch (error) {
-      console.log(error);
-    }
+    });
   };
 
-  const handleClose = () => {
-    setShow(false);
-    setCreateMode(false);
-    getStudent();
-  };
-  var i = 0;
   const columns = [
     {
-      name: "Index",
-      center: true,
-      selector: (row) => {
-        return <div>{(i += 1)}</div>;
-      },
-    },
-    {
-      name: "โปรไฟล์",
-      center: true,
-      cell: (row) => (
-        <div>
-          <Image
-            width={"35px"}
-            height={"35px"}
-            roundedCircle
-            src={
-              row?.profilePic
-                ? getImageUrl(row?.profilePic)
-                : "/asset/img/noAvatar.jpg"
-            }
-            style={{
-              boxShadow:
-                "rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px",
-            }}
-            className="me-2"
-          />
-        </div>
-      ),
-    },
-    {
-      name: "ชื่อจริง",
-      selector: (row) => row.firstname,
-      sortable: true,
-      center: true,
-    },
-    {
-      name: "นามสกุล",
-      selector: (row) => row.lastname,
-      sortable: true,
-      center: true,
-    },
-    {
-      name: "สาขาวิชา",
-      selector: (row) => row.faculty,
+      name: "ชื่อบริษัท",
+      selector: (row) => row.companyName,
       sortable: true,
       center: true,
     },
@@ -175,50 +127,73 @@ export default function Admin() {
       cell: (row) => (
         <div>
           {/* Later */}
-          {row.status_id === 2 ? check : row.status_id === 1 ? wrong : checking}
+          {/* {row.status_id === 2 ? check : row.status_id === 1 ? wrong : checking} */}
+          <Form.Check
+            type="switch"
+            onChange={(event) => handleStatus(event?.target?.checked, row)}
+            checked={row.status}
+          />
         </div>
       ),
     },
   ];
 
-  // Delete Logic
-  const handleDelete = async (val) => {
-    setLoading(true);
+  // Change Status Logic
+  const handleStatus = async (status, company) => {
+    const statusBody = {
+      ...company,
+      status,
+    };
+    await updateWorkplaceById(statusBody);
+    getWorkplace();
+  };
 
-    // Logic Here and call function
-    await deleteStudent(val.id);
-
-    getStudent();
-    setLoading(false);
+  const fetchAPI = async () => {
+    await fetch(
+      "https://gist.githubusercontent.com/ChaiyachetU/a72a3af3c6561b97883d7af935188c6b/raw/0e9389fa1fc06b532f9081793b3e36db31a1e1c6/thailand.json"
+    )
+      .then((response) => response.json())
+      .then((result) => {
+        setAddress(result);
+      });
   };
 
   useEffect(() => {
-    getStudent();
-    getAllWorkplace().then((res) => {
-      console.log(res);
-    });
+    fetchAPI();
+    getWorkplace();
   }, []);
 
+  const options = [];
+  for (var i = 0; i < address.length; i++) {
+    var obj = {};
+    obj["value"] = i;
+    obj["label"] =
+      address[i].district +
+      " >> " +
+      address[i].amphoe +
+      " >> " +
+      address[i].province;
+    options.push(obj);
+  }
+
   const Searchtest = (rows) => {
-    return rows.filter(
-      (row) =>
-        row.firstname.toLowerCase().indexOf(q) > -1 ||
-        row.lastname.toLowerCase().indexOf(q) > -1
-    );
+    return rows.filter((row) => row.companyName.toLowerCase().indexOf(q) > -1);
   };
 
   return (
     <div>
-      <Container className="tablecustom ">
-        <AdminModal
-          show={show}
-          handleClose={handleClose}
-          student={modalStudent}
-          setStudent={setModalStudent}
-          createMode={createMode}
-          setCreateMode={setCreateMode}
-          setLoading={setLoading}
-        />
+      <CompanyModal
+        show={show}
+        company={modalCompany}
+        setCompany={setModalCompany}
+        handleClose={handleClose}
+        createMode={createMode}
+        setCreateMode={setCreateMode}
+        options={options}
+        address={address}
+      />
+
+      <Container className="tablecustom">
         <DataTable
           progressPending={loading}
           progressComponent={
@@ -231,9 +206,9 @@ export default function Admin() {
           }
           customStyles={customStyles}
           theme="solarized"
-          title="จัดการนักศึกษา"
+          title="จัดการสภานประกอบการ"
           columns={columns}
-          data={Searchtest(student)}
+          data={Searchtest(company)}
           expandableRows
           expandableRowsComponent={(value) => <pre>{value.data.firstname}</pre>}
           pagination
@@ -264,7 +239,7 @@ export default function Admin() {
                     handleShow();
                   }}
                 >
-                  {create} เพิ่มนักศึกษา
+                  {create} เพิ่มบริษัท
                 </Button>
               </div>
             </>
@@ -280,8 +255,9 @@ export default function Admin() {
             Page {pageNumber} of {numPages}
           </p>
         </div> */}
-        <iframe src="/pdf/Hi.pdf" width="450" height="250" title="pdf"></iframe>
       </Container>
     </div>
   );
 }
+
+export default CompanyManagement;

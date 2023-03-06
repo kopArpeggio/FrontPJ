@@ -4,6 +4,8 @@ const prefix = "workplace";
 
 const GET_ALL_WORK_PLACE_URL = "get-all-workplace";
 const GET_WORK_PLACE_BY_ID_URL = `${prefix}/get-workplace-by-id`;
+const CREATE_WORK_PLACE = `${prefix}/create`;
+const UPDATE_WORK_PLACE_BY_ID_URL = `${prefix}/update-by-id`;
 
 export const getAllWorkplace = async () => {
   try {
@@ -35,6 +37,39 @@ export const getWorkplaceById = async (id) => {
     return undefined;
   } catch (error) {
     console.log(error);
+    return undefined;
+  }
+};
+
+export const createWorkplace = async (body) => {
+  try {
+    const { data, status } = await axios.post(`${CREATE_WORK_PLACE}`, body);
+
+    if (status === 200) {
+      return data;
+    }
+
+    return undefined;
+  } catch (error) {
+    console.log(error);
+
+    return undefined;
+  }
+};
+
+export const updateWorkplaceById = async (body) => {
+  try {
+    const { status } = await axios.put(
+      `${UPDATE_WORK_PLACE_BY_ID_URL}/${body?.id}`,
+      body
+    );
+
+    if (status === 200) {
+      return true;
+    }
+  } catch (error) {
+    console.log(error);
+
     return undefined;
   }
 };

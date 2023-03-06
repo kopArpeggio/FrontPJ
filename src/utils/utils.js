@@ -11,8 +11,8 @@ export const getCoordinatesFromGoogleMapURL = (url) => {
   return null;
 };
 
-const height = 35;
 export const MenuList = (props) => {
+  const height = 35;
   const { options, children, maxHeight, getValue } = props;
   const [value] = getValue();
   const initialOffset = options.indexOf(value) * height;
@@ -27,4 +27,21 @@ export const MenuList = (props) => {
       {({ index, style }) => <div style={style}>{children[index]}</div>}
     </List>
   );
+};
+
+export const getImageUrl = (filename) => {
+  return `${process.env.REACT_APP_UPLOAD_HOST}/${process.env.REACT_APP_IMAGE_PATH}/${filename}`;
+};
+
+export const fileToBase64 = (file) => {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => {
+      resolve(reader.result);
+    };
+    reader.onerror = (error) => {
+      reject(error);
+    };
+  });
 };

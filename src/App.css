@@ -1,6 +1,53 @@
 @import url('https://fonts.googleapis.com/css2?family=Prompt&display=swap');
 
 
+
+img,
+svg,
+video,
+canvas,
+audio,
+iframe,
+embed,
+object {
+  vertical-align: middle !important;
+  display: inline !important;
+
+}
+
+
+
+.icon {
+  width: 45px;
+  height: 60px;
+}
+
+@media (min-width: 768px) {
+  .icon {
+    width: 45px;
+    height: 60px;
+  }
+}
+
+@media (min-width: 992px) {
+  .icon {
+    width: 65px;
+    height: 80px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .icon {
+    width: 85px;
+    height: 100px;
+  }
+}
+
+.navbar-brand {
+  margin: 0;
+  padding: 0;
+}
+
 .App {
   text-align: center;
   font-family: 'Prompt';
@@ -10,7 +57,7 @@
   margin-left: 10%;
   margin-right: 40%;
   font-size: 20px;
-
+  white-space: nowrap;
 }
 
 .swal2-popup {
@@ -27,7 +74,7 @@
 }
 
 .test-logo {
-  margin-left: 100%;
+  margin-left: 50%;
 }
 
 .logo {
@@ -94,6 +141,16 @@
   vertical-align: middle;
 }
 
+
+.form-switch .form-check-input {
+  width: 38px;
+  height: 20px;
+}
+
+.form-check-input:checked {
+  background-color: #5fb867;
+  border-color: #0d6efd;
+}
 
 /* ส่วน font */
 .font-usr-pass {
@@ -241,6 +298,18 @@
   top: -5px;
 }
 
+.profile-nav {
+  text-decoration: none;
+  top: 0;
+  transition: top ease 0.1s;
+  position: relative;
+}
+
+.profile-nav:hover {
+  cursor: pointer;
+  top: -5px;
+}
+
 
 .signout {
   margin-left: 100px;
@@ -340,4 +409,46 @@
 .modalLabel {
   font-weight: bold;
   color: rgb(44, 78, 41);
+}
+
+/* Drag and Drop */
+
+
+
+.drag-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.drag-drop-zone {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 2px dashed #ccc;
+  padding: 20px;
+  width: 400px;
+  height: 300px;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.drag-drop-zone.active {
+  border-color: #6c63ff;
+}
+
+.drag-drop-icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.image-preview-container {
+  margin-top: 1rem;
+}
+
+.image-preview {
+  width: 200px;
+  height: 200px;
 }

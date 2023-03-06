@@ -1,5 +1,6 @@
 import "./App.css";
-import { Routes, Route, Navigate } from "react-router-dom";
+
+import { Routes, Route, Navigate, BrowserRouter } from "react-router-dom";
 
 import User from "./pages/User/User";
 import Admin from "./pages/Admin/Admin";
@@ -11,14 +12,14 @@ import LoginForm from "./pages/LoginForm";
 import axios from "axios";
 import { setupAxios } from "./axios";
 import BasepageAdmin from "./pages/Admin/BasepageAdmin";
-import { useEffect, useState } from "react";
 import Error_role from "./pages/Error_role";
 import BasepageUser from "./pages/User/BasepageUser";
 import Regform from "./pages/User/Regform";
 import Uploadfile from "./pages/User/Uploadfile";
 import Userinfo from "./pages/User/Userinfo";
 import Jobdescription from "./pages/User/jobDescription";
-import { Container } from "react-bootstrap";
+import Lab from "./components/Lab";
+import CompanyManagement from "./pages/Admin/CompanyManagement";
 
 function App() {
   const isAuthorized = localStorage.getItem("token");
@@ -27,22 +28,23 @@ function App() {
 
   return (
     <div className="App">
-      <Routes>
-        {!isAuthorized ? (
-          <Route path="/" element={<LoginForm />} />
-        ) : (
-          <Route
-            path="/apple"
-            element={<Navigate to="/apple" replace={true} />}
-          />
-        )}
+      <BrowserRouter>
+        <Routes>
+          {!isAuthorized ? (
+            <Route path="/" element={<LoginForm />} />
+          ) : (
+            <Route
+              path="/apple"
+              element={<Navigate to="/apple" replace={true} />}
+            />
+          )}
 
-        {!isAuthorized ? (
-          <Route path="/" element={<Navigate to="/" replace={true} />} />
-        ) : (
-          <Route exact path="/" element={<ApplePage />} />
-        )}
-        {/* <Route path="/login" element={<Login />} />
+          {!isAuthorized ? (
+            <Route path="/" element={<Navigate to="/" replace={true} />} />
+          ) : (
+            <Route exact path="/" element={<ApplePage />} />
+          )}
+          {/* <Route path="/login" element={<Login />} />
           <Route path="/" element={<Login />} />
           <Route path="/apple" element={<ApplePage />} />
           <Route path="*" element={<Error_role />} />
@@ -56,24 +58,28 @@ function App() {
           <Route path="/userinfo" element={<Userinfo />} />
           <Route path="/testpdf" element={<ApplePage />} />
           <Route path="/testform" element={<Regform />} /> */}
-        {/* <Route index element={<LoginForm />} /> */}
-        <Route path="*" element={<Error_role />} />
+          {/* <Route index element={<LoginForm />} /> */}
+          <Route path="*" element={<Error_role />} />
+          <Route path="/lab" element={<Lab />} />
 
-        <Route element={<PrivateRouteUser />}>
-          <Route element={<BasepageUser />} path="/user">
-            <Route element={<User />} path="dashboard" />
-            <Route element={<Userinfo />} path="user-info" />
-            <Route element={<Jobdescription />} path="user-job-description" />
-            <Route element={<Regform />} path="register" />
-            <Route element={<Uploadfile />} path="upload" />
+          <Route element={<PrivateRouteUser />}>
+            <Route element={<BasepageUser />} path="/user">
+              <Route element={<User />} path="dashboard" />
+              <Route element={<Userinfo />} path="user-info" />
+              <Route element={<Jobdescription />} path="user-job-description" />
+              <Route element={<Regform />} path="register" />
+              <Route element={<Uploadfile />} path="upload" />
+            </Route>
           </Route>
-        </Route>
-        <Route element={<PrivateRouteAdmin />}>
-          <Route element={<BasepageAdmin />} path="/admin">
-            <Route element={<Admin />} path="dashboard" />
+          <Route element={<PrivateRouteAdmin />}>
+            <Route element={<BasepageAdmin />} path="/admin">
+              <Route element={<Admin />} path="manage-student" />
+              <Route element={<CompanyManagement />} path="manage-company" />
+            </Route>
           </Route>
-        </Route>
-      </Routes>
+        </Routes>
+      </BrowserRouter>
+
       <br></br>
       <br></br>
       <br></br>

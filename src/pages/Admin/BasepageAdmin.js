@@ -8,7 +8,7 @@ function BasepageAdmin() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    navigate("/admin/dashboard");
+    navigate("/admin/manage-student");
   }, []);
 
   return (
