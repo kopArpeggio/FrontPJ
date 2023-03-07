@@ -14,6 +14,7 @@ function AdminModal({
   setLoading,
 }) {
   const [validated, setValidated] = useState(false);
+  const [isConfirm, setIsConfirm] = useState(false);
 
   const handleSubmit = async (event) => {
     setLoading(true);
@@ -82,12 +83,21 @@ function AdminModal({
                 required
               />
             </Form.Group>
-            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-              <Form.Label className="d-flex flex-row modalLabel">
-                Password
+            <Form.Group className="mb-3 " controlId="exampleForm.ControlInput1">
+              <Form.Label className="d-flex flex-row modalLabel ">
+                Password 
+                <Form.Check
+                className="ms-3"
+                  type="checkbox"
+                  label={"(แก้ไขรหัสผ่าน)"}
+                  onChange={(e) => {
+                    setIsConfirm(e?.target?.checked);
+                  }}
+                />
               </Form.Label>
               <Form.Control
                 value={student?.password}
+                disabled={!isConfirm}
                 onChange={(event) =>
                   setStudent({
                     ...student,

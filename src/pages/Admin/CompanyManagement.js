@@ -113,7 +113,7 @@ function CompanyManagement() {
   const columns = [
     {
       name: "ชื่อบริษัท",
-      selector: (row) => row.companyName,
+      selector: (row) => row?.companyName,
       sortable: true,
       center: true,
     },
@@ -127,6 +127,7 @@ function CompanyManagement() {
         </div>
       ),
     },
+
     {
       name: "สถานะ",
       center: true,

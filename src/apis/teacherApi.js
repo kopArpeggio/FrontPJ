@@ -40,7 +40,8 @@ export const createTeacher = async (body) => {
 export const updateTeacherById = async (body) => {
   try {
     const { status } = await axios.put(
-      `${UPDATE_TEACHER_BY_ID_API}/${body?.teacher?.id}`
+      `${UPDATE_TEACHER_BY_ID_API}/${body?.id}`,
+      body
     );
 
     if (status === 200) {

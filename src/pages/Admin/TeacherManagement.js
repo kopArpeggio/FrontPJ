@@ -125,6 +125,19 @@ function TeacherManagement() {
     },
 
     {
+      name: "คณะ",
+      selector: (row) => row?.faculty,
+      sortable: true,
+      center: true,
+    },
+    {
+      name: "สาขา",
+      selector: (row) => row?.branch,
+      sortable: true,
+      center: true,
+    },
+
+    {
       name: "แก้ไข / ลบ",
       center: true,
       cell: (row) => (
@@ -134,16 +147,6 @@ function TeacherManagement() {
       ),
     },
   ];
-
-  // Change Status Logic
-  const handleStatus = async (status, company) => {
-    const statusBody = {
-      ...company,
-      status,
-    };
-    await updateWorkplaceById(statusBody);
-    getTeacher();
-  };
 
   useEffect(() => {
     getTeacher();

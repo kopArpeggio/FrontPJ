@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
-import { createTeacher } from "../../../apis/teacherApi";
+import { createTeacher, updateTeacherById } from "../../../apis/teacherApi";
 
 function TeacherModal({ createMode, show, handleClose, teacher, setTeacher }) {
   const [validated, setValidated] = useState(false);
@@ -19,7 +19,7 @@ function TeacherModal({ createMode, show, handleClose, teacher, setTeacher }) {
         handleClose();
       }
       if (!createMode) {
-        // await updateWorkplaceById(company);
+        await updateTeacherById(teacher);
         handleClose();
       }
     }
