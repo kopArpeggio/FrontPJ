@@ -40,12 +40,15 @@ export default function ApplePage() {
           setUser(res.data.data.teacher);
           setRole(res.data.data.Role);
         }
+        if (res.data.data.admin) {
+          setUser(res.data.data.admin);
+          setRole(res.data.data.Role);
+        }
+
         if (res.data.data.workplace) {
           setUser(res.data.data.workplace);
           setRole(res.data.data.Role);
         }
-
-        console.log(res.data.data);
       });
     } catch (error) {
       console.error(error);
@@ -80,7 +83,13 @@ export default function ApplePage() {
   return (
     <div>
       <TestNav user={user} role={role} />
-      {role === "student" ? navigate("/user/dashboard") : navigate("/admin")}
+      {role === "student"
+        ? navigate("/user/dashboard")
+        : role === "admin"
+        ? navigate("/admin")
+        : role === "teacher"
+        ? navigate("/teacher")
+        : navigate("/company")}
       {/* <PDFDownloadLink document={<PDFFile />} fileName="FORM">
         {({ loading }) =>
           loading ? <button> Loading Document ...</button> : "Download"

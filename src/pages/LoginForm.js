@@ -20,7 +20,6 @@ export default function LoginForm() {
     toast: true,
     position: "top-end",
     showConfirmButton: false,
-    timer: 1500,
     timerProgressBar: true,
     didOpen: (toast) => {
       toast.addEventListener("mouseenter", Swal.stopTimer);
@@ -36,18 +35,23 @@ export default function LoginForm() {
         password: password,
       });
 
-      await Toast.fire({
+      Swal.fire({
+        title: "Login Status",
+        text: "Sigin Success!",
         icon: "success",
-        title: "Signed in successfully",
+        timer: 1000,
+        showConfirmButton: false,
+      }).then(() => {
+        localStorage.setItem("token", user?.accessToken);
+        window.location.reload();
       });
-
-      localStorage.setItem("token", user?.accessToken);
-
-      window.location.reload();
     } catch (error) {
-      Toast.fire({
+      Swal.fire({
+        title: "Login Status",
+        text: "Sigin Filed",
         icon: "error",
-        title: "Signed Failed",
+        timer: 1000,
+        showConfirmButton: false,
       });
     }
   };

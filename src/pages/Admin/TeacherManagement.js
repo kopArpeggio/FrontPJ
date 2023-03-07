@@ -16,25 +16,25 @@ import {
   updateWorkplaceById,
 } from "../../apis/workplaceApi";
 import { Form } from "react-bootstrap";
-import CompanyModal from "./Modal/CompanyModal";
+import { getAllTeacher } from "../../apis/teacherApi";
+import TeacherModal from "./Modal/TeacherModal";
 
-function CompanyManagement() {
-  const [company, setCompany] = useState([]);
+function TeacherManagement() {
+  const [teacher, setTeacher] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [modalCompany, setModalCompany] = useState("");
+  const [modalTeacher, setModalTeacher] = useState("");
   const [createMode, setCreateMode] = useState(false);
   const [show, setShow] = useState(false);
-  const [address, setAddress] = useState([]);
 
   const handleShow = (param) => {
     setShow(true);
-    setModalCompany(param);
+    setModalTeacher(param);
   };
 
   const handleClose = () => {
     setShow(false);
     setCreateMode(false);
-    getWorkplace();
+    getTeacher();
   };
 
   // Delete Logic
@@ -44,7 +44,7 @@ function CompanyManagement() {
     // Logic Here and call function
     await deleteWorkplaceById(params.id);
 
-    getWorkplace();
+    getTeacher();
   };
 
   const [q, SetQ] = useState("");
@@ -102,18 +102,24 @@ function CompanyManagement() {
     },
   };
 
-  const getWorkplace = async () => {
-    await getAllWorkplace().then((res) => {
+  const getTeacher = async () => {
+    await getAllTeacher().then((res) => {
       setLoading(true);
-      setCompany(res?.data);
+      setTeacher(res?.data);
       setLoading(false);
     });
   };
 
   const columns = [
     {
-      name: "ชื่อบริษัท",
-      selector: (row) => row.companyName,
+      name: "ชื่อจริง",
+      selector: (row) => row.firstname,
+      sortable: true,
+      center: true,
+    },
+    {
+      name: "นามสกุล",
+      selector: (row) => row.lastname,
       sortable: true,
       center: true,
     },
@@ -127,21 +133,6 @@ function CompanyManagement() {
         </div>
       ),
     },
-    {
-      name: "สถานะ",
-      center: true,
-      cell: (row) => (
-        <div>
-          {/* Later */}
-          {/* {row.status_id === 2 ? check : row.status_id === 1 ? wrong : checking} */}
-          <Form.Check
-            type="switch"
-            onChange={(event) => handleStatus(event?.target?.checked, row)}
-            checked={row.status}
-          />
-        </div>
-      ),
-    },
   ];
 
   // Change Status Logic
@@ -151,54 +142,41 @@ function CompanyManagement() {
       status,
     };
     await updateWorkplaceById(statusBody);
-    getWorkplace();
-  };
-
-  const fetchAPI = async () => {
-    await fetch(
-      "https://gist.githubusercontent.com/ChaiyachetU/a72a3af3c6561b97883d7af935188c6b/raw/0e9389fa1fc06b532f9081793b3e36db31a1e1c6/thailand.json"
-    )
-      .then((response) => response.json())
-      .then((result) => {
-        setAddress(result);
-      });
+    getTeacher();
   };
 
   useEffect(() => {
-    fetchAPI();
-    getWorkplace();
+    getTeacher();
   }, []);
-
-  const options = [];
-  for (var i = 0; i < address.length; i++) {
-    var obj = {};
-    obj["value"] = i;
-    obj["label"] =
-      address[i].district +
-      " >> " +
-      address[i].amphoe +
-      " >> " +
-      address[i].province;
-    options.push(obj);
-  }
 
   const Searchtest = (rows) => {
     return rows?.filter(
-      (row) => row?.companyName.toLowerCase().indexOf(q) > -1
+      (row) =>
+        row?.firstname.toLowerCase().indexOf(q) > -1 ||
+        row?.lastname.toLowerCase().indexOf(q) > -1
     );
   };
 
   return (
     <div>
-      <CompanyModal
+      {/* <CompanyModal
         show={show}
         company={modalCompany}
-        setCompany={setModalCompany}
+        setTeacher={setModalCompany}
         handleClose={handleClose}
         createMode={createMode}
         setCreateMode={setCreateMode}
         options={options}
         address={address}
+      /> */}
+
+      <TeacherModal
+        show={show}
+        teacher={modalTeacher}
+        setTeacher={setModalTeacher}
+        createMode={createMode}
+        setCreateMode={setCreateMode}
+        handleClose={handleClose}
       />
 
       <Container className="tablecustom">
@@ -216,7 +194,7 @@ function CompanyManagement() {
           theme="solarized"
           title="จัดการสภานประกอบการ"
           columns={columns}
-          data={Searchtest(company)}
+          data={Searchtest(teacher)}
           expandableRows
           expandableRowsComponent={(value) => <pre>{value.data.firstname}</pre>}
           pagination
@@ -247,7 +225,7 @@ function CompanyManagement() {
                     handleShow();
                   }}
                 >
-                  {create} เพิ่มบริษัท
+                  {create} เพิ่มอาจารย์
                 </Button>
               </div>
             </>
@@ -258,4 +236,4 @@ function CompanyManagement() {
   );
 }
 
-export default CompanyManagement;
+export default TeacherManagement;

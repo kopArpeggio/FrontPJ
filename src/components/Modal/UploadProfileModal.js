@@ -57,16 +57,18 @@ export default function UploadProfileModal({
     try {
       const data = await uploadImageFile(file);
 
-      const stu = {
-        id: user?.id,
-        profilePic: data,
-      };
+      if (data) {
+        const stu = {
+          id: user?.id,
+          profilePic: data,
+        };
 
-      const imagePath = await updateStudentById({ stu });
+        const imagePath = await updateStudentById({ stu });
 
-      setTest(imagePath?.data?.profilePic);
-      setShow(false);
-      setImage(null);
+        setTest(imagePath?.data?.profilePic);
+        setShow(false);
+        setImage(null);
+      }
     } catch (error) {
       console.log(error);
     }

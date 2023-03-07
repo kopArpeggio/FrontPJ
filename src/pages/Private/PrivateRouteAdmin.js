@@ -13,7 +13,7 @@ const PrivateRouteAdmin = () => {
   async function getUser() {
     try {
       await axios.get(`${api}`).then(function (res) {
-        setUser(res.data.data.teacher);
+        setUser(res.data.data.admin);
         setRole(res.data.data.Role);
       });
     } catch (error) {
@@ -30,7 +30,7 @@ const PrivateRouteAdmin = () => {
       confirmButtonText: "OK",
       allowOutsideClick: false,
       onBeforeOpen: () => {
-          Swal.showLoading()
+        Swal.showLoading();
       },
     }).then(() => {
       navigate(-1);
@@ -44,7 +44,7 @@ const PrivateRouteAdmin = () => {
     getUser();
   }, []);
 
-  return hirole === "teacher" ? (
+  return hirole === "admin" ? (
     <Outlet context={{ hiuser, hirole }} />
   ) : (
     // leave()

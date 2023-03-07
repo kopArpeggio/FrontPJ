@@ -200,10 +200,10 @@ export default function Admin() {
   }, []);
 
   const Searchtest = (rows) => {
-    return rows.filter(
+    return rows?.filter(
       (row) =>
-        row.firstname.toLowerCase().indexOf(q) > -1 ||
-        row.lastname.toLowerCase().indexOf(q) > -1
+        row?.firstname.toLowerCase().indexOf(q) > -1 ||
+        row?.lastname.toLowerCase().indexOf(q) > -1
     );
   };
 

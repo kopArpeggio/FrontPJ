@@ -1,4 +1,5 @@
 import axios from "axios";
+import { sweetAlertError } from "../swal2/swal2";
 
 const prefix = "upload";
 
@@ -26,10 +27,13 @@ export const uploadImageFile = async (file, signal) => {
     );
 
     if (status === 200) {
-      return data.data;
+      return data?.data;
     }
   } catch (error) {
-    console.log(error);
+    const err = error?.response?.data?.error;
+
+    sweetAlertError(err);
+    console.log(err);
     return undefined;
   }
 };

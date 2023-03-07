@@ -20,6 +20,7 @@ import Userinfo from "./pages/User/Userinfo";
 import Jobdescription from "./pages/User/jobDescription";
 import Lab from "./components/Lab";
 import CompanyManagement from "./pages/Admin/CompanyManagement";
+import TeacherManagement from "./pages/Admin/TeacherManagement";
 
 function App() {
   const isAuthorized = localStorage.getItem("token");
@@ -75,6 +76,7 @@ function App() {
             <Route element={<BasepageAdmin />} path="/admin">
               <Route element={<Admin />} path="manage-student" />
               <Route element={<CompanyManagement />} path="manage-company" />
+              <Route element={<TeacherManagement />} path="manage-teacher" />
             </Route>
           </Route>
         </Routes>

@@ -100,7 +100,7 @@ function TestNav({ user, role }) {
                     ))}
                   </Nav>
                 </div>
-              ) : (
+              ) : role === "admin" ? (
                 <div>
                   <Nav className="me-auto justify-content-end">
                     {adminMenu.map((item, index) => (
@@ -126,15 +126,28 @@ function TestNav({ user, role }) {
                         title={"Master Data"}
                       >
                         <NavDropdown.Item className="masterData">
-                          Student Management
+                          <Link to={"/admin/manage-student"}>
+                            Student Management
+                          </Link>
                         </NavDropdown.Item>
+
                         <NavDropdown.Item className="masterData">
-                          Company Management
+                          <Link to={"/admin/manage-company"}>
+                            Company Management
+                          </Link>
+                        </NavDropdown.Item>
+
+                        <NavDropdown.Item className="masterData">
+                          <Link to={"/admin/manage-teacher"}>
+                            Teacher Management
+                          </Link>
                         </NavDropdown.Item>
                       </NavDropdown>
                     </Navbar.Text>
                   </Nav>
                 </div>
+              ) : (
+                ""
               )}
             </div>
 
@@ -160,8 +173,14 @@ function TestNav({ user, role }) {
                   <div>
                     อาจารย์ {user?.firstname} {user?.lastname}
                   </div>
-                ) : (
+                ) : role === "company" ? (
                   <div>บริษัท {user?.companyName}</div>
+                ) : role === "admin" ? (
+                  <div>
+                    แอดมิน {user?.firstname} {user?.lastname}
+                  </div>
+                ) : (
+                  ""
                 )
               }
               id="nav-dropdown"

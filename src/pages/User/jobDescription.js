@@ -6,7 +6,11 @@ import { updateStudentById } from "../../apis/studentApi";
 import { updateWorkById } from "../../apis/workApi";
 import ReactLoading from "react-loading";
 
-import { getAllWorkplace, getWorkplaceById } from "../../apis/workplaceApi";
+import {
+  getAllWorkplace,
+  getAllWorkplaceWithStatus,
+  getWorkplaceById,
+} from "../../apis/workplaceApi";
 import { MenuList } from "../../utils/utils";
 
 function Jobdescription() {
@@ -77,7 +81,7 @@ function Jobdescription() {
 
   useEffect(() => {
     setIsLoading(false);
-    getAllWorkplace().then((res) => {
+    getAllWorkplaceWithStatus().then((res) => {
       setWorkplace(res.data);
     });
     getData().then((res) => {
@@ -554,7 +558,7 @@ function Jobdescription() {
                 className="col-form-label-lg"
                 style={{ fontSize: 22, color: "", fontWeight: "bold" }}
               >
-                การติดต่อสถานประกอบการ เพื่อปฏิบัติงานของนักศึกษา
+                <p> การติดต่อสถานประกอบการ เพื่อปฏิบัติงานของนักศึกษา</p>
               </Form.Label>
               <Form.Group
                 as={Col}
@@ -594,7 +598,9 @@ function Jobdescription() {
             >
               <Form.Check
                 type="checkbox"
-                label="ข้าพเจ้าขอรับรองว่าได้ให้ข้อมูลตามความเป็นจริงทุกประการ"
+                label={
+                  <p>ข้าพเจ้าขอรับรองว่าได้ให้ข้อมูลตามความเป็นจริงทุกประการ</p>
+                }
                 required
                 onChange={(e) => {
                   setIsConfirm(e?.target?.checked);

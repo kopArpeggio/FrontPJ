@@ -157,7 +157,7 @@ function Userinfo() {
     <div>
       {isLoading ? (
         <Form noValidate validated={validated} onSubmit={handleSubmit}>
-          <Row className="mb-3 mt-5">
+          <Row className="mb-3 mt-5 d-flex flex-column flex-lg-row">
             <Form.Group as={Col} controlId="formGridEmail">
               <Form.Label
                 style={{ fontSize: 20, color: "" }}
@@ -191,7 +191,7 @@ function Userinfo() {
               />
             </Form.Group>
           </Row>
-          <Row className="mb-3">
+          <Row className="mb-3 d-flex flex-column flex-lg-row">
             <Form.Group as={Col} controlId="formGridEmail">
               <Form.Label
                 style={{ fontSize: 20, color: "" }}
@@ -228,7 +228,7 @@ function Userinfo() {
               />
             </Form.Group>
           </Row>
-          <Row className="mb-3">
+          <Row className="mb-3 d-flex flex-column flex-lg-row">
             <Form.Group as={Col} controlId="formGridEmail">
               <Form.Label
                 style={{ fontSize: 20, color: "" }}
@@ -265,7 +265,7 @@ function Userinfo() {
               />
             </Form.Group>
           </Row>
-          <Row className="mb-3">
+          <Row className="mb-3 d-flex flex-column flex-lg-row">
             <Form.Group as={Col} controlId="formGridEmail">
               <Form.Label
                 style={{ fontSize: 20, color: "" }}
@@ -316,7 +316,7 @@ function Userinfo() {
               <Form.Control type="text" disabled placeholder="ชื่ออาจารย์" />
             </Form.Group>
           </Row>
-          <Row className="mb-3">
+          <Row className="mb-3 d-flex flex-column flex-lg-row">
             <Form.Group as={Col} controlId="formGridEmail">
               <Form.Label
                 style={{ fontSize: 20, color: "" }}
@@ -398,7 +398,7 @@ function Userinfo() {
             </Form.Group>
           </Row>
 
-          <Row className="mb-3">
+          <Row className="mb-3 d-flex flex-column flex-lg-row">
             <Form.Group as={Col} controlId="formGridEmail">
               <Form.Label
                 style={{ fontSize: 20, color: "" }}
@@ -412,6 +412,7 @@ function Userinfo() {
                   required
                   type="text"
                   placeholder="ซม."
+                  className=""
                   value={birthData?.height}
                   onChange={(event) => {
                     setBirthData({
