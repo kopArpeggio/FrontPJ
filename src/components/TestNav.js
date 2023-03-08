@@ -142,6 +142,18 @@ function TestNav({ user, role }) {
                             Teacher Management
                           </Link>
                         </NavDropdown.Item>
+
+                        <NavDropdown.Item className="masterData">
+                          <Link to={"/admin/manage-branch"}>
+                            Branch Management
+                          </Link>
+                        </NavDropdown.Item>
+
+                        <NavDropdown.Item className="masterData">
+                          <Link to={"/admin/manage-faculty"}>
+                            Faculty Management
+                          </Link>
+                        </NavDropdown.Item>
                       </NavDropdown>
                     </Navbar.Text>
                   </Nav>

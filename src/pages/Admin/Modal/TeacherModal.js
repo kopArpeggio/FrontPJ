@@ -108,11 +108,11 @@ function TeacherModal({ createMode, show, handleClose, teacher, setTeacher }) {
                 สาขาวิชา
               </Form.Label>
               <Form.Control
-                value={teacher?.faculty}
+                value={teacher?.branch}
                 onChange={(event) =>
                   setTeacher({
                     ...teacher,
-                    faculty: event?.target?.value,
+                    branch: event?.target?.value,
                   })
                 }
                 type="text"

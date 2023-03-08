@@ -17,7 +17,6 @@ function CompanyModal({
   setCompany,
   handleClose,
   createMode,
-  setCreateMode,
   options,
   address,
 }) {

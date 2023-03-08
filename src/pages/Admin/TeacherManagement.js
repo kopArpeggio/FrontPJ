@@ -10,13 +10,8 @@ import {
   faTrash,
   faPlus,
 } from "@fortawesome/free-solid-svg-icons";
-import {
-  deleteWorkplaceById,
-  getAllWorkplace,
-  updateWorkplaceById,
-} from "../../apis/workplaceApi";
-import { Form } from "react-bootstrap";
-import { getAllTeacher } from "../../apis/teacherApi";
+
+import { deleteTeacherById, getAllTeacher } from "../../apis/teacherApi";
 import TeacherModal from "./Modal/TeacherModal";
 
 function TeacherManagement() {
@@ -42,7 +37,7 @@ function TeacherManagement() {
     setLoading(true);
 
     // Logic Here and call function
-    await deleteWorkplaceById(params.id);
+    await deleteTeacherById(params?.id);
 
     getTeacher();
   };
@@ -125,14 +120,15 @@ function TeacherManagement() {
     },
 
     {
-      name: "คณะ",
-      selector: (row) => row?.faculty,
+      name: "สาขา",
+      selector: (row) => row?.branch,
       sortable: true,
       center: true,
     },
+
     {
-      name: "สาขา",
-      selector: (row) => row?.branch,
+      name: "คณะ",
+      selector: (row) => row?.faculty,
       sortable: true,
       center: true,
     },
@@ -195,7 +191,7 @@ function TeacherManagement() {
           }
           customStyles={customStyles}
           theme="solarized"
-          title="จัดการสภานประกอบการ"
+          title="จัดการอาจารย์"
           columns={columns}
           data={Searchtest(teacher)}
           expandableRows
