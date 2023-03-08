@@ -22,6 +22,7 @@ import AdminModal from "./Modal/AdminModal";
 import { Image } from "react-bootstrap";
 import { getImageUrl } from "../../utils/utils";
 import { deleteStudent } from "../../apis/studentApi";
+import { getAllBranchByStatus } from "../../apis/branchAPi";
 
 export default function Admin() {
   const [student, setStudent] = useState([]);
@@ -29,6 +30,7 @@ export default function Admin() {
   const [modalStudent, setModalStudent] = useState("");
   const [createMode, setCreateMode] = useState(false);
   const [show, setShow] = useState(false);
+  const [branch, setBranch] = useState([]);
 
   const handleShow = (param) => {
     setShow(true);
@@ -44,6 +46,7 @@ export default function Admin() {
           icon={faPenToSquare}
           onClick={() => {
             handleShow(param);
+            console.log(param);
           }}
           className="tableAction"
         />
@@ -194,8 +197,9 @@ export default function Admin() {
 
   useEffect(() => {
     getStudent();
-    getAllWorkplace().then((res) => {
-      console.log(res);
+
+    getAllBranchByStatus().then((res) => {
+      setBranch(res?.data);
     });
   }, []);
 
@@ -206,6 +210,19 @@ export default function Admin() {
         row?.lastname.toLowerCase().indexOf(q) > -1
     );
   };
+
+  const options = [];
+  for (let i = 0; i < branch?.length; i++) {
+    var obj = {};
+    obj["value"] = i;
+    obj["label"] =
+      "สาขา : " +
+      branch[i]?.branchName +
+      "  |  " +
+      "คณะ : " +
+      branch[i]?.facultyName;
+    options.push(obj);
+  }
 
   return (
     <div>
@@ -218,6 +235,8 @@ export default function Admin() {
           createMode={createMode}
           setCreateMode={setCreateMode}
           setLoading={setLoading}
+          options={options}
+          branch={branch}
         />
         <DataTable
           progressPending={loading}

@@ -1,4 +1,5 @@
 import axios from "axios";
+import { sweetAlertError } from "../swal2/swal2";
 
 const prefix = "student";
 
@@ -18,7 +19,9 @@ export const updateStudentById = async (body) => {
       return data;
     }
   } catch (error) {
-    console.log(error);
+    const err = error?.response?.data?.error;
+
+    sweetAlertError(err);
   }
 };
 

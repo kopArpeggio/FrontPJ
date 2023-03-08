@@ -4,6 +4,8 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
 import { createStudent, updateStudentById } from "../../../apis/studentApi";
+import Select, { createFilter } from "react-select";
+import { MenuList } from "../../User/Helper";
 
 function AdminModal({
   show,
@@ -12,9 +14,22 @@ function AdminModal({
   setStudent,
   createMode,
   setLoading,
+  options,
+  branch,
 }) {
   const [validated, setValidated] = useState(false);
   const [isConfirm, setIsConfirm] = useState(false);
+
+  const onChangeBranch = (props) => {
+    setStudent({
+      ...student,
+      branchId: branch[props.value].id,
+      // facultyName: branch[props.value]?.facultyName,
+      // branchName: branch[props.value]?.branchName,
+    });
+    console.log(branch);
+    console.log(student);
+  };
 
   const handleSubmit = async (event) => {
     setLoading(true);
@@ -85,9 +100,9 @@ function AdminModal({
             </Form.Group>
             <Form.Group className="mb-3 " controlId="exampleForm.ControlInput1">
               <Form.Label className="d-flex flex-row modalLabel ">
-                Password 
+                Password
                 <Form.Check
-                className="ms-3"
+                  className="ms-3"
                   type="checkbox"
                   label={"(แก้ไขรหัสผ่าน)"}
                   onChange={(e) => {
@@ -144,37 +159,45 @@ function AdminModal({
                 required
               />
             </Form.Group>
+
+            <Form.Group
+              as={Col}
+              className="mb-3"
+              sm="12"
+              controlId="formGridPassword"
+            >
+              <Form.Label className="d-flex flex-row modalLabel">
+                เลือกสาขา
+              </Form.Label>
+              <Select
+                filterOption={createFilter({ ignoreAccents: false })}
+                components={{ MenuList }}
+                options={options}
+                value={options?.value}
+                placeholder="เลือกสาขา"
+                // onChange={(e) => onChangedistrict(e)}
+                onChange={(e) => {
+                  setStudent({
+                    ...student,
+                    branchId: branch[e.value]?.id,
+                    facultyName: branch[e.value]?.facultyName,
+                    branchName: branch[e.value]?.branchName,
+                  });
+                }}
+              />
+            </Form.Group>
+
             <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
               <Form.Label className="d-flex flex-row modalLabel">
                 คณะ
               </Form.Label>
-              <Form.Control
-                value={student?.faculty}
-                onChange={(event) =>
-                  setStudent({
-                    ...student,
-                    faculty: event?.target?.value,
-                  })
-                }
-                type="text"
-                required
-              />
+              <Form.Control value={student?.facultyName} type="text" disabled />
             </Form.Group>
             <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
               <Form.Label className="d-flex flex-row modalLabel">
                 สาขา
               </Form.Label>
-              <Form.Control
-                value={student?.branch}
-                onChange={(event) =>
-                  setStudent({
-                    ...student,
-                    branch: event?.target?.value,
-                  })
-                }
-                type="text"
-                required
-              />
+              <Form.Control value={student?.branchName} type="text" disabled />
             </Form.Group>
 
             <Row>
@@ -255,7 +278,12 @@ function AdminModal({
                 ยกเลิก
               </Button>
 
-              <Button type="submit">ยืนยัน</Button>
+              <Button
+                type="submit"
+                // disabled={!student?.facultyName || !student?.branchName}
+              >
+                ยืนยัน
+              </Button>
             </Modal.Footer>
           </Form>
         </Modal.Body>

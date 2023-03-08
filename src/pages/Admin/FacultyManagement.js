@@ -138,7 +138,7 @@ function FacultyManagement() {
           <Form.Check
             type="switch"
             onChange={(event) => handleStatus(event?.target?.checked, row)}
-            checked={row.status}
+            checked={row?.status}
           />
         </div>
       ),
