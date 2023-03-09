@@ -101,6 +101,7 @@ export default function Admin() {
     try {
       const res = await axios.get(`${api}/student/get-all-student`);
       setStudent(res.data.data);
+      console.log(res.data.data);
       setLoading(false);
     } catch (error) {
       console.log(error);
@@ -146,19 +147,25 @@ export default function Admin() {
     },
     {
       name: "ชื่อจริง",
-      selector: (row) => row.firstname,
+      selector: (row) => row?.firstname,
       sortable: true,
       center: true,
     },
     {
       name: "นามสกุล",
-      selector: (row) => row.lastname,
+      selector: (row) => row?.lastname,
       sortable: true,
       center: true,
     },
     {
       name: "สาขาวิชา",
-      selector: (row) => row.faculty,
+      selector: (row) => row?.branchName,
+      sortable: true,
+      center: true,
+    },
+    {
+      name: "คณะ",
+      selector: (row) => row?.facultyName,
       sortable: true,
       center: true,
     },
@@ -178,7 +185,7 @@ export default function Admin() {
       cell: (row) => (
         <div>
           {/* Later */}
-          {row.status_id === 2 ? check : row.status_id === 1 ? wrong : checking}
+          {row?.status_id === 2 ? check : row?.status_id === 1 ? wrong : checking}
         </div>
       ),
     },

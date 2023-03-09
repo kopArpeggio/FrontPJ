@@ -73,6 +73,14 @@ object {
 
 }
 
+.navbar-toggler {
+  margin-inline-start: auto;
+}
+
+.nav-item {
+  font-size: 18px;
+}
+
 .test-logo {
   margin-left: 50%;
 }
@@ -87,9 +95,9 @@ object {
 .button-t {
   width: 150px;
   height: 55px;
-  background-color: #FFE897;
+  background-color: #08805c;
   border-radius: 7px;
-  color: #000000;
+  color: #ffffff;
   font-weight: 400;
   display: flex;
   align-items: center;
@@ -100,13 +108,13 @@ object {
 }
 
 .button-t:hover {
-  background-color: #e5cc73;
-  color: #000000;
+  background-color: #066146;
+  color: #ffffff;
 }
 
 .button-t:focus {
-  background-color: #e5cc73;
-  color: #000000;
+  background-color: #066146;
+  color: #ffffff;
 }
 
 .nav-text {
@@ -258,7 +266,7 @@ object {
 }
 
 .correct {
-  color: #5fb867;
+  color: #ffe72f;
   font-size: 20px;
 }
 
@@ -379,6 +387,15 @@ object {
 .usernav:hover {
   background-color: red;
   color: white;
+}
+
+.upload-image {
+  transition: 0.3s;
+}
+
+.upload-image:hover {
+  background-color: rgb(191, 191, 191);
+  color: rgb(0, 0, 0);
 }
 
 .masterData {

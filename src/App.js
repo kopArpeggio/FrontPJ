@@ -23,6 +23,12 @@ import CompanyManagement from "./pages/Admin/CompanyManagement";
 import TeacherManagement from "./pages/Admin/TeacherManagement";
 import FacultyManagement from "./pages/Admin/FacultyManagement";
 import BranchManagement from "./pages/Admin/BranchManagement";
+import PrivateRouteTeacher from "./pages/Private/PrivateRouteTeacher";
+import StudentListTeacher from "./pages/Teacher/StudentListTeacher";
+import BasepageTeacher from "./pages/Teacher/BasepagesTeacher";
+import PrivateRouteCompany from "./pages/Private/PrivateRouteCompany";
+import BasePageCompany from "./pages/Company/BasepageCompany";
+import StudentListCompany from "./pages/Company/StudentListCompany";
 
 function App() {
   const isAuthorized = localStorage.getItem("token");
@@ -81,6 +87,16 @@ function App() {
               <Route element={<TeacherManagement />} path="manage-teacher" />
               <Route element={<FacultyManagement />} path="manage-faculty" />
               <Route element={<BranchManagement />} path="manage-branch" />
+            </Route>
+          </Route>
+          <Route element={<PrivateRouteTeacher />}>
+            <Route element={<BasepageTeacher />} path="/teacher">
+              <Route element={<StudentListTeacher />} path="student-list" />
+            </Route>
+          </Route>
+          <Route element={<PrivateRouteCompany />}>
+            <Route element={<BasePageCompany />} path="/company">
+              <Route element={<StudentListCompany />} path="student-list" />
             </Route>
           </Route>
         </Routes>

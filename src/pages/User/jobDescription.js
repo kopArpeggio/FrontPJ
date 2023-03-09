@@ -3,11 +3,9 @@ import { Button, Col, Form, Row } from "react-bootstrap";
 import Select, { createFilter } from "react-select";
 import { getData } from "../../apis/rootApi";
 import { updateStudentById } from "../../apis/studentApi";
-import { updateWorkById } from "../../apis/workApi";
 import ReactLoading from "react-loading";
 
 import {
-  getAllWorkplace,
   getAllWorkplaceWithStatus,
   getWorkplaceById,
 } from "../../apis/workplaceApi";
@@ -130,7 +128,7 @@ function Jobdescription() {
     <div>
       {isLoading ? (
         <Form noValidate validated={validated} onSubmit={handleSubmit}>
-          <Row className="mb-3 mt-5 ">
+          <Row className="mb-3 mt-5 d-flex flex-xl-row">
             <Form.Label
               className="col-form-label-lg"
               style={{ fontSize: 22, color: "", fontWeight: "bold" }}
