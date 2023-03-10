@@ -10,7 +10,6 @@ import {
   faPlus,
 } from "@fortawesome/free-solid-svg-icons";
 import { Form } from "react-bootstrap";
-import axios from "axios";
 import { getAllFacultyByStatus } from "../../apis/facultyApi";
 import {
   deleteBranchById,

@@ -77,7 +77,7 @@ function TestNav({ user, role }) {
                   navbarScroll
                 >
                   {userMenu.map((item, index) => (
-                    <Navbar.Text className="me-2 ma-2">
+                    <Navbar.Text className="d-flex justify-content-around me-3 ms-3">
                       <Link className="navlink " to={item.path}>
                         <ul className="navbar-nav">
                           <li className="nav-item" key={index}>
@@ -173,7 +173,7 @@ function TestNav({ user, role }) {
                   className=" profile-nav "
                   title={
                     role === "student" ? (
-                      <div>
+                      <div className="mt-3" style={{ color: "#000000E6" }}>
                         <Image
                           width={"35px"}
                           height={"35px"}

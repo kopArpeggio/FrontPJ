@@ -1,10 +1,21 @@
 import React, { useState } from "react";
+import { Col } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
+import Select, { createFilter } from "react-select";
+import { MenuList } from "../../User/Helper";
 import { createTeacher, updateTeacherById } from "../../../apis/teacherApi";
 
-function TeacherModal({ createMode, show, handleClose, teacher, setTeacher }) {
+function TeacherModal({
+  createMode,
+  show,
+  handleClose,
+  teacher,
+  setTeacher,
+  options,
+  branch,
+}) {
   const [validated, setValidated] = useState(false);
 
   const handleSubmit = async (event) => {
@@ -103,21 +114,44 @@ function TeacherModal({ createMode, show, handleClose, teacher, setTeacher }) {
               />
             </Form.Group>
 
-            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+            <Form.Group
+              as={Col}
+              className="mb-3"
+              sm="12"
+              controlId="formGridPassword"
+            >
               <Form.Label className="d-flex flex-row modalLabel">
-                สาขาวิชา
+                เลือกสาขา
               </Form.Label>
-              <Form.Control
-                value={teacher?.branch}
-                onChange={(event) =>
+              <Select
+                filterOption={createFilter({ ignoreAccents: false })}
+                components={{ MenuList }}
+                options={options}
+                value={options?.value}
+                placeholder="เลือกสาขา"
+                // onChange={(e) => onChangedistrict(e)}
+                onChange={(e) => {
                   setTeacher({
                     ...teacher,
-                    branch: event?.target?.value,
-                  })
-                }
-                type="text"
-                required={createMode}
+                    branchId: branch[e.value]?.id,
+                    facultyName: branch[e.value]?.facultyName,
+                    branchName: branch[e.value]?.branchName,
+                  });
+                }}
               />
+            </Form.Group>
+
+            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+              <Form.Label className="d-flex flex-row modalLabel">
+                คณะ
+              </Form.Label>
+              <Form.Control value={teacher?.facultyName} type="text" disabled />
+            </Form.Group>
+            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+              <Form.Label className="d-flex flex-row modalLabel">
+                สาขา
+              </Form.Label>
+              <Form.Control value={teacher?.branchName} type="text" disabled />
             </Form.Group>
 
             <Modal.Footer>

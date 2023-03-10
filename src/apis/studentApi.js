@@ -8,6 +8,21 @@ const UPDATE_USER_BY_ID = `${prefix}/update-by-id`;
 const CREATE_STUDENT = `${prefix}/create`;
 const DELETE_STUDENT = `${prefix}/delete-by-id`;
 
+export const getAllStudent = async () => {
+  try {
+    const { data, status } = await axios.get(GET_ALL_STUDENT);
+
+    if (status === 200) {
+      return data;
+    }
+
+    return undefined;
+  } catch (error) {
+    console.log(error);
+    return undefined;
+  }
+};
+
 export const updateStudentById = async (body) => {
   try {
     const { data, status } = await axios.put(

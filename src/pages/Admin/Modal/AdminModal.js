@@ -20,17 +20,6 @@ function AdminModal({
   const [validated, setValidated] = useState(false);
   const [isConfirm, setIsConfirm] = useState(false);
 
-  const onChangeBranch = (props) => {
-    setStudent({
-      ...student,
-      branchId: branch[props.value].id,
-      // facultyName: branch[props.value]?.facultyName,
-      // branchName: branch[props.value]?.branchName,
-    });
-    console.log(branch);
-    console.log(student);
-  };
-
   const handleSubmit = async (event) => {
     setLoading(true);
 

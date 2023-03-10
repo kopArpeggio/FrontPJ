@@ -13,6 +13,7 @@ import {
 
 import { deleteTeacherById, getAllTeacher } from "../../apis/teacherApi";
 import TeacherModal from "./Modal/TeacherModal";
+import { getAllBranchByStatus } from "../../apis/branchAPi";
 
 function TeacherManagement() {
   const [teacher, setTeacher] = useState([]);
@@ -20,6 +21,7 @@ function TeacherManagement() {
   const [modalTeacher, setModalTeacher] = useState("");
   const [createMode, setCreateMode] = useState(false);
   const [show, setShow] = useState(false);
+  const [branch, setBranch] = useState([]);
 
   const handleShow = (param) => {
     setShow(true);
@@ -108,27 +110,26 @@ function TeacherManagement() {
   const columns = [
     {
       name: "ชื่อจริง",
-      selector: (row) => row.firstname,
+      selector: (row) => row?.firstname,
       sortable: true,
       center: true,
     },
     {
       name: "นามสกุล",
-      selector: (row) => row.lastname,
+      selector: (row) => row?.lastname,
       sortable: true,
       center: true,
     },
 
     {
       name: "สาขา",
-      selector: (row) => row?.branch,
+      selector: (row) => row?.branchName,
       sortable: true,
       center: true,
     },
-
     {
       name: "คณะ",
-      selector: (row) => row?.faculty,
+      selector: (row) => row?.facultyName,
       sortable: true,
       center: true,
     },
@@ -146,6 +147,10 @@ function TeacherManagement() {
 
   useEffect(() => {
     getTeacher();
+
+    getAllBranchByStatus().then((res) => {
+      setBranch(res?.data);
+    });
   }, []);
 
   const Searchtest = (rows) => {
@@ -156,19 +161,21 @@ function TeacherManagement() {
     );
   };
 
+  const options = [];
+  for (let i = 0; i < branch?.length; i++) {
+    var obj = {};
+    obj["value"] = i;
+    obj["label"] =
+      "สาขา : " +
+      branch[i]?.branchName +
+      "  |  " +
+      "คณะ : " +
+      branch[i]?.facultyName;
+    options.push(obj);
+  }
+
   return (
     <div>
-      {/* <CompanyModal
-        show={show}
-        company={modalCompany}
-        setTeacher={setModalCompany}
-        handleClose={handleClose}
-        createMode={createMode}
-        setCreateMode={setCreateMode}
-        options={options}
-        address={address}
-      /> */}
-
       <TeacherModal
         show={show}
         teacher={modalTeacher}
@@ -176,6 +183,8 @@ function TeacherManagement() {
         createMode={createMode}
         setCreateMode={setCreateMode}
         handleClose={handleClose}
+        options={options}
+        branch={branch}
       />
 
       <Container className="tablecustom">

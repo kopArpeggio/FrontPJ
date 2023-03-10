@@ -46,7 +46,6 @@ export default function Admin() {
           icon={faPenToSquare}
           onClick={() => {
             handleShow(param);
-            console.log(param);
           }}
           className="tableAction"
         />
@@ -101,7 +100,6 @@ export default function Admin() {
     try {
       const res = await axios.get(`${api}/student/get-all-student`);
       setStudent(res.data.data);
-      console.log(res.data.data);
       setLoading(false);
     } catch (error) {
       console.log(error);
@@ -185,7 +183,11 @@ export default function Admin() {
       cell: (row) => (
         <div>
           {/* Later */}
-          {row?.status_id === 2 ? check : row?.status_id === 1 ? wrong : checking}
+          {row?.status_id === 2
+            ? check
+            : row?.status_id === 1
+            ? wrong
+            : checking}
         </div>
       ),
     },
