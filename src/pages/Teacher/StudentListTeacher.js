@@ -12,19 +12,27 @@ import {
   faPenToSquare,
   faTrash,
   faPlus,
+  faSearch,
 } from "@fortawesome/free-solid-svg-icons";
 import "react-pdf/dist/esm/Page/TextLayer.css";
 import "react-pdf/dist/esm/Page/AnnotationLayer.css";
 import { getAllWorkplace } from "../../apis/workplaceApi";
-import { Image } from "react-bootstrap";
+import { Col, Form, Image, Row } from "react-bootstrap";
 import { getImageUrl } from "../../utils/utils";
-import { deleteStudent, getAllStudent } from "../../apis/studentApi";
+import {
+  deleteStudent,
+  getAllStudent,
+  getAllStudentByStatus,
+} from "../../apis/studentApi";
 import { getAllBranchByStatus } from "../../apis/branchAPi";
+import StudentListTeacherModal from "./Modal/StudentListTeacherModal";
 
 function StudentListTeacher() {
   const [student, setStudent] = useState([]);
   const [loading, setLoading] = useState(true);
   const [modalStudent, setModalStudent] = useState("");
+  const [modalAddress, setModalAddress] = useState("");
+  const [modalWorkplace, setModalWorkplace] = useState("");
   const [createMode, setCreateMode] = useState(false);
   const [show, setShow] = useState(false);
   const [branch, setBranch] = useState([]);
@@ -32,6 +40,8 @@ function StudentListTeacher() {
   const handleShow = (param) => {
     setShow(true);
     setModalStudent(param);
+    setModalAddress(param?.Work?.Workplace?.Address);
+    setModalWorkplace(param?.Work?.Workplace);
   };
 
   const [q, SetQ] = useState("");
@@ -92,11 +102,19 @@ function StudentListTeacher() {
     },
   };
 
-  const getStudent = async () => {
-    getAllStudent().then((res) => {
-      setStudent(res?.data);
-      setLoading(false);
-    });
+  const getStudent = async (params) => {
+    setLoading(true);
+    if (!params) {
+      getAllStudent().then((res) => {
+        setStudent(res?.data);
+        setLoading(false);
+      });
+    } else {
+      getAllStudentByStatus(params).then((res) => {
+        setStudent(res?.data);
+        setLoading(false);
+      });
+    }
   };
 
   const handleClose = () => {
@@ -186,6 +204,10 @@ function StudentListTeacher() {
     },
   ];
 
+  const test = () => {
+    <FontAwesomeIcon icon={faPenToSquare} className="tableAction" />;
+  };
+
   // Delete Logic
   const handleDelete = async (val) => {
     setLoading(true);
@@ -198,7 +220,7 @@ function StudentListTeacher() {
   };
 
   useEffect(() => {
-    getStudent();
+    getStudent("3");
 
     getAllBranchByStatus().then((res) => {
       setBranch(res?.data);
@@ -215,6 +237,13 @@ function StudentListTeacher() {
 
   return (
     <div>
+      <StudentListTeacherModal
+        show={show}
+        setShow={setShow}
+        student={modalStudent}
+        address={modalAddress}
+        workplace={modalWorkplace}
+      />
       <Container className="tablecustom ">
         {/* <AdminModal
           show={show}
@@ -255,17 +284,36 @@ function StudentListTeacher() {
           subHeaderAlign={"left"}
           subHeaderComponent={
             <>
-              <div style={{ justifyContent: "space-between" }}>
-                <input
-                  type="text"
-                  placeholder="ค้นหานักศึกษา"
-                  className="w-100 form-control"
-                  value={q}
-                  onChange={(e) => SetQ(e.target.value)}
-                />
-              </div>
+              <Row>
+                <div className="d-flex flex-row">
+                  <div style={{ justifyContent: "space-between" }}>
+                    <input
+                      type="text"
+                      placeholder={`ค้นหานักศึกษา`}
+                      className="w-100 form-control"
+                      value={q}
+                      onChange={(e) => SetQ(e.target.value)}
+                    />
+                  </div>
+                  <div className="ms-3">
+                    <Form.Group as={Col} sm={12}>
+                      <Form.Select
+                        defaultValue="3"
+                        aria-label="Default select example"
+                        onChange={(e) => getStudent(e?.target?.value)}
+                      >
+                        <option value="">ทั้งหมด</option>
+                        <option value="3">กำลังรอ</option>
+                        <option value="2">สำเร็จ</option>
+                        <option value="1">ไม่ผ่าน</option>
+                      </Form.Select>
+                    </Form.Group>
+                  </div>
+                </div>
+              </Row>
+
               {/* <Form.Control type="text" className="" /> */}
-              <div>
+              <div className="d-flex flex-row">
                 <Button
                   className="button-t"
                   onClick={() => {

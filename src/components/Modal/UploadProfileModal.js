@@ -3,9 +3,10 @@ import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import { FaUpload } from "react-icons/fa";
 import { Image } from "react-bootstrap";
-import { fileToBase64, getImageUrl } from "../../utils/utils";
+import { getImageUrl } from "../../utils/utils";
 import { uploadImageFile } from "../../apis/uploadApi";
 import { updateStudentById } from "../../apis/studentApi";
+import ReactLoading from "react-loading";
 
 export default function UploadProfileModal({
   show,
@@ -20,6 +21,7 @@ export default function UploadProfileModal({
   test,
 }) {
   const [drag, setDrag] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   const dragOverHandler = (e) => {
     e.preventDefault();
@@ -55,6 +57,7 @@ export default function UploadProfileModal({
 
   const handleSubmitUpload = async (file) => {
     try {
+      setIsLoading(false);
       const data = await uploadImageFile(file);
 
       if (data) {
@@ -65,7 +68,8 @@ export default function UploadProfileModal({
 
         const imagePath = await updateStudentById({ stu });
 
-        setTest(imagePath?.data?.profilePic);
+        await setTest(imagePath?.data?.profilePic);
+        setIsLoading(true);
         setShow(false);
         setImage(null);
       }
@@ -81,43 +85,53 @@ export default function UploadProfileModal({
           <Modal.Title>Upload Profile</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <div className="drag-container">
-            <div
-              className={drag ? "drag-drop-zone active" : "drag-drop-zone"}
-              onDragOver={dragOverHandler}
-              onDragLeave={dragLeaveHandler}
-              onDrop={dropHandler}
-              onClick={() => document.getElementById("fileInput").click()}
-            >
-              <div className="drag-drop-icon">
-                <FaUpload />
+          {isLoading ? (
+            <div className="drag-container">
+              <div
+                className={drag ? "drag-drop-zone active" : "drag-drop-zone"}
+                onDragOver={dragOverHandler}
+                onDragLeave={dragLeaveHandler}
+                onDrop={dropHandler}
+                onClick={() => document.getElementById("fileInput").click()}
+              >
+                <div className="drag-drop-icon">
+                  <FaUpload />
+                </div>
+                <h3>Drag and Drop or Click to Upload</h3>
+                <input
+                  id="fileInput"
+                  type="file"
+                  accept="image/*"
+                  onChange={fileInputHandler}
+                  style={{ display: "none" }}
+                />
               </div>
-              <h3>Drag and Drop or Click to Upload</h3>
-              <input
-                id="fileInput"
-                type="file"
-                accept="image/*"
-                onChange={fileInputHandler}
-                style={{ display: "none" }}
-              />
-            </div>
 
-            <div className="image-preview-container">
-              <Image
-                roundedCircle
-                className="image-preview"
-                src={
-                  previewImage
-                    ? previewImage
-                    : test
-                    ? getImageUrl(test)
-                    : getImageUrl(user?.profilePic)
-                  // !previewImage ? getImageUrl(user?.profilePic) : previewImage
-                }
-                alt="Preview"
-              />
+              <div className="image-preview-container">
+                <Image
+                  roundedCircle
+                  className="image-preview"
+                  src={
+                    previewImage
+                      ? previewImage
+                      : test
+                      ? getImageUrl(test)
+                      : getImageUrl(user?.profilePic)
+                    // !previewImage ? getImageUrl(user?.profilePic) : previewImage
+                  }
+                  alt="Preview"
+                />
+              </div>
             </div>
-          </div>
+          ) : (
+            <ReactLoading
+              type={"spin"}
+              color={"green"}
+              height={"10vh"}
+              width={"100%"}
+              className="d-flex flex-row justify-content-center "
+            />
+          )}
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>

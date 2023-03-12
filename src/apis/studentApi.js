@@ -7,6 +7,7 @@ const GET_ALL_STUDENT = `${prefix}/get-all-student`;
 const UPDATE_USER_BY_ID = `${prefix}/update-by-id`;
 const CREATE_STUDENT = `${prefix}/create`;
 const DELETE_STUDENT = `${prefix}/delete-by-id`;
+const GET_ALL_STUDENT_BY_STATUS = `${prefix}/get-all-student-by-status`;
 
 export const getAllStudent = async () => {
   try {
@@ -18,8 +19,27 @@ export const getAllStudent = async () => {
 
     return undefined;
   } catch (error) {
-    console.log(error);
+    const err = error?.response?.data?.error;
+
+    sweetAlertError(err);
+  }
+};
+
+export const getAllStudentByStatus = async (queryParams) => {
+  try {
+    const { data, status } = await axios.get(GET_ALL_STUDENT_BY_STATUS, {
+      params: { status: queryParams },
+    });
+
+    if (status === 200) {
+      return data;
+    }
+
     return undefined;
+  } catch (error) {
+    const err = error?.response?.data?.error;
+
+    sweetAlertError(err);
   }
 };
 

@@ -21,6 +21,7 @@ function CompanyModal({
   address,
 }) {
   const [validated, setValidated] = useState(false);
+  const [isConfirm, setIsConfirm] = useState(false);
 
   const onChangedistrict = (district) => {
     setCompany({
@@ -95,21 +96,48 @@ function CompanyModal({
                 required
               />
             </Form.Group>
-            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-              <Form.Label className="d-flex flex-row modalLabel">
+            <Form.Group className="mb-3 " controlId="exampleForm.ControlInput1">
+              <Form.Label className="d-flex flex-row modalLabel ">
                 Password
+                {createMode ? (
+                  ""
+                ) : (
+                  <Form.Check
+                    className="ms-3"
+                    type="checkbox"
+                    label={"(แก้ไขรหัสผ่าน)"}
+                    onChange={(e) => {
+                      setIsConfirm(e?.target?.checked);
+                    }}
+                  />
+                )}
               </Form.Label>
-              <Form.Control
-                value={company?.password}
-                onChange={(event) =>
-                  setCompany({
-                    ...company,
-                    password: event?.target?.value,
-                  })
-                }
-                type="text"
-                required={createMode}
-              />
+              {createMode ? (
+                <Form.Control
+                  value={company?.password}
+                  onChange={(event) =>
+                    setCompany({
+                      ...company,
+                      password: event?.target?.value,
+                    })
+                  }
+                  type="text"
+                  required={createMode}
+                />
+              ) : (
+                <Form.Control
+                  value={company?.password}
+                  disabled={!isConfirm}
+                  onChange={(event) =>
+                    setCompany({
+                      ...company,
+                      password: event?.target?.value,
+                    })
+                  }
+                  type="text"
+                  required={createMode}
+                />
+              )}
             </Form.Group>
 
             <Form.Group

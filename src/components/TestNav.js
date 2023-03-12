@@ -24,7 +24,10 @@ function TestNav({ user, role }) {
     { name: "test", path: "/admin/manage-company" },
   ];
 
-  const teacherMenu = [{ name: "ระบบนักศึกษา", path: "/teacher/student-list" }];
+  const teacherMenu = [
+    { name: "ระบบนักศึกษา", path: "/teacher/student-list" },
+    { name: "ระบบนักศึกษา", path: "/teacher/student-list" },
+  ];
 
   // Upload Picture Modal/////////////////////////
   const [test, setTest] = useState(null);
@@ -77,7 +80,10 @@ function TestNav({ user, role }) {
                   navbarScroll
                 >
                   {userMenu.map((item, index) => (
-                    <Navbar.Text className="d-flex justify-content-around me-3 ms-3">
+                    <Navbar.Text
+                      className="d-flex justify-content-around me-3 ms-3"
+                      key={index}
+                    >
                       <Link className="navlink " to={item.path}>
                         <ul className="navbar-nav">
                           <li className="nav-item" key={index}>
@@ -95,12 +101,13 @@ function TestNav({ user, role }) {
                   navbarScroll
                 >
                   {adminMenu.map((item, index) => (
-                    <Navbar.Text className="d-flex justify-content-around me-3 ms-3">
+                    <Navbar.Text
+                      className="d-flex justify-content-around me-3 ms-3"
+                      key={index}
+                    >
                       <Link className="navlink  " to={item.path}>
                         <ul className="navbar-nav">
-                          <li className="nav-item" key={index}>
-                            {item.name}
-                          </li>
+                          <li className="nav-item">{item.name}</li>
                         </ul>
                       </Link>
                     </Navbar.Text>
@@ -142,14 +149,14 @@ function TestNav({ user, role }) {
                     </NavDropdown>
                   </Navbar.Text>
                 </Nav>
-              ) : user === "teacher" ? (
+              ) : role === "teacher" ? (
                 <Nav
                   className="me-auto my-2 my-lg-0"
                   style={{ maxHeight: "200px" }}
                   navbarScroll
                 >
                   {teacherMenu.map((item, index) => (
-                    <Navbar.Text className="me-2 ma-2">
+                    <Navbar.Text className="me-2 ma-2" key={index}>
                       <Link className="navlink " to={item.path}>
                         <ul className="navbar-nav">
                           <li className="nav-item" key={index}>

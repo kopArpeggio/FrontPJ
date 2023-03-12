@@ -117,7 +117,6 @@ function Jobdescription() {
       event.stopPropagation();
     } else {
       const finalAddress = finalWorkplace;
-      console.log({ stu, finalAddress, work });
       updateStudentById({ stu, finalAddress, work });
       event.preventDefault();
     }
@@ -565,28 +564,39 @@ function Jobdescription() {
               >
                 <Form.Check
                   required
-                  onClick={(event) => console.log(event)}
                   value={"3"}
                   inline
+                  checked={work?.contactStatus === "3"}
                   label="มีการติดต่อและได้รับการตอบรับ"
                   type="radio"
                   name="grouped"
+                  onClick={(e) => {
+                    setWork({ ...work, contactStatus: e?.target?.value });
+                  }}
                 />
                 <Form.Check
                   required
                   value={"2"}
+                  checked={work?.contactStatus === "2"}
                   inline
                   label="มีการติดต่อและอยู่ระหว่างรอการตอบรับ"
                   type="radio"
                   name="grouped"
+                  onClick={(e) => {
+                    setWork({ ...work, contactStatus: e?.target?.value });
+                  }}
                 />
                 <Form.Check
                   required
                   value={"1"}
+                  checked={work?.contactStatus === "1"}
                   inline
                   label="ยังไม่ได้ติดต่อ"
                   type="radio"
                   name="grouped"
+                  onClick={(e) => {
+                    setWork({ ...work, contactStatus: e?.target?.value });
+                  }}
                 />
               </Form.Group>
             </Row>

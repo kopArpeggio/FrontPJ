@@ -17,6 +17,7 @@ function TeacherModal({
   branch,
 }) {
   const [validated, setValidated] = useState(false);
+  const [isConfirm, setIsConfirm] = useState(false);
 
   const handleSubmit = async (event) => {
     const form = event?.currentTarget;
@@ -97,21 +98,48 @@ function TeacherModal({
               />
             </Form.Group>
 
-            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-              <Form.Label className="d-flex flex-row modalLabel">
+            <Form.Group className="mb-3 " controlId="exampleForm.ControlInput1">
+              <Form.Label className="d-flex flex-row modalLabel ">
                 Password
+                {createMode ? (
+                  ""
+                ) : (
+                  <Form.Check
+                    className="ms-3"
+                    type="checkbox"
+                    label={"(แก้ไขรหัสผ่าน)"}
+                    onChange={(e) => {
+                      setIsConfirm(e?.target?.checked);
+                    }}
+                  />
+                )}
               </Form.Label>
-              <Form.Control
-                value={teacher?.password}
-                onChange={(event) =>
-                  setTeacher({
-                    ...teacher,
-                    password: event?.target?.value,
-                  })
-                }
-                type="text"
-                required={createMode}
-              />
+              {createMode ? (
+                <Form.Control
+                  value={teacher?.password}
+                  onChange={(event) =>
+                    setTeacher({
+                      ...teacher,
+                      password: event?.target?.value,
+                    })
+                  }
+                  type="text"
+                  required={createMode}
+                />
+              ) : (
+                <Form.Control
+                  value={teacher?.password}
+                  disabled={!isConfirm}
+                  onChange={(event) =>
+                    setTeacher({
+                      ...teacher,
+                      password: event?.target?.value,
+                    })
+                  }
+                  type="text"
+                  required={createMode}
+                />
+              )}
             </Form.Group>
 
             <Form.Group
