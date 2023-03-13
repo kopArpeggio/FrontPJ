@@ -8,10 +8,27 @@ const UPDATE_USER_BY_ID = `${prefix}/update-by-id`;
 const CREATE_STUDENT = `${prefix}/create`;
 const DELETE_STUDENT = `${prefix}/delete-by-id`;
 const GET_ALL_STUDENT_BY_STATUS = `${prefix}/get-all-student-by-status`;
+const GET_ALL_STUDENT_BY_BRANCH = `${prefix}/get-all-student-by-branch`;
 
 export const getAllStudent = async () => {
   try {
     const { data, status } = await axios.get(GET_ALL_STUDENT);
+
+    if (status === 200) {
+      return data;
+    }
+
+    return undefined;
+  } catch (error) {
+    const err = error?.response?.data?.error;
+
+    sweetAlertError(err);
+  }
+};
+
+export const getAllStudentBranch = async () => {
+  try {
+    const { data, status } = await axios.get(GET_ALL_STUDENT_BY_BRANCH);
 
     if (status === 200) {
       return data;

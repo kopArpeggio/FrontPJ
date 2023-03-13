@@ -22,6 +22,7 @@ import { getImageUrl } from "../../utils/utils";
 import {
   deleteStudent,
   getAllStudent,
+  getAllStudentBranch,
   getAllStudentByStatus,
 } from "../../apis/studentApi";
 import { getAllBranchByStatus } from "../../apis/branchAPi";
@@ -33,6 +34,7 @@ function StudentListTeacher() {
   const [modalStudent, setModalStudent] = useState("");
   const [modalAddress, setModalAddress] = useState("");
   const [modalWorkplace, setModalWorkplace] = useState("");
+  const [modalWork, setModalWork] = useState("");
   const [createMode, setCreateMode] = useState(false);
   const [show, setShow] = useState(false);
   const [branch, setBranch] = useState([]);
@@ -41,6 +43,7 @@ function StudentListTeacher() {
     setShow(true);
     setModalStudent(param);
     setModalAddress(param?.Work?.Workplace?.Address);
+    setModalWork(param?.Work);
     setModalWorkplace(param?.Work?.Workplace);
   };
 
@@ -105,7 +108,7 @@ function StudentListTeacher() {
   const getStudent = async (params) => {
     setLoading(true);
     if (!params) {
-      getAllStudent().then((res) => {
+      getAllStudentBranch().then((res) => {
         setStudent(res?.data);
         setLoading(false);
       });
@@ -241,8 +244,12 @@ function StudentListTeacher() {
         show={show}
         setShow={setShow}
         student={modalStudent}
+        setStudent={setModalStudent}
         address={modalAddress}
         workplace={modalWorkplace}
+        handleClose={handleClose}
+        work={modalWork}
+        setWork={setModalWork}
       />
       <Container className="tablecustom ">
         {/* <AdminModal
@@ -306,6 +313,7 @@ function StudentListTeacher() {
                         <option value="3">กำลังรอ</option>
                         <option value="2">สำเร็จ</option>
                         <option value="1">ไม่ผ่าน</option>
+                        <option value="4">ยังไม่ส่ง</option>
                       </Form.Select>
                     </Form.Group>
                   </div>
@@ -313,7 +321,7 @@ function StudentListTeacher() {
               </Row>
 
               {/* <Form.Control type="text" className="" /> */}
-              <div className="d-flex flex-row">
+              {/* <div className="d-flex flex-row">
                 <Button
                   className="button-t"
                   onClick={() => {
@@ -323,7 +331,7 @@ function StudentListTeacher() {
                 >
                   {create} เพิ่มนักศึกษา
                 </Button>
-              </div>
+              </div> */}
             </>
           }
         />

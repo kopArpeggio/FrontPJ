@@ -17,8 +17,8 @@ function AdminModal({
   options,
   branch,
 }) {
-  const [validated, setValidated] = useState(false);
   const [isConfirm, setIsConfirm] = useState(false);
+  const [validated, setValidated] = useState(false);
 
   const handleSubmit = async (event) => {
     setLoading(true);

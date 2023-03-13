@@ -116,8 +116,9 @@ export default function Admin() {
     {
       name: "Index",
       center: true,
+      sortable: true,
       selector: (row) => {
-        return <div>{(i += 1)}</div>;
+        return <div>{row?.id}</div>;
       },
     },
     {

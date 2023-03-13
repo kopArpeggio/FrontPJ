@@ -26,7 +26,8 @@ function TestNav({ user, role }) {
 
   const teacherMenu = [
     { name: "ระบบนักศึกษา", path: "/teacher/student-list" },
-    { name: "ระบบนักศึกษา", path: "/teacher/student-list" },
+    { name: "ระบบสถานประกอบการ", path: "/teacher/student-list" },
+    { name: "เลือกนิเทศนักศึกษา", path: "/teacher/student-supervision" },
   ];
 
   // Upload Picture Modal/////////////////////////
@@ -156,7 +157,7 @@ function TestNav({ user, role }) {
                   navbarScroll
                 >
                   {teacherMenu.map((item, index) => (
-                    <Navbar.Text className="me-2 ma-2" key={index}>
+                    <Navbar.Text className="me-3 ms-3 " key={index}>
                       <Link className="navlink " to={item.path}>
                         <ul className="navbar-nav">
                           <li className="nav-item" key={index}>

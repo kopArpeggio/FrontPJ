@@ -469,3 +469,15 @@ object {
   width: 200px;
   height: 200px;
 }
+
+.toggle-bottm-true {
+  background-color: #08805c !important;
+}
+
+.toggle-bottm-true:focus {
+  background-color: #0d6148 !important;
+}
+
+.toggle-bottm-true:active {
+  background-color: #0d6148 !important;
+}

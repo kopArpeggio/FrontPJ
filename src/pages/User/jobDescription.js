@@ -10,6 +10,7 @@ import {
   getWorkplaceById,
 } from "../../apis/workplaceApi";
 import { MenuList } from "../../utils/utils";
+import Swal from "sweetalert2";
 
 function Jobdescription() {
   const [work, setWork] = useState({
@@ -116,9 +117,19 @@ function Jobdescription() {
       event.preventDefault();
       event.stopPropagation();
     } else {
-      const finalAddress = finalWorkplace;
-      updateStudentById({ stu, finalAddress, work });
       event.preventDefault();
+      Swal.fire({
+        icon: "warning",
+        title: "บันทึกหรือไม่ ?",
+        showCancelButton: true,
+        confirmButtonText: "Save",
+      }).then((result) => {
+        if (result?.isConfirmed) {
+          const finalAddress = finalWorkplace;
+          updateStudentById({ stu, finalAddress, work });
+          Swal.fire("Saved!", "", "success");
+        }
+      });
     }
     setValidated(true);
   };
@@ -264,7 +275,7 @@ function Jobdescription() {
             </Form.Group>
           </Row>
 
-          <Row className="mb-3 mt-5 ">
+          {/* <Row className="mb-3 mt-5 ">
             <Form.Group as={Col} sm="12">
               <Form.Label
                 style={{ fontSize: 20, color: "" }}
@@ -285,7 +296,7 @@ function Jobdescription() {
                 }
               />
             </Form.Group>
-          </Row>
+          </Row> */}
 
           <Row className="mb-3 mt-5 ">
             <Form.Group as={Col} sm="8">
@@ -612,6 +623,9 @@ function Jobdescription() {
                 required
                 onChange={(e) => {
                   setIsConfirm(e?.target?.checked);
+                  if (stu?.documentStatus === "4") {
+                    setStu({ ...stu, documentStatus: "3" });
+                  }
                 }}
               />
             </Form.Group>

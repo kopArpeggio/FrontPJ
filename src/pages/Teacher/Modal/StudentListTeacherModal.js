@@ -1,7 +1,16 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import Modal from "react-bootstrap/Modal";
 
-import { Button, Col, Container, Form, Row } from "react-bootstrap";
+import {
+  Button,
+  Col,
+  Container,
+  Form,
+  Row,
+  ToggleButton,
+  ToggleButtonGroup,
+} from "react-bootstrap";
+import { updateStudentById } from "../../../apis/studentApi";
 
 function StudentListTeacherModal({
   show,
@@ -9,6 +18,9 @@ function StudentListTeacherModal({
   student,
   address,
   workplace,
+  handleClose,
+  work,
+  setWork,
 }) {
   const nrru = {
     latitude: 14.9846414,
@@ -24,24 +36,55 @@ function StudentListTeacherModal({
     return `https://maps.google.com/maps?saddr=${startLatitude},${startLongitude}&daddr=${endLatitude},${endLongitude}&output=embed`;
   };
 
-  console.log(address);
-  const { Work } = student;
-  // const { Workplace } = student?.Work;
+  const [validated, setValidated] = useState(false);
+
+  if (student) {
+    var { Work } = student;
+  }
+
+  const handleSubmit = async (event) => {
+    // setLoading(true);
+    const form = event?.currentTarget;
+    if (form.checkValidity() === false) {
+      event.preventDefault();
+      event.stopPropagation();
+    } else {
+      await updateStudentById({
+        stu: student,
+        work: work,
+      });
+      handleClose();
+      event?.preventDefault();
+    }
+    setValidated(true);
+  };
+
+  console.log(work);
+
   return (
     <div>
       <Modal show={show} fullscreen onHide={() => setShow(false)}>
         <Modal.Header closeButton>
-          <Modal.Title>Job Description</Modal.Title>
+          <Modal.Title>Job Description </Modal.Title>
+          <Button
+            variant="success"
+            className="btn btn-primary ms-5"
+            onClick={() => setShow(false)}
+
+            //   onClick={handleClose}
+          >
+            หน้าหลัก
+          </Button>
         </Modal.Header>
         <Modal.Body>
           <Container>
-            {/* <iframe
+            <Form noValidate validated={validated} onSubmit={handleSubmit}>
+              {/* <iframe
             src="/pdf/Hi.pdf"
             style={{ height: "80vh", width: "50%", marginBottom: "5vh" }}
             title="pdf"
           ></iframe> */}
 
-            <Form noValidate>
               <Row className="mb-3 mt-5 d-flex flex-xl-row">
                 <Form.Label
                   className="col-form-label-lg"
@@ -399,56 +442,129 @@ function StudentListTeacherModal({
                   </Form.Group>
                 </Row>
               </Row>
-            </Form>
 
-            {address?.latitude && address?.longtitude ? (
-              <div>
-                <Form.Label
-                  className="col-form-label-lg"
-                  style={{ fontSize: 22, color: "", fontWeight: "bold" }}
-                >
-                  <p> แผนที่ Google Map</p>
-                </Form.Label>
+              {address?.latitude && address?.longtitude ? (
                 <div>
-                  <iframe
-                    title="googleMap"
-                    style={{
-                      boxShadow:
-                        "rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px",
-                    }}
-                    src={generateEmbedGoogleMapDirectionURL(
-                      nrru?.latitude,
-                      nrru?.longtitude,
-                      // Work Location
-                      address?.latitude,
-                      address?.longtitude
-                    )}
-                    width="600"
-                    height="450"
-                    allowfullscreen=""
-                    loading="lazy"
-                    className="mb-3"
-                    referrerpolicy="no-referrer-when-downgrade"
-                  ></iframe>
+                  <Form.Label
+                    className="col-form-label-lg"
+                    style={{ fontSize: 22, color: "", fontWeight: "bold" }}
+                  >
+                    <p> แผนที่ Google Map</p>
+                  </Form.Label>
+                  <div>
+                    <iframe
+                      title="googleMap"
+                      style={{
+                        boxShadow:
+                          "rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px",
+                        width: "80%",
+                        height: "30vh",
+                      }}
+                      src={generateEmbedGoogleMapDirectionURL(
+                        nrru?.latitude,
+                        nrru?.longtitude,
+                        // Work Location
+                        address?.latitude,
+                        address?.longtitude
+                      )}
+                      // style={{  }}
+                      // width="400"
+                      // height="300"
+                      allowfullscreen=""
+                      loading="lazy"
+                      className="mb-3"
+                      referrerpolicy="no-referrer-when-downgrade"
+                    ></iframe>
+                  </div>
                 </div>
-              </div>
-            ) : (
-              ""
-            )}
+              ) : (
+                ""
+              )}
 
-            <Modal.Footer className="d-flex flex-row justify-content-center">
-              <Button
+              <div
+                class="btn-group "
+                role="group"
+                aria-label="Basic radio toggle button group"
+              >
+                <input
+                  type="radio"
+                  class="btn-check"
+                  name="btnradio"
+                  defaultChecked={work?.status === false}
+                  id="btnradio1"
+                  autocomplete="off"
+                  onClick={() => setWork({ ...work, status: false })}
+                />
+                <label class="btn btn-outline-primary" for="btnradio1">
+                  ไม่อนุมัติ
+                </label>
+
+                <input
+                  type="radio"
+                  class=" btn-check"
+                  name="btnradio"
+                  id="btnradio2"
+                  autocomplete="off"
+                  defaultChecked={work?.status === true}
+                  onClick={() => setWork({ ...work, status: true })}
+                />
+                <label class="btn btn-outline-primary" for="btnradio2">
+                  อนุมัติ
+                </label>
+              </div>
+
+              {/* <ToggleButtonGroup
+                type="radio"
+                className="mt-2"
+                name="options"
+                onChange={(value) => setWork({ ...work, status: value })}
+              >
+                <ToggleButton id="tbg-radio-1" value={false}>
+                  ไม่อนุมัติ
+                </ToggleButton>
+                <ToggleButton
+                  id="tbg-radio-2"
+                  className={`toggle-bottm-true btn ${active ? "btn-success" : ""}`}
+                  value={true}
+                >
+                  อนุมัติ
+                </ToggleButton>
+              </ToggleButtonGroup> */}
+
+              <Row className="mb-3 mt-1 d-flex flex-xl-row">
+                <Form.Group as={Col} sm="12" hidden={work?.status === true}>
+                  <Form.Label
+                    style={{ fontSize: 20, color: "" }}
+                    className="d-flex flex-row"
+                  >
+                    เหตุผลที่ไม่อนุญาติ
+                  </Form.Label>
+                  <Form.Control
+                    required={work?.status === false}
+                    as="textarea"
+                    rows={3}
+                    value={work?.description}
+                    onChange={(e) => {
+                      setWork({ ...work, description: e?.target?.value });
+                    }}
+                  />
+                </Form.Group>
+              </Row>
+
+              <Modal.Footer className="d-flex flex-row justify-content-center">
+                {/* <Button
                 variant="danger"
                 className="btn btn-primary "
                 //   onClick={handleClose}
               >
                 ไม่อนุมัติ
-              </Button>
+              </Button> */}
 
-              <Button variant="success" type="submit">
-                อนุมัติ
-              </Button>
-            </Modal.Footer>
+                <Button type="submit" variant="success">
+                  ยืนยัน
+                </Button>
+              </Modal.Footer>
+            </Form>
           </Container>
         </Modal.Body>
       </Modal>

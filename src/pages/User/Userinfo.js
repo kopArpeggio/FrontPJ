@@ -815,6 +815,9 @@ function Userinfo() {
                 required
                 onChange={(e) => {
                   setIsConfirm(e?.target?.checked);
+                  if (!formData?.documentStatus) {
+                    setFormData({ ...formData, documentStatus: "4" });
+                  }
                 }}
               />
             </Form.Group>
