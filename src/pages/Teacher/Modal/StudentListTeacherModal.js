@@ -59,8 +59,6 @@ function StudentListTeacherModal({
     setValidated(true);
   };
 
-  console.log(work);
-
   return (
     <div>
       <Modal show={show} fullscreen onHide={() => setShow(false)}>
@@ -532,7 +530,11 @@ function StudentListTeacherModal({
               </ToggleButtonGroup> */}
 
               <Row className="mb-3 mt-1 d-flex flex-xl-row">
-                <Form.Group as={Col} sm="12" hidden={work?.status === true}>
+                <Form.Group
+                  as={Col}
+                  sm="12"
+                  hidden={work?.status === true || !work?.status}
+                >
                   <Form.Label
                     style={{ fontSize: 20, color: "" }}
                     className="d-flex flex-row"

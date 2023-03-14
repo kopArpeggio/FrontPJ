@@ -9,6 +9,7 @@ const CREATE_STUDENT = `${prefix}/create`;
 const DELETE_STUDENT = `${prefix}/delete-by-id`;
 const GET_ALL_STUDENT_BY_STATUS = `${prefix}/get-all-student-by-status`;
 const GET_ALL_STUDENT_BY_BRANCH = `${prefix}/get-all-student-by-branch`;
+const GET_ALL_YEAR_STUDENT = `${prefix}/get-student-year`;
 
 export const getAllStudent = async () => {
   try {
@@ -26,7 +27,23 @@ export const getAllStudent = async () => {
   }
 };
 
-export const getAllStudentBranch = async () => {
+export const getAllYearStudent = async () => {
+  try {
+    const { data, status } = await axios.get(GET_ALL_YEAR_STUDENT);
+
+    if (status === 200) {
+      return data;
+    }
+
+    return undefined;
+  } catch (error) {
+    const err = error?.response?.data?.error;
+
+    sweetAlertError(err);
+  }
+};
+
+export const getAllStudentByBranch = async () => {
   try {
     const { data, status } = await axios.get(GET_ALL_STUDENT_BY_BRANCH);
 
@@ -44,8 +61,9 @@ export const getAllStudentBranch = async () => {
 
 export const getAllStudentByStatus = async (queryParams) => {
   try {
+    console.log(queryParams);
     const { data, status } = await axios.get(GET_ALL_STUDENT_BY_STATUS, {
-      params: { status: queryParams },
+      params: queryParams,
     });
 
     if (status === 200) {
@@ -85,7 +103,9 @@ export const createStudent = async (body) => {
       return true;
     }
   } catch (error) {
-    console.log(error);
+    const err = error?.response?.data?.error;
+
+    sweetAlertError(err);
   }
 };
 
@@ -97,6 +117,8 @@ export const deleteStudent = async (id) => {
       return true;
     }
   } catch (error) {
-    console.log(error);
+    const err = error?.response?.data?.error;
+
+    sweetAlertError(err);
   }
 };

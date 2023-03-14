@@ -24,6 +24,7 @@ import {
   getAllStudent,
   getAllStudentBranch,
   getAllStudentByStatus,
+  getAllYearStudent,
 } from "../../apis/studentApi";
 import { getAllBranchByStatus } from "../../apis/branchAPi";
 import StudentListTeacherModal from "./Modal/StudentListTeacherModal";
@@ -35,9 +36,14 @@ function StudentListTeacher() {
   const [modalAddress, setModalAddress] = useState("");
   const [modalWorkplace, setModalWorkplace] = useState("");
   const [modalWork, setModalWork] = useState("");
+  const [params, setParams] = useState({
+    status: "3",
+    year: "",
+  });
   const [createMode, setCreateMode] = useState(false);
   const [show, setShow] = useState(false);
   const [branch, setBranch] = useState([]);
+  const [studentYear, setStudentYear] = useState([]);
 
   const handleShow = (param) => {
     setShow(true);
@@ -105,10 +111,10 @@ function StudentListTeacher() {
     },
   };
 
-  const getStudent = async (params) => {
+  const getStudent = async () => {
     setLoading(true);
     if (!params) {
-      getAllStudentBranch().then((res) => {
+      getAllStudentByStatus(params).then((res) => {
         setStudent(res?.data);
         setLoading(false);
       });
@@ -183,13 +189,9 @@ function StudentListTeacher() {
     },
 
     {
-      name: "แก้ไข / ลบ",
+      name: "ประเมิน",
       center: true,
-      cell: (row) => (
-        <div>
-          {edit(row)} {deleteIcon(row)}
-        </div>
-      ),
+      cell: (row) => <div>{edit(row)}</div>,
     },
     {
       name: "สถานะ",
@@ -223,12 +225,16 @@ function StudentListTeacher() {
   };
 
   useEffect(() => {
-    getStudent("3");
+    getStudent();
 
     getAllBranchByStatus().then((res) => {
       setBranch(res?.data);
     });
-  }, []);
+
+    getAllYearStudent().then((res) => {
+      setStudentYear(res?.data);
+    });
+  }, [params]);
 
   const Searchtest = (rows) => {
     return rows?.filter(
@@ -276,7 +282,7 @@ function StudentListTeacher() {
           }
           customStyles={customStyles}
           theme="solarized"
-          title="จัดการนักศึกษา"
+          title="ตรวจสอบเอกสาร Job Description"
           columns={columns}
           data={Searchtest(student)}
           expandableRows
@@ -291,9 +297,12 @@ function StudentListTeacher() {
           subHeaderAlign={"left"}
           subHeaderComponent={
             <>
-              <Row>
-                <div className="d-flex flex-row">
-                  <div style={{ justifyContent: "space-between" }}>
+              <Row
+                className="d-flex flex-column flex-lg-row "
+                style={{ whiteSpace: "nowrap" }}
+              >
+                <Form.Group as={Col} sm={4}>
+                  <div>
                     <input
                       type="text"
                       placeholder={`ค้นหานักศึกษา`}
@@ -302,22 +311,50 @@ function StudentListTeacher() {
                       onChange={(e) => SetQ(e.target.value)}
                     />
                   </div>
-                  <div className="ms-3">
-                    <Form.Group as={Col} sm={12}>
-                      <Form.Select
-                        defaultValue="3"
-                        aria-label="Default select example"
-                        onChange={(e) => getStudent(e?.target?.value)}
-                      >
-                        <option value="">ทั้งหมด</option>
-                        <option value="3">กำลังรอ</option>
-                        <option value="2">สำเร็จ</option>
-                        <option value="1">ไม่ผ่าน</option>
-                        <option value="4">ยังไม่ส่ง</option>
-                      </Form.Select>
-                    </Form.Group>
-                  </div>
-                </div>
+                </Form.Group>
+
+                <Form.Group
+                  className="d-flex align-items-center"
+                  as={Col}
+                  sm={4}
+                >
+                  <div className="">สถานะ : </div>
+                  <Form.Select
+                    title="สถานะ"
+                    defaultValue="3"
+                    aria-label="Default select example"
+                    onChange={(e) => {
+                      setParams({ ...params, status: e?.target?.value });
+                    }}
+                  >
+                    <option value="">ทั้งหมด</option>
+                    <option value="3">กำลังรอ</option>
+                    <option value="2">สำเร็จ</option>
+                    <option value="1">ไม่ผ่าน</option>
+                    <option value="4">ยังไม่ส่ง</option>
+                  </Form.Select>
+                </Form.Group>
+
+                <Form.Group
+                  className="d-flex align-items-center"
+                  as={Col}
+                  sm={4}
+                >
+                  <div className="">ปีการศึกษา : </div>
+                  <Form.Select
+                    defaultValue="3"
+                    aria-label="Default select example"
+                    onChange={(e) => {
+                      setParams({ ...params, year: e?.target?.value });
+                    }}
+                  >
+                    {studentYear.map((val, index) => (
+                      <option key={index} value={val?.year}>
+                        {val?.year}
+                      </option>
+                    ))}
+                  </Form.Select>
+                </Form.Group>
               </Row>
 
               {/* <Form.Control type="text" className="" /> */}

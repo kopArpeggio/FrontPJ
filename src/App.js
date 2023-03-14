@@ -29,6 +29,7 @@ import BasepageTeacher from "./pages/Teacher/BasepagesTeacher";
 import PrivateRouteCompany from "./pages/Private/PrivateRouteCompany";
 import BasePageCompany from "./pages/Company/BasepageCompany";
 import StudentListCompany from "./pages/Company/StudentListCompany";
+import CompanyManagementTeacher from "./pages/Teacher/CompanyManagementTeacher";
 
 function App() {
   const isAuthorized = localStorage.getItem("token");
@@ -92,6 +93,10 @@ function App() {
           <Route element={<PrivateRouteTeacher />}>
             <Route element={<BasepageTeacher />} path="/teacher">
               <Route element={<StudentListTeacher />} path="student-list" />
+              <Route
+                element={<CompanyManagementTeacher />}
+                path="company-management"
+              />
             </Route>
           </Route>
           <Route element={<PrivateRouteCompany />}>

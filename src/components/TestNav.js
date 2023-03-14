@@ -17,16 +17,17 @@ function TestNav({ user, role }) {
     { name: "หน้าหลัก", path: "/user/dashboard" },
     { name: "ข้อมูลนักศึกษา", path: "/user/user-info" },
     { name: "รายละเอียดงาน", path: "/user/user-job-description" },
+    { name: "จัดการเอกสาร", path: "/user/document" },
   ];
 
   const adminMenu = [
     { name: "Home", path: "/admin/manage-student" },
-    { name: "test", path: "/admin/manage-company" },
+    // { name: "test", path: "/admin/manage-company" },
   ];
 
   const teacherMenu = [
     { name: "ระบบนักศึกษา", path: "/teacher/student-list" },
-    { name: "ระบบสถานประกอบการ", path: "/teacher/student-list" },
+    { name: "ระบบสถานประกอบการ", path: "/teacher/company-management" },
     { name: "เลือกนิเทศนักศึกษา", path: "/teacher/student-supervision" },
   ];
 
