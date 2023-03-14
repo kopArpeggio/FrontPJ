@@ -112,7 +112,7 @@ function BranchManagement() {
 
   const columns = [
     {
-      name: "สาขา",
+      name: "สาขาวิชา",
       selector: (row) => row?.branchName,
       sortable: true,
       center: true,
@@ -220,11 +220,11 @@ function BranchManagement() {
           }
           customStyles={customStyles}
           theme="solarized"
-          title="จัดการสภานประกอบการ"
+          title="การจัดการข้อมูลสาขาวิชา"
           columns={columns}
           data={Searchtest(branch)}
-          expandableRows
-          expandableRowsComponent={(value) => <pre>{value.data.firstname}</pre>}
+          // expandableRows
+          // expandableRowsComponent={(value) => <pre>{value.data.firstname}</pre>}
           pagination
           fixedHeader
           fixedHeaderScrollHeight="80vh"

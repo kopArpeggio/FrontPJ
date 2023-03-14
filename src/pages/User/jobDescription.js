@@ -143,14 +143,14 @@ function Jobdescription() {
               className="col-form-label-lg"
               style={{ fontSize: 22, color: "", fontWeight: "bold" }}
             >
-              รายระเอียดงานที่ไปปฎิบัติ
+              รายละเอียดงานที่ไปปฎิบัติ
             </Form.Label>
             <Form.Group as={Col} sm="4">
               <Form.Label
                 style={{ fontSize: 20, color: "" }}
                 className="d-flex flex-row"
               >
-                รายระเอียดงานที่ไปปฎิบัติ
+                ตำแหน่งงาน
               </Form.Label>
               <Form.Control
                 required

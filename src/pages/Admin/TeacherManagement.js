@@ -218,7 +218,7 @@ function TeacherManagement() {
               <div style={{ justifyContent: "space-between" }}>
                 <input
                   type="text"
-                  placeholder="ค้นหานักศึกษา"
+                  placeholder="ค้นหาอาจารย์"
                   className="w-100 form-control"
                   value={q}
                   onChange={(e) => SetQ(e.target.value)}

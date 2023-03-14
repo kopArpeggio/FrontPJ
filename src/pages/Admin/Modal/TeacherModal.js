@@ -123,7 +123,7 @@ function TeacherModal({
                       password: event?.target?.value,
                     })
                   }
-                  type="text"
+                  type="password"
                   required={createMode}
                 />
               ) : (
@@ -171,15 +171,16 @@ function TeacherModal({
 
             <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
               <Form.Label className="d-flex flex-row modalLabel">
-                คณะ
-              </Form.Label>
-              <Form.Control value={teacher?.facultyName} type="text" disabled />
-            </Form.Group>
-            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-              <Form.Label className="d-flex flex-row modalLabel">
                 สาขา
               </Form.Label>
               <Form.Control value={teacher?.branchName} type="text" disabled />
+            </Form.Group>
+
+            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+              <Form.Label className="d-flex flex-row modalLabel">
+                คณะ
+              </Form.Label>
+              <Form.Control value={teacher?.facultyName} type="text" disabled />
             </Form.Group>
 
             <Modal.Footer>

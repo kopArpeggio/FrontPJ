@@ -112,7 +112,7 @@ function FacultyManagement() {
 
   const columns = [
     {
-      name: "ชื่อบริษัท",
+      name: "ชื่อคณะ",
       selector: (row) => row?.facultyName,
       sortable: true,
       center: true,
@@ -167,7 +167,6 @@ function FacultyManagement() {
 
   return (
     <div>
-
       <FacultyModal
         show={show}
         faculty={modalFaculty}
@@ -189,11 +188,11 @@ function FacultyManagement() {
           }
           customStyles={customStyles}
           theme="solarized"
-          title="จัดการสภานประกอบการ"
+          title="การจัดข้อมูลคณะ"
           columns={columns}
           data={Searchtest(faculty)}
-          expandableRows
-          expandableRowsComponent={(value) => <pre>{value.data.firstname}</pre>}
+          // expandableRows
+          // expandableRowsComponent={(value) => <pre>{value.data.firstname}</pre>}
           pagination
           fixedHeader
           fixedHeaderScrollHeight="80vh"
@@ -207,7 +206,7 @@ function FacultyManagement() {
               <div style={{ justifyContent: "space-between" }}>
                 <input
                   type="text"
-                  placeholder="ค้นหานักศึกษา"
+                  placeholder="ค้นหาคณะ"
                   className="w-100 form-control"
                   value={q}
                   onChange={(e) => SetQ(e.target.value)}

@@ -117,6 +117,11 @@ function CompanyManagement() {
       sortable: true,
       center: true,
     },
+    {
+      name: "จังหวัด",
+      center: true,
+      cell: (row) => <div>{row?.Address?.province}</div>,
+    },
 
     {
       name: "แก้ไข / ลบ",
@@ -214,7 +219,7 @@ function CompanyManagement() {
           }
           customStyles={customStyles}
           theme="solarized"
-          title="จัดการสภานประกอบการ"
+          title="จัดการสถานประกอบการ"
           columns={columns}
           data={Searchtest(company)}
           expandableRows

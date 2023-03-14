@@ -166,6 +166,7 @@ function Userinfo() {
                 ชื่อจริง
               </Form.Label>
               <Form.Control
+                disabled
                 required
                 type="text"
                 placeholder="ชื่อจริง"
@@ -256,7 +257,6 @@ function Userinfo() {
               </Form.Label>
               <Form.Control
                 type="text"
-                disabled
                 placeholder="4.00"
                 value={formData?.gpa}
                 onChange={(event) =>
@@ -345,6 +345,7 @@ function Userinfo() {
                 วันที่เกิด
               </Form.Label>
               <Form.Control
+                disabled
                 required
                 type="date"
                 value={birthData?.birthDay}
@@ -364,6 +365,7 @@ function Userinfo() {
                 อายุ
               </Form.Label>
               <Form.Control
+                disabled
                 required
                 type="text"
                 placeholder="21"
@@ -381,6 +383,7 @@ function Userinfo() {
                 กลุ๊ปเลือด
               </Form.Label>
               <Form.Select
+                disabled
                 required
                 value={birthData?.bloodTypes}
                 onChange={(event) => {
