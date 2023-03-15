@@ -31,32 +31,31 @@ function StudentListTeacherModal({
   };
 
   const [validated, setValidated] = useState(false);
+  const [workStatus, setWorkStatus] = useState("");
+  const [studentStatus, setStudentStatus] = useState("");
 
   if (student) {
     var { Work } = student;
-    var { documentStatus } = student;
-    var workStatus = work?.status;
-    console.log(work?.status);
   }
 
   const handleSubmit = async (event) => {
     // setLoading(true);
+
     const form = event?.currentTarget;
     if (form.checkValidity() === false) {
       event.preventDefault();
       event.stopPropagation();
     } else {
       sweetAlertSubmit(event).then(async (result) => {
-        console.log(result);
         if (result?.isConfirmed) {
           await updateStudentById({
-            stu: student,
-            work: work,
+            stu: studentStatus,
+            work: workStatus,
           });
-          handleClose();
-          event?.preventDefault();
         }
       });
+      handleClose();
+      event?.preventDefault();
     }
     setValidated(true);
   };
@@ -494,14 +493,15 @@ function StudentListTeacherModal({
                   id="btnradio1"
                   autocomplete="off"
                   onClick={() => {
-                    setWork({ ...work, status: false });
-                    setStudent({ ...student, documentStatus: "1" });
+                    setWorkStatus({ ...work, status: false });
+                    setStudentStatus({ ...student, documentStatus: "1" });
                   }}
                   disabled={
-                    student?.documentStatus === "3"
-                      ? false
-                      : student?.documentStatus === "1"
-                      ? false
+                    work?.status === false || !work?.status
+                      ? student?.documentStatus === "1" ||
+                        student?.documentStatus === "3"
+                        ? false
+                        : true
                       : true
                   }
                 />
@@ -517,14 +517,15 @@ function StudentListTeacherModal({
                   autocomplete="off"
                   defaultChecked={work?.status === true}
                   onClick={() => {
-                    setWork({ ...work, status: true });
-                    setStudent({ ...student, documentStatus: "0" });
+                    setWorkStatus({ ...work, status: true });
+                    setStudentStatus({ ...student, documentStatus: "2" });
                   }}
                   disabled={
-                    student?.documentStatus === "3"
-                      ? false
-                      : student?.documentStatus === "1"
-                      ? false
+                    work?.status === false || !work?.status
+                      ? student?.documentStatus === "1" ||
+                        student?.documentStatus === "3"
+                        ? false
+                        : true
                       : true
                   }
                 />
@@ -538,7 +539,12 @@ function StudentListTeacherModal({
                   as={Col}
                   sm="12"
                   hidden={
-                    !work?.status ? true : work?.status === true ? true : false
+                    workStatus?.status === false 
+                      ? student?.documentStatus === "1" ||
+                        student?.documentStatus === "3"
+                        ? false
+                        : true
+                      : true
                   }
                 >
                   <Form.Label
@@ -548,12 +554,12 @@ function StudentListTeacherModal({
                     เหตุผลที่ไม่อนุญาติ
                   </Form.Label>
                   <Form.Control
-                    required={work?.status === false}
+                    required={workStatus?.status === false}
                     as="textarea"
                     rows={3}
                     value={work?.description}
                     onChange={(e) => {
-                      setWork({ ...work, description: e?.target?.value });
+                      setWorkStatus({ ...work, description: e?.target?.value });
                     }}
                   />
                 </Form.Group>
@@ -564,10 +570,11 @@ function StudentListTeacherModal({
                   type="submit"
                   variant="success"
                   disabled={
-                    student?.documentStatus === "3"
-                      ? false
-                      : student?.documentStatus === "1"
-                      ? false
+                    work?.status === false || !work?.status
+                      ? student?.documentStatus === "1" ||
+                        student?.documentStatus === "3"
+                        ? false
+                        : true
                       : true
                   }
                 >
