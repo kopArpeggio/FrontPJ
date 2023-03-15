@@ -7,3 +7,13 @@ export const sweetAlertError = (err) => {
     text: err?.message,
   });
 };
+
+export const sweetAlertSubmit = (event) => {
+  event.preventDefault();
+  return Swal.fire({
+    icon: "warning",
+    title: "บันทึกหรือไม่ ?",
+    showCancelButton: true,
+    confirmButtonText: "Save",
+  });
+};

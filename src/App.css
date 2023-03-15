@@ -274,6 +274,15 @@ object {
   cursor: pointer;
 }
 
+.corret-mark {
+  color: #5fb867;
+  font-size: 20px;
+}
+
+.corret-mark {
+  cursor: pointer;
+}
+
 .Wrong {
   color: #e63010;
   font-size: 20px;

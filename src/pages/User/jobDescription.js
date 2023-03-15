@@ -634,7 +634,11 @@ function Jobdescription() {
                 as="input"
                 type="submit"
                 value="ยืนยัน"
-                disabled={!isConfirm}
+                disabled={
+                  !isConfirm ||
+                  stu?.documentStatus !== "1" ||
+                  stu?.documentStatus !== "4"
+                }
                 style={{ width: "20%" }}
               />
             </Form.Group>

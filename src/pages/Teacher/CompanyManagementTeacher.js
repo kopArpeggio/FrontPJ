@@ -16,7 +16,7 @@ import {
   updateWorkplaceById,
 } from "../../apis/workplaceApi";
 import { Form } from "react-bootstrap";
-import CompanyManagementTeacherModal from "./Modal/CompanyManagementTeacherModal"; 
+import CompanyManagementTeacherModal from "./Modal/CompanyManagementTeacherModal";
 
 function CompanyManagementTeacher() {
   const [company, setCompany] = useState([]);
@@ -25,6 +25,20 @@ function CompanyManagementTeacher() {
   const [createMode, setCreateMode] = useState(false);
   const [show, setShow] = useState(false);
   const [address, setAddress] = useState([]);
+
+  const nrru = {
+    latitude: 14.9846414,
+    longtitude: 102.1126068,
+  };
+
+  const generateEmbedGoogleMapDirectionURL = (
+    startLatitude,
+    startLongitude,
+    endLatitude,
+    endLongitude
+  ) => {
+    return `https://maps.google.com/maps?saddr=${startLatitude},${startLongitude}&daddr=${endLatitude},${endLongitude}&output=embed`;
+  };
 
   const handleShow = (param) => {
     setShow(true);
@@ -114,10 +128,26 @@ function CompanyManagementTeacher() {
     {
       name: "ชื่อบริษัท",
       selector: (row) => row?.companyName,
+      style: { textAlign: "left" },
       sortable: true,
-      center: true,
     },
-
+    {
+      name: "จังหวัด",
+      selector: (row) => row?.province,
+      sortable: true,
+    },
+    {
+      // sortable: true,
+      name: "อำเภอ",
+      selector: (row) => row?.amphoe,
+      sortable: true,
+    },
+    {
+      // sortable: true,
+      name: "ตำบล",
+      selector: (row) => row?.district,
+      sortable: true,
+    },
     {
       name: "แก้ไข / ลบ",
       center: true,
@@ -218,8 +248,35 @@ function CompanyManagementTeacher() {
           columns={columns}
           data={Searchtest(company)}
           expandableRows
-          expandableRowsComponent={(value) => <pre>{value.data.firstname}</pre>}
-          pagination
+          expandableRowsComponent={(value) =>
+            value?.data?.latitude && value?.data?.longtitude ? (
+              <iframe
+                title="googleMap"
+                style={{
+                  boxShadow:
+                    "rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px",
+                  width: "80%",
+                  height: "30vh",
+                }}
+                src={generateEmbedGoogleMapDirectionURL(
+                  nrru?.latitude,
+                  nrru?.longtitude,
+                  // Work Location
+                  value?.data?.latitude,
+                  value?.data?.longtitude
+                )}
+                // style={{  }}
+                // width="400"
+                // height="300"
+                allowfullscreen=""
+                loading="lazy"
+                className="mb-3"
+                referrerpolicy="no-referrer-when-downgrade"
+              ></iframe>
+            ) : (
+              <div>คุณยังไม่ได้ใส่ GoogleMap Url</div>
+            )
+          }
           fixedHeader
           fixedHeaderScrollHeight="80vh"
           //selectableRows
@@ -232,7 +289,7 @@ function CompanyManagementTeacher() {
               <div style={{ justifyContent: "space-between" }}>
                 <input
                   type="text"
-                  placeholder="ค้นหานักศึกษา"
+                  placeholder="ค้นหาสถานประกอบการ"
                   className="w-100 form-control"
                   value={q}
                   onChange={(e) => SetQ(e.target.value)}

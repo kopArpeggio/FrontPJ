@@ -1,4 +1,3 @@
-import axios from "axios";
 import DataTable from "react-data-table-component";
 import React, { useEffect, useState } from "react";
 import Container from "react-bootstrap/esm/Container";
@@ -13,28 +12,44 @@ import {
   faPenToSquare,
   faTrash,
   faPlus,
+  faSearch,
 } from "@fortawesome/free-solid-svg-icons";
-
 import "react-pdf/dist/esm/Page/TextLayer.css";
 import "react-pdf/dist/esm/Page/AnnotationLayer.css";
 import { getAllWorkplace } from "../../apis/workplaceApi";
-import AdminModal from "./Modal/AdminModal";
-import { Image } from "react-bootstrap";
+import { Col, Form, Image, Row } from "react-bootstrap";
 import { getImageUrl } from "../../utils/utils";
-import { deleteStudent } from "../../apis/studentApi";
+import {
+  deleteStudent,
+  getAllStudent,
+  getAllStudentBranch,
+  getAllStudentByStatus,
+  getAllYearStudent,
+} from "../../apis/studentApi";
 import { getAllBranchByStatus } from "../../apis/branchAPi";
+import SupervisionStudentModal from "./Modal/SupervisionStudentModal";
 
-export default function Admin() {
+function SupervisionStudentListTeacher() {
   const [student, setStudent] = useState([]);
   const [loading, setLoading] = useState(true);
   const [modalStudent, setModalStudent] = useState("");
+  const [modalAddress, setModalAddress] = useState("");
+  const [modalWorkplace, setModalWorkplace] = useState("");
+  const [modalWork, setModalWork] = useState("");
+  const [params, setParams] = useState({
+    status: "0",
+    year: "",
+  });
   const [createMode, setCreateMode] = useState(false);
   const [show, setShow] = useState(false);
-  const [branch, setBranch] = useState([]);
+  const [studentYear, setStudentYear] = useState([]);
 
   const handleShow = (param) => {
     setShow(true);
     setModalStudent(param);
+    setModalAddress(param?.Work?.Workplace?.Address);
+    setModalWork(param?.Work);
+    setModalWorkplace(param?.Work?.Workplace);
   };
 
   const [q, SetQ] = useState("");
@@ -67,7 +82,7 @@ export default function Admin() {
     );
   };
 
-  const check = <FontAwesomeIcon icon={faCheck} className="correct" />;
+  const check = <FontAwesomeIcon icon={faCheck} className="corret-mark" />;
   const create = <FontAwesomeIcon icon={faPlus} className="correct" />;
   const wrong = <FontAwesomeIcon icon={faXmark} className="Wrong" />;
   const checking = <FontAwesomeIcon icon={faRotate} className="Checking" />;
@@ -96,13 +111,17 @@ export default function Admin() {
   };
 
   const getStudent = async () => {
-    const api = "http://localhost:3001/api/";
-    try {
-      const res = await axios.get(`${api}/student/get-all-student`);
-      setStudent(res.data.data);
-      setLoading(false);
-    } catch (error) {
-      console.log(error);
+    setLoading(true);
+    if (!params) {
+      getAllStudentByStatus(params).then((res) => {
+        setStudent(res?.data);
+        setLoading(false);
+      });
+    } else {
+      getAllStudentByStatus(params).then((res) => {
+        setStudent(res?.data);
+        setLoading(false);
+      });
     }
   };
 
@@ -116,9 +135,8 @@ export default function Admin() {
     {
       name: "Index",
       center: true,
-      sortable: true,
       selector: (row) => {
-        return <div>{row?.id}</div>;
+        return <div>{(i += 1)}</div>;
       },
     },
     {
@@ -170,13 +188,9 @@ export default function Admin() {
     },
 
     {
-      name: "แก้ไข / ลบ",
+      name: "เลือกนิเทศ",
       center: true,
-      cell: (row) => (
-        <div>
-          {edit(row)} {deleteIcon(row)}
-        </div>
-      ),
+      cell: (row) => <div>{edit(row)}</div>,
     },
     {
       name: "สถานะ",
@@ -184,7 +198,7 @@ export default function Admin() {
       cell: (row) => (
         <div>
           {/* Later */}
-          {row?.status_id === 2
+          {row?.documentStatus === "0"
             ? check
             : row?.status_id === 1
             ? wrong
@@ -193,6 +207,10 @@ export default function Admin() {
       ),
     },
   ];
+
+  const test = () => {
+    <FontAwesomeIcon icon={faPenToSquare} className="tableAction" />;
+  };
 
   // Delete Logic
   const handleDelete = async (val) => {
@@ -208,37 +226,29 @@ export default function Admin() {
   useEffect(() => {
     getStudent();
 
-    getAllBranchByStatus().then((res) => {
-      setBranch(res?.data);
+    getAllYearStudent().then((res) => {
+      setStudentYear(res?.data);
     });
-  }, []);
+  }, [params]);
 
   const Searchtest = (rows) => {
     return rows?.filter(
       (row) =>
         row?.firstname.toLowerCase().indexOf(q) > -1 ||
-        row?.lastname.toLowerCase().indexOf(q) > -1 ||
-        `${row?.firstname} ${row?.lastname}`.toLowerCase().indexOf(q) > -1
+        row?.lastname.toLowerCase().indexOf(q) > -1
     );
   };
 
-  const options = [];
-  for (let i = 0; i < branch?.length; i++) {
-    var obj = {};
-    obj["value"] = i;
-    obj["label"] =
-      "สาขา : " +
-      branch[i]?.branchName +
-      "  |  " +
-      "คณะ : " +
-      branch[i]?.facultyName;
-    options.push(obj);
-  }
-
   return (
     <div>
+      <SupervisionStudentModal
+        show={show}
+        handleClose={handleClose}
+        setStudent={setModalStudent}
+        student={modalStudent}
+      />
       <Container className="tablecustom ">
-        <AdminModal
+        {/* <AdminModal
           show={show}
           handleClose={handleClose}
           student={modalStudent}
@@ -248,7 +258,8 @@ export default function Admin() {
           setLoading={setLoading}
           options={options}
           branch={branch}
-        />
+        /> */}
+
         <DataTable
           progressPending={loading}
           progressComponent={
@@ -261,7 +272,7 @@ export default function Admin() {
           }
           customStyles={customStyles}
           theme="solarized"
-          title="จัดการนักศึกษา"
+          title="เลือกนิเทศนักศึกษา"
           columns={columns}
           data={Searchtest(student)}
           expandableRows
@@ -276,17 +287,46 @@ export default function Admin() {
           subHeaderAlign={"left"}
           subHeaderComponent={
             <>
-              <div style={{ justifyContent: "space-between" }}>
-                <input
-                  type="text"
-                  placeholder="ค้นหานักศึกษา"
-                  className="w-100 form-control"
-                  value={q}
-                  onChange={(e) => SetQ(e.target.value)}
-                />
-              </div>
+              <Row
+                className="d-flex flex-column flex-lg-row "
+                style={{ whiteSpace: "nowrap" }}
+              >
+                <Form.Group as={Col} sm={6}>
+                  <div>
+                    <input
+                      type="text"
+                      placeholder={`ค้นหานักศึกษา`}
+                      className="w-100 form-control"
+                      value={q}
+                      onChange={(e) => SetQ(e.target.value)}
+                    />
+                  </div>
+                </Form.Group>
+
+                <Form.Group
+                  className="d-flex align-items-center"
+                  as={Col}
+                  sm={6}
+                >
+                  <div className="">ปีการศึกษา : </div>
+                  <Form.Select
+                    defaultValue="3"
+                    aria-label="Default select example"
+                    onChange={(e) => {
+                      setParams({ ...params, year: e?.target?.value });
+                    }}
+                  >
+                    {studentYear.map((val, index) => (
+                      <option key={index} value={val?.year}>
+                        {val?.year}
+                      </option>
+                    ))}
+                  </Form.Select>
+                </Form.Group>
+              </Row>
+
               {/* <Form.Control type="text" className="" /> */}
-              <div>
+              {/* <div className="d-flex flex-row">
                 <Button
                   className="button-t"
                   onClick={() => {
@@ -296,22 +336,13 @@ export default function Admin() {
                 >
                   {create} เพิ่มนักศึกษา
                 </Button>
-              </div>
+              </div> */}
             </>
           }
         />
-        {/* <div>
-          <Document file={file} onLoadSuccess={onDocumentLoadSuccess}>
-            {Array.from(new Array(numPages), (el, index) => (
-              <Page key={`page_${index + 1}`} pageNumber={index + 1} />
-            ))}
-          </Document>
-          <p>
-            Page {pageNumber} of {numPages}
-          </p>
-        </div> */}
-        <iframe src="/pdf/Hi.pdf" width="450" height="250" title="pdf"></iframe>
       </Container>
     </div>
   );
 }
+
+export default SupervisionStudentListTeacher;

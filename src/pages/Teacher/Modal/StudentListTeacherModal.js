@@ -1,21 +1,15 @@
 import React, { useRef, useState } from "react";
 import Modal from "react-bootstrap/Modal";
 
-import {
-  Button,
-  Col,
-  Container,
-  Form,
-  Row,
-  ToggleButton,
-  ToggleButtonGroup,
-} from "react-bootstrap";
+import { Button, Col, Container, Form, Row } from "react-bootstrap";
 import { updateStudentById } from "../../../apis/studentApi";
+import { sweetAlertSubmit } from "../../../swal2/swal2";
 
 function StudentListTeacherModal({
   show,
   setShow,
   student,
+  setStudent,
   address,
   workplace,
   handleClose,
@@ -40,6 +34,9 @@ function StudentListTeacherModal({
 
   if (student) {
     var { Work } = student;
+    var { documentStatus } = student;
+    var workStatus = work?.status;
+    console.log(work?.status);
   }
 
   const handleSubmit = async (event) => {
@@ -49,12 +46,17 @@ function StudentListTeacherModal({
       event.preventDefault();
       event.stopPropagation();
     } else {
-      await updateStudentById({
-        stu: student,
-        work: work,
+      sweetAlertSubmit(event).then(async (result) => {
+        console.log(result);
+        if (result?.isConfirmed) {
+          await updateStudentById({
+            stu: student,
+            work: work,
+          });
+          handleClose();
+          event?.preventDefault();
+        }
       });
-      handleClose();
-      event?.preventDefault();
     }
     setValidated(true);
   };
@@ -88,14 +90,14 @@ function StudentListTeacherModal({
                   className="col-form-label-lg"
                   style={{ fontSize: 22, color: "", fontWeight: "bold" }}
                 >
-                  รายระเอียดงานที่ไปปฎิบัติ
+                  รายละเอียดงานที่ไปปฎิบัติ
                 </Form.Label>
                 <Form.Group as={Col} sm="4">
                   <Form.Label
                     style={{ fontSize: 20, color: "" }}
                     className="d-flex flex-row"
                   >
-                    รายระเอียดงานที่ไปปฎิบัติ
+                    รายละเอียดงานที่ไปปฎิบัติ
                   </Form.Label>
                   <Form.Control
                     disabled
@@ -491,7 +493,17 @@ function StudentListTeacherModal({
                   defaultChecked={work?.status === false}
                   id="btnradio1"
                   autocomplete="off"
-                  onClick={() => setWork({ ...work, status: false })}
+                  onClick={() => {
+                    setWork({ ...work, status: false });
+                    setStudent({ ...student, documentStatus: "1" });
+                  }}
+                  disabled={
+                    student?.documentStatus === "3"
+                      ? false
+                      : student?.documentStatus === "1"
+                      ? false
+                      : true
+                  }
                 />
                 <label class="btn btn-outline-primary" for="btnradio1">
                   ไม่อนุมัติ
@@ -504,36 +516,30 @@ function StudentListTeacherModal({
                   id="btnradio2"
                   autocomplete="off"
                   defaultChecked={work?.status === true}
-                  onClick={() => setWork({ ...work, status: true })}
+                  onClick={() => {
+                    setWork({ ...work, status: true });
+                    setStudent({ ...student, documentStatus: "0" });
+                  }}
+                  disabled={
+                    student?.documentStatus === "3"
+                      ? false
+                      : student?.documentStatus === "1"
+                      ? false
+                      : true
+                  }
                 />
                 <label class="btn btn-outline-primary" for="btnradio2">
                   อนุมัติ
                 </label>
               </div>
 
-              {/* <ToggleButtonGroup
-                type="radio"
-                className="mt-2"
-                name="options"
-                onChange={(value) => setWork({ ...work, status: value })}
-              >
-                <ToggleButton id="tbg-radio-1" value={false}>
-                  ไม่อนุมัติ
-                </ToggleButton>
-                <ToggleButton
-                  id="tbg-radio-2"
-                  className={`toggle-bottm-true btn ${active ? "btn-success" : ""}`}
-                  value={true}
-                >
-                  อนุมัติ
-                </ToggleButton>
-              </ToggleButtonGroup> */}
-
               <Row className="mb-3 mt-1 d-flex flex-xl-row">
                 <Form.Group
                   as={Col}
                   sm="12"
-                  hidden={work?.status === true || !work?.status}
+                  hidden={
+                    !work?.status ? true : work?.status === true ? true : false
+                  }
                 >
                   <Form.Label
                     style={{ fontSize: 20, color: "" }}
@@ -554,15 +560,17 @@ function StudentListTeacherModal({
               </Row>
 
               <Modal.Footer className="d-flex flex-row justify-content-center">
-                {/* <Button
-                variant="danger"
-                className="btn btn-primary "
-                //   onClick={handleClose}
-              >
-                ไม่อนุมัติ
-              </Button> */}
-
-                <Button type="submit" variant="success">
+                <Button
+                  type="submit"
+                  variant="success"
+                  disabled={
+                    student?.documentStatus === "3"
+                      ? false
+                      : student?.documentStatus === "1"
+                      ? false
+                      : true
+                  }
+                >
                   ยืนยัน
                 </Button>
               </Modal.Footer>

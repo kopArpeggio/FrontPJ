@@ -28,7 +28,7 @@ function TestNav({ user, role }) {
   const teacherMenu = [
     { name: "ระบบนักศึกษา", path: "/teacher/student-list" },
     { name: "ระบบสถานประกอบการ", path: "/teacher/company-management" },
-    { name: "เลือกนิเทศนักศึกษา", path: "/teacher/student-supervision" },
+    { name: "เลือกนิเทศนักศึกษา", path: "/teacher/supervision-management" },
   ];
 
   // Upload Picture Modal/////////////////////////

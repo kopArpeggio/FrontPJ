@@ -189,7 +189,7 @@ function StudentListTeacher() {
     },
 
     {
-      name: "ประเมิน",
+      name: "รายละเอียดงาน",
       center: true,
       cell: (row) => <div>{edit(row)}</div>,
     },
@@ -328,9 +328,10 @@ function StudentListTeacher() {
                     }}
                   >
                     <option value="">ทั้งหมด</option>
-                    <option value="3">กำลังรอ</option>
-                    <option value="2">สำเร็จ</option>
+                    <option value="3">กำลังรออาจารย์</option>
+                    <option value="0">สำเร็จ</option>
                     <option value="1">ไม่ผ่าน</option>
+                    <option value="2">รอการตอบรับจากสถานประกอบการ</option>
                     <option value="4">ยังไม่ส่ง</option>
                   </Form.Select>
                 </Form.Group>
