@@ -38,3 +38,36 @@ export const uploadImageFile = async (file, signal) => {
     return undefined;
   }
 };
+
+export const uploadCsvStudentFile = async (file, signal) => {
+  try {
+    const form = new FormData();
+    form.append("CSV", file);
+
+    const { data, status } = await axios.post(
+      UPLOAD_CSV_FILE_STUDENT_TO_DATABASE,
+
+      form,
+      {
+        signal,
+      },
+      {
+        headers: {
+          accept: "application/json",
+          "Accept-Language": "en-US,en;q=0.8",
+          "Content-Type": `multipart/form-data; boundary=${file._boundary}`,
+        },
+      }
+    );
+
+    if (status === 200) {
+      return data?.data;
+    }
+  } catch (error) {
+    const err = error?.response?.data?.error;
+
+    sweetAlertError(err);
+    console.log(err);
+    return undefined;
+  }
+};
