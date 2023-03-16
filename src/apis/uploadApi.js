@@ -4,6 +4,7 @@ import { sweetAlertError } from "../swal2/swal2";
 const prefix = "upload";
 
 const UPLOAD_IMAGE_FILE_URL = `${prefix}/upload-file`;
+const UPLOAD_CSV_FILE_STUDENT_TO_DATABASE = `${prefix}/upload-csv-student`;
 
 export const uploadImageFile = async (file, signal) => {
   try {

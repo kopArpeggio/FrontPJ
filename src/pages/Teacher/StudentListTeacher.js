@@ -250,12 +250,10 @@ function StudentListTeacher() {
         show={show}
         setShow={setShow}
         student={modalStudent}
-        setStudent={setModalStudent}
         address={modalAddress}
         workplace={modalWorkplace}
         handleClose={handleClose}
         work={modalWork}
-        setWork={setModalWork}
       />
       <Container className="tablecustom ">
         {/* <AdminModal

@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import Modal from "react-bootstrap/Modal";
 
 import { Button, Col, Container, Form, Row } from "react-bootstrap";
@@ -9,12 +9,10 @@ function StudentListTeacherModal({
   show,
   setShow,
   student,
-  setStudent,
   address,
   workplace,
   handleClose,
   work,
-  setWork,
 }) {
   const nrru = {
     latitude: 14.9846414,
@@ -487,11 +485,11 @@ function StudentListTeacherModal({
               >
                 <input
                   type="radio"
-                  class="btn-check"
+                  className="btn-check"
                   name="btnradio"
                   defaultChecked={work?.status === false}
                   id="btnradio1"
-                  autocomplete="off"
+                  autoComplete="off"
                   onClick={() => {
                     setWorkStatus({ ...work, status: false });
                     setStudentStatus({ ...student, documentStatus: "1" });
@@ -511,10 +509,10 @@ function StudentListTeacherModal({
 
                 <input
                   type="radio"
-                  class=" btn-check"
+                  className=" btn-check"
                   name="btnradio"
                   id="btnradio2"
-                  autocomplete="off"
+                  autoComplete="off"
                   defaultChecked={work?.status === true}
                   onClick={() => {
                     setWorkStatus({ ...work, status: true });
@@ -529,7 +527,7 @@ function StudentListTeacherModal({
                       : true
                   }
                 />
-                <label class="btn btn-outline-primary" for="btnradio2">
+                <label className="btn btn-outline-primary" for="btnradio2">
                   อนุมัติ
                 </label>
               </div>
@@ -539,7 +537,7 @@ function StudentListTeacherModal({
                   as={Col}
                   sm="12"
                   hidden={
-                    workStatus?.status === false 
+                    workStatus?.status === false
                       ? student?.documentStatus === "1" ||
                         student?.documentStatus === "3"
                         ? false

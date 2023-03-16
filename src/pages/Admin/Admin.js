@@ -5,6 +5,9 @@ import Container from "react-bootstrap/esm/Container";
 import ReactLoading from "react-loading";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Button from "react-bootstrap/Button";
+import { saveAs } from "file-saver";
+import * as Papa from "papaparse";
+import numeral from "numeral";
 
 import {
   faCheck,
@@ -17,7 +20,6 @@ import {
 
 import "react-pdf/dist/esm/Page/TextLayer.css";
 import "react-pdf/dist/esm/Page/AnnotationLayer.css";
-import { getAllWorkplace } from "../../apis/workplaceApi";
 import AdminModal from "./Modal/AdminModal";
 import { Image } from "react-bootstrap";
 import { getImageUrl } from "../../utils/utils";
@@ -235,6 +237,45 @@ export default function Admin() {
     options.push(obj);
   }
 
+  const handleExportCSV = (user) => {
+    const data = [
+      [
+        "id",
+        "firstname",
+        "lastname",
+        "stu_no",
+        "gpa",
+        "phone_number",
+        "email",
+        "password",
+        "id_card_number",
+      ],
+      ...user.map((val) => [
+        val?.id,
+        val?.firstname,
+        val?.lastname,
+        val?.stuNo,
+        numeral(val?.gpa).format("0.00"), // format GPA to two decimal places
+        `'${val?.phoneNumber}`,
+        val?.email,
+        "",
+        val?.idCardNumber,
+      ]),
+    ];
+
+    const csv = Papa.unparse(data);
+
+    const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+    saveAs(blob, "your-file-name.csv");
+  };
+
+  const fileInputHandler = (e) => {
+    const files = e.target.files;
+    const reader = new FileReader();
+    console.log(files[0]);
+    reader.readAsDataURL(files[0]);
+  };
+
   return (
     <div>
       <Container className="tablecustom ">
@@ -296,6 +337,18 @@ export default function Admin() {
                 >
                   {create} เพิ่มนักศึกษา
                 </Button>
+                <Button onClick={() => handleExportCSV(student)}>
+                  Test Download
+                </Button>
+
+                <label class="btn btn-primary">
+                  Choose File{" "}
+                  <input
+                    type="file"
+                    hidden
+                    onChange={(e) => fileInputHandler(e)}
+                  />
+                </label>
               </div>
             </>
           }
