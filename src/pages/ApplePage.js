@@ -31,6 +31,7 @@ export default function ApplePage() {
   async function getUser() {
     try {
       await axios.get(`${api}`).then(function (res) {
+        console.log(res);
         if (res.data.data.student) {
           setUser(res.data.data.student);
           setAddress(res.data.data.student.Address);
@@ -44,7 +45,6 @@ export default function ApplePage() {
           setUser(res.data.data.admin);
           setRole(res.data.data.Role);
         }
-
         if (res.data.data.workplace) {
           setUser(res.data.data.workplace);
           setRole(res.data.data.Role);
@@ -89,7 +89,9 @@ export default function ApplePage() {
         ? navigate("/admin")
         : role === "teacher"
         ? navigate("/teacher")
-        : navigate("/company")}
+        : role === "company"
+        ? navigate("/company")
+        : ""}
       {/* <PDFDownloadLink document={<PDFFile />} fileName="FORM">
         {({ loading }) =>
           loading ? <button> Loading Document ...</button> : "Download"

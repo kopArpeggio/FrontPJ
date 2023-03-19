@@ -13,7 +13,7 @@ const PrivateRouteCompany = () => {
   async function getUser() {
     try {
       await axios.get(`${api}`).then(function (res) {
-        setUser(res.data.data.admin);
+        setUser(res.data.data.workplace);
         setRole(res.data.data.Role);
       });
     } catch (error) {

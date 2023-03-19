@@ -8,7 +8,7 @@ function BasePageCompany() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    navigate("/company/student-list");
+    navigate("/company/student-list-company");
   }, []);
 
   return (

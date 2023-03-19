@@ -34,7 +34,6 @@ export const uploadImageFile = async (file, signal) => {
     const err = error?.response?.data?.error;
 
     sweetAlertError(err);
-    console.log(err);
     return undefined;
   }
 };
@@ -67,7 +66,6 @@ export const uploadCsvStudentFile = async (file, signal) => {
     const err = error?.response?.data?.error;
 
     sweetAlertError(err);
-    console.log(err);
     return undefined;
   }
 };

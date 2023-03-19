@@ -106,7 +106,7 @@ function App() {
           </Route>
           <Route element={<PrivateRouteCompany />}>
             <Route element={<BasePageCompany />} path="/company">
-              <Route element={<StudentListCompany />} path="student-list" />
+              <Route element={<StudentListCompany />} path="student-list-company" />
             </Route>
           </Route>
         </Routes>

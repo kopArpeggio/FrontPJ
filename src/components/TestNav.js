@@ -12,6 +12,8 @@ import { FiLogOut } from "react-icons/fi";
 
 function TestNav({ user, role }) {
   const navigate = useNavigate();
+  console.log(user);
+  console.log(role);
 
   const userMenu = [
     { name: "หน้าหลัก", path: "/user/dashboard" },
@@ -55,7 +57,9 @@ function TestNav({ user, role }) {
   };
 
   useEffect(() => {
-    setTest(user?.profilePic);
+    if (user?.profilePic) {
+      setTest(user?.profilePic);
+    }
   }, []);
 
   return (
@@ -170,7 +174,23 @@ function TestNav({ user, role }) {
                   ))}
                 </Nav>
               ) : (
-                ""
+                <Nav
+                  className="me-auto my-2 my-lg-0"
+                  style={{ maxHeight: "200px" }}
+                  navbarScroll
+                >
+                  {teacherMenu.map((item, index) => (
+                    <Navbar.Text className="me-3 ms-3 " key={index}>
+                      <Link className="navlink " to={item.path}>
+                        <ul className="navbar-nav">
+                          <li className="nav-item" key={index}>
+                            {item.name}
+                          </li>
+                        </ul>
+                      </Link>
+                    </Navbar.Text>
+                  ))}
+                </Nav>
               )}
               <Nav
                 className="ms-auto my-2 my-lg-0 mt-5 me-5"
@@ -203,7 +223,9 @@ function TestNav({ user, role }) {
                         อาจารย์ {user?.firstname} {user?.lastname}
                       </div>
                     ) : role === "company" ? (
-                      <div>บริษัท {user?.companyName}</div>
+                      <div>
+                        บริษัท {user?.companyName} {console.log(user)}
+                      </div>
                     ) : role === "admin" ? (
                       <div className="">
                         แอดมิน {user?.firstname} {user?.lastname}
