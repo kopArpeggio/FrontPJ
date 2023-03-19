@@ -25,6 +25,7 @@ import { Image } from "react-bootstrap";
 import { getImageUrl } from "../../utils/utils";
 import { deleteStudent } from "../../apis/studentApi";
 import { getAllBranchByStatus } from "../../apis/branchAPi";
+import { uploadCsvStudentFile } from "../../apis/uploadApi";
 
 export default function Admin() {
   const [student, setStudent] = useState([]);
@@ -269,11 +270,11 @@ export default function Admin() {
     saveAs(blob, "your-file-name.csv");
   };
 
-  const fileInputHandler = (e) => {
+  const fileInputHandler = async (e) => {
     const files = e.target.files;
     const reader = new FileReader();
     console.log(files[0]);
-    reader.readAsDataURL(files[0]);
+    await uploadCsvStudentFile(files[0]);
   };
 
   return (
