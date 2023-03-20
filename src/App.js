@@ -32,6 +32,8 @@ import StudentListCompany from "./pages/Company/StudentListCompany";
 import CompanyManagementTeacher from "./pages/Teacher/CompanyManagementTeacher";
 import SupervisionStudentListTeacher from "./pages/Teacher/SupervisionStudentListTeahcer";
 
+
+
 function App() {
   const isAuthorized = localStorage.getItem("token");
 

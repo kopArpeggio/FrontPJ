@@ -26,6 +26,8 @@ import { getImageUrl } from "../../utils/utils";
 import { deleteStudent } from "../../apis/studentApi";
 import { getAllBranchByStatus } from "../../apis/branchAPi";
 import { uploadCsvStudentFile } from "../../apis/uploadApi";
+import { sweetAlertSubmit } from "../../swal2/swal2";
+import Swal from "sweetalert2";
 
 export default function Admin() {
   const [student, setStudent] = useState([]);
@@ -114,16 +116,7 @@ export default function Admin() {
     setCreateMode(false);
     getStudent();
   };
-  var i = 0;
   const columns = [
-    {
-      name: "Index",
-      center: true,
-      sortable: true,
-      selector: (row) => {
-        return <div>{row?.id}</div>;
-      },
-    },
     {
       name: "โปรไฟล์",
       center: true,
@@ -151,13 +144,11 @@ export default function Admin() {
       name: "ชื่อจริง",
       selector: (row) => row?.firstname,
       sortable: true,
-      center: true,
     },
     {
       name: "นามสกุล",
       selector: (row) => row?.lastname,
       sortable: true,
-      center: true,
     },
     {
       name: "สาขาวิชา",
@@ -181,31 +172,23 @@ export default function Admin() {
         </div>
       ),
     },
-    {
-      name: "สถานะ",
-      center: true,
-      cell: (row) => (
-        <div>
-          {/* Later */}
-          {row?.status_id === 2
-            ? check
-            : row?.status_id === 1
-            ? wrong
-            : checking}
-        </div>
-      ),
-    },
   ];
 
   // Delete Logic
   const handleDelete = async (val) => {
-    setLoading(true);
-
     // Logic Here and call function
-    await deleteStudent(val.id);
-
-    getStudent();
-    setLoading(false);
+    sweetAlertSubmit(null, "ท่านต้องการจะลบนักศึกษาหรือไม่").then(
+      async (result) => {
+        if (result?.isConfirmed) {
+          setLoading(true);
+          const done = await deleteStudent(val?.id);
+          if (done) {
+            getStudent();
+            Swal.fire("ลบนักศึกษาเรียบร้อยแล้ว !", "", "success");
+          }
+        }
+      }
+    );
   };
 
   useEffect(() => {
@@ -271,9 +254,7 @@ export default function Admin() {
   };
 
   const fileInputHandler = async (e) => {
-    const files = e.target.files;
-    const reader = new FileReader();
-    console.log(files[0]);
+    const files = e?.target?.files;
     await uploadCsvStudentFile(files[0]);
   };
 

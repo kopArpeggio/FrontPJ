@@ -4,6 +4,7 @@ import Modal from "react-bootstrap/Modal";
 import { Button, Col, Container, Form, Row } from "react-bootstrap";
 import { updateStudentById } from "../../../apis/studentApi";
 import { sweetAlertSubmit } from "../../../swal2/swal2";
+import Swal from "sweetalert2";
 
 function StudentListTeacherModal({
   show,
@@ -46,13 +47,17 @@ function StudentListTeacherModal({
     } else {
       sweetAlertSubmit(event).then(async (result) => {
         if (result?.isConfirmed) {
-          await updateStudentById({
+          const status = await updateStudentById({
             stu: studentStatus,
             work: workStatus,
           });
+          if (status) {
+            Swal.fire("บันทึกสำเร็จ !", "", "success").then(() => {
+              handleClose();
+            });
+          }
         }
       });
-      handleClose();
       event?.preventDefault();
     }
     setValidated(true);

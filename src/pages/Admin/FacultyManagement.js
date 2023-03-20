@@ -18,6 +18,7 @@ import {
   updateFacultyById,
 } from "../../apis/facultyApi";
 import FacultyModal from "./Modal/FacultyModal";
+import { sweetAlertSubmit, sweetAlertSuccess } from "../../swal2/swal2";
 
 function FacultyManagement() {
   const [faculty, setFaculty] = useState([]);
@@ -39,12 +40,17 @@ function FacultyManagement() {
 
   // Delete Logic
   const handleDelete = async (params) => {
-    setLoading(true);
-
     // Logic Here and call function
-    await deleteFacultyById(params.id);
-
-    getFaculty();
+    sweetAlertSubmit(null, "ต้องการลบคณะหรือไม่ !").then(async (result) => {
+      if (result?.isConfirmed) {
+        setLoading(true);
+        const done = await deleteFacultyById(params.id);
+        if (done) {
+          sweetAlertSuccess("ลบคณะสำเร็จ !")
+          getFaculty();
+        }
+      }
+    });
   };
 
   const [q, SetQ] = useState("");

@@ -8,6 +8,7 @@ import {
   createWorkplace,
   updateWorkplaceById,
 } from "../../../apis/workplaceApi";
+import { sweetAlertSubmit, sweetAlertSuccess } from "../../../swal2/swal2";
 import { getCoordinatesFromGoogleMapURL } from "../../../utils/utils";
 import { MenuList } from "../../User/Helper";
 
@@ -41,12 +42,24 @@ function CompanyModal({
     } else {
       event.preventDefault();
       if (createMode) {
-        await createWorkplace(company);
-        handleClose();
+        const done = await createWorkplace(company);
+
+        if (done) {
+          sweetAlertSuccess("เพิ่มสำเร็จ !");
+          handleClose();
+        }
       }
       if (!createMode) {
-        await updateWorkplaceById(company);
-        handleClose();
+        sweetAlertSubmit(event).then(async (result) => {
+          if (result?.isConfirmed) {
+            const done = await updateWorkplaceById(company);
+
+            if (done) {
+              sweetAlertSuccess("อัพเดทสำเร็จ !");
+              handleClose();
+            }
+          }
+        });
       }
     }
     setValidated(true);

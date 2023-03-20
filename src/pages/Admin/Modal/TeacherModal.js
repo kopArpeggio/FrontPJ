@@ -6,6 +6,7 @@ import Modal from "react-bootstrap/Modal";
 import Select, { createFilter } from "react-select";
 import { MenuList } from "../../User/Helper";
 import { createTeacher, updateTeacherById } from "../../../apis/teacherApi";
+import { sweetAlertSubmit, sweetAlertSuccess } from "../../../swal2/swal2";
 
 function TeacherModal({
   createMode,
@@ -27,12 +28,22 @@ function TeacherModal({
     } else {
       event.preventDefault();
       if (createMode) {
-        await createTeacher(teacher);
-        handleClose();
+        const done = await createTeacher(teacher);
+        if (done) {
+          sweetAlertSuccess("เพิ่มอาจารย์สำเร็จ !");
+          handleClose();
+        }
       }
       if (!createMode) {
-        await updateTeacherById(teacher);
-        handleClose();
+        sweetAlertSubmit(null).then(async (result) => {
+          if (result?.isConfirmed) {
+            const done = await updateTeacherById(teacher);
+            if (done) {
+              sweetAlertSuccess("แก้ไขอาจารย์สำเร็จ");
+              handleClose();
+            }
+          }
+        });
       }
     }
     setValidated(true);

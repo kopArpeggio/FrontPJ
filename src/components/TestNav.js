@@ -12,8 +12,6 @@ import { FiLogOut } from "react-icons/fi";
 
 function TestNav({ user, role }) {
   const navigate = useNavigate();
-  console.log(user);
-  console.log(role);
 
   const userMenu = [
     { name: "หน้าหลัก", path: "/user/dashboard" },

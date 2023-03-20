@@ -133,13 +133,6 @@ function SupervisionStudentListTeacher() {
   var i = 0;
   const columns = [
     {
-      name: "Index",
-      center: true,
-      selector: (row) => {
-        return <div>{(i += 1)}</div>;
-      },
-    },
-    {
       name: "โปรไฟล์",
       center: true,
       cell: (row) => (

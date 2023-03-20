@@ -17,6 +17,7 @@ import {
   updateBranchById,
 } from "../../apis/branchAPi";
 import BranchModal from "./Modal/BranchModal";
+import { sweetAlertSubmit, sweetAlertSuccess } from "../../swal2/swal2";
 
 function BranchManagement() {
   const [branch, setBranch] = useState([]);
@@ -39,12 +40,17 @@ function BranchManagement() {
 
   // Delete Logic
   const handleDelete = async (params) => {
-    setLoading(true);
-
     // Logic Here and call function
-    await deleteBranchById(params.id);
-
-    getBranch();
+    sweetAlertSubmit(null, "ต้องการลบสาขาหรือไม่ !").then(async (result) => {
+      if (result?.isConfirmed) {
+        setLoading(true);
+        const done = await deleteBranchById(params.id);
+        if (done) {
+          getBranch();
+          sweetAlertSuccess("ลบสาขาสำเร็จ !");
+        }
+      }
+    });
   };
 
   const [q, SetQ] = useState("");

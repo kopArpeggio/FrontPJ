@@ -8,12 +8,17 @@ export const sweetAlertError = (err) => {
   });
 };
 
-export const sweetAlertSubmit = (event) => {
-  event.preventDefault();
+export const sweetAlertSubmit = (event, title) => {
+  event?.preventDefault();
   return Swal.fire({
     icon: "warning",
-    title: "บันทึกหรือไม่ ?",
+    title: title ? title : "บันทึกหรือไม่ ?",
     showCancelButton: true,
-    confirmButtonText: "Save",
+    cancelButtonText: "ยกเลิก",
+    confirmButtonText: "ตกลง",
   });
+};
+
+export const sweetAlertSuccess = (title) => {
+  Swal.fire(title ? title : "สำเร็จ !", "", "success");
 };

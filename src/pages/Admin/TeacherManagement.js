@@ -14,6 +14,7 @@ import {
 import { deleteTeacherById, getAllTeacher } from "../../apis/teacherApi";
 import TeacherModal from "./Modal/TeacherModal";
 import { getAllBranchByStatus } from "../../apis/branchAPi";
+import { sweetAlertSubmit, sweetAlertSuccess } from "../../swal2/swal2";
 
 function TeacherManagement() {
   const [teacher, setTeacher] = useState([]);
@@ -36,12 +37,17 @@ function TeacherManagement() {
 
   // Delete Logic
   const handleDelete = async (params) => {
-    setLoading(true);
-
     // Logic Here and call function
-    await deleteTeacherById(params?.id);
-
-    getTeacher();
+    sweetAlertSubmit().then(async (result) => {
+      if (result?.isConfirmed) {
+        setLoading(true);
+        const done = await deleteTeacherById(params?.id);
+        if (done) {
+          sweetAlertSuccess("ลบอาจารย์สำเร็จ !");
+          getTeacher();
+        }
+      }
+    });
   };
 
   const [q, SetQ] = useState("");

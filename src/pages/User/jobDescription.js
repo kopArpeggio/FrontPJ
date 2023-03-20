@@ -123,11 +123,13 @@ function Jobdescription() {
         title: "บันทึกหรือไม่ ?",
         showCancelButton: true,
         confirmButtonText: "Save",
-      }).then((result) => {
+      }).then(async (result) => {
         if (result?.isConfirmed) {
           const finalAddress = finalWorkplace;
-          updateStudentById({ stu, finalAddress, work });
-          Swal.fire("Saved!", "", "success");
+          const done = await updateStudentById({ stu, finalAddress, work });
+          if (done) {
+            Swal.fire("Saved!", "", "success");
+          }
         }
       });
     }
@@ -623,7 +625,10 @@ function Jobdescription() {
                 required
                 onChange={(e) => {
                   setIsConfirm(e?.target?.checked);
-                  if (stu?.documentStatus === "4") {
+                  if (
+                    stu?.documentStatus === "4" ||
+                    stu?.documentStatus === "1"
+                  ) {
                     setStu({ ...stu, documentStatus: "3" });
                   }
                 }}
@@ -635,9 +640,11 @@ function Jobdescription() {
                 type="submit"
                 value="ยืนยัน"
                 disabled={
-                  !isConfirm ||
-                  stu?.documentStatus !== "1" ||
-                  stu?.documentStatus !== "4"
+                  isConfirm === true
+                    ? stu?.documentStatus !== "0" || stu?.documentStatus !== "3"
+                      ? true
+                      : false
+                    : true
                 }
                 style={{ width: "20%" }}
               />

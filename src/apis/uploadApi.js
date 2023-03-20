@@ -43,8 +43,6 @@ export const uploadCsvStudentFile = async (file, signal) => {
     const form = new FormData();
     form.append("CSV", file);
 
-    console.log(form);
-
     const { data, status } = await axios.post(
       UPLOAD_CSV_FILE_STUDENT_TO_DATABASE,
 

@@ -4,6 +4,7 @@ import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
 
 import { createFaculty, updateFacultyById } from "../../../apis/facultyApi";
+import { sweetAlertSubmit, sweetAlertSuccess } from "../../../swal2/swal2";
 
 function FacultyModal({ show, faculty, setFaculty, handleClose, createMode }) {
   const [validated, setValidated] = useState(false);
@@ -16,12 +17,24 @@ function FacultyModal({ show, faculty, setFaculty, handleClose, createMode }) {
     } else {
       event.preventDefault();
       if (createMode) {
-        await createFaculty(faculty);
-        handleClose();
+        const done = await createFaculty(faculty);
+        if (done) {
+          sweetAlertSuccess("เพิ่มคณะสำเร็จ !");
+          handleClose();
+        }
       }
       if (!createMode) {
-        await updateFacultyById(faculty);
-        handleClose();
+        sweetAlertSubmit(null, "ต้องการแก้ไขคณะใช่หรือไม่").then(
+          async (result) => {
+            if (result?.isConfirmed) {
+              const done = await updateFacultyById(faculty);
+              if (done) {
+                sweetAlertSuccess("แก้ไขคณะสำเร็จ !");
+                handleClose();
+              }
+            }
+          }
+        );
       }
     }
     setValidated(true);

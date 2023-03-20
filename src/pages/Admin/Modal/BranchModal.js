@@ -5,6 +5,7 @@ import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
 import Select, { createFilter } from "react-select";
 import { createBranch, updateBranchById } from "../../../apis/branchAPi";
+import { sweetAlertSubmit, sweetAlertSuccess } from "../../../swal2/swal2";
 import { getCoordinatesFromGoogleMapURL } from "../../../utils/utils";
 import { MenuList } from "../../User/Helper";
 
@@ -34,12 +35,22 @@ function BranchModal({
     } else {
       event.preventDefault();
       if (createMode) {
-        await createBranch(branch);
-        handleClose();
+        const done = await createBranch(branch);
+        if (done) {
+          sweetAlertSuccess("เพิ่มสำเร็จ !");
+          handleClose();
+        }
       }
       if (!createMode) {
-        await updateBranchById(branch);
-        handleClose();
+        sweetAlertSubmit(event).then(async (result) => {
+          if (result?.isConfirmed) {
+            const done = await updateBranchById(branch);
+            if (done) {
+              sweetAlertSuccess("อัพเดทสาขาสำเร็จ");
+              handleClose();
+            }
+          }
+        });
       }
     }
     setValidated(true);

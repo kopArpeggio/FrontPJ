@@ -53,6 +53,11 @@ object {
   font-family: 'Prompt';
 }
 
+.swal2-popup {
+  font-size: 1rem !important;
+  font-family: 'Prompt';
+}
+
 .content-nav {
   margin-left: 10%;
   margin-right: 40%;

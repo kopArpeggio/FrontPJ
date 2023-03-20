@@ -6,6 +6,7 @@ import Modal from "react-bootstrap/Modal";
 import { createStudent, updateStudentById } from "../../../apis/studentApi";
 import Select, { createFilter } from "react-select";
 import { MenuList } from "../../User/Helper";
+import { sweetAlertSubmit, sweetAlertSuccess } from "../../../swal2/swal2";
 
 function AdminModal({
   show,
@@ -21,8 +22,6 @@ function AdminModal({
   const [validated, setValidated] = useState(false);
 
   const handleSubmit = async (event) => {
-    setLoading(true);
-
     const form = event.currentTarget;
     if (form.checkValidity() === false) {
       event.preventDefault();
@@ -31,14 +30,26 @@ function AdminModal({
       event.preventDefault();
 
       if (createMode) {
-        await createStudent(student);
-        handleClose();
+        const done = await createStudent(student);
+        if (done) {
+          sweetAlertSuccess("เพิ่มนักศึกษาสำเร็จ");
+          handleClose();
+        }
       }
       if (!createMode) {
-        await updateStudentById({
-          stu: student,
+        sweetAlertSubmit().then(async (result) => {
+          if (result?.isConfirmed) {
+            setLoading(true);
+
+            const done = await updateStudentById({
+              stu: student,
+            });
+            if (done) {
+              sweetAlertSuccess();
+              handleClose();
+            }
+          }
         });
-        handleClose();
       }
     }
     setValidated(true);

@@ -10,6 +10,8 @@ import ReactLoading from "react-loading";
 import axios from "axios";
 import { Button } from "react-bootstrap";
 import { updateStudentById } from "../../apis/studentApi";
+import { sweetAlertSubmit } from "../../swal2/swal2";
+import Swal from "sweetalert2";
 
 function Userinfo() {
   const [address, setAddress] = useState([]);
@@ -140,14 +142,21 @@ function Userinfo() {
       event.stopPropagation();
     } else {
       event.preventDefault();
-      const stu = formData;
-      updateStudentById({
-        stu,
-        newAddress,
-        oldAddress,
-        birthData,
-        father,
-        mother,
+      sweetAlertSubmit(event).then(async (result) => {
+        if (result?.isConfirmed) {
+          const stu = formData;
+          const done = await updateStudentById({
+            stu,
+            newAddress,
+            oldAddress,
+            birthData,
+            father,
+            mother,
+          });
+          if (done) {
+            Swal.fire("บันทึกเรียบร้อยแล้ว !", "", "success");
+          }
+        }
       });
     }
     setValidated(true);

@@ -17,6 +17,7 @@ import {
 } from "../../apis/workplaceApi";
 import { Form } from "react-bootstrap";
 import CompanyModal from "./Modal/CompanyModal";
+import { sweetAlertSubmit, sweetAlertSuccess } from "../../swal2/swal2";
 
 function CompanyManagement() {
   const [company, setCompany] = useState([]);
@@ -53,12 +54,19 @@ function CompanyManagement() {
 
   // Delete Logic
   const handleDelete = async (params) => {
-    setLoading(true);
-
     // Logic Here and call function
-    await deleteWorkplaceById(params.id);
-
-    getWorkplace();
+    sweetAlertSubmit(null, "ต้องการลบสถานประกอบการหรือไม่ !").then(
+      async (result) => {
+        if (result?.isConfirmed) {
+          setLoading(true);
+          const done = await deleteWorkplaceById(params.id);
+          if (done) {
+            getWorkplace();
+            sweetAlertSuccess("ลบสถานประกอบการสำเร็จ");
+          }
+        }
+      }
+    );
   };
 
   const [q, SetQ] = useState("");
