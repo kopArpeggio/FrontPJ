@@ -46,6 +46,7 @@ function AdminModal({
             });
             if (done) {
               sweetAlertSuccess();
+              setIsConfirm(false);
               handleClose();
             }
           }

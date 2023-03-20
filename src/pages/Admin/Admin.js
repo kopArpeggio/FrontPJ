@@ -231,7 +231,6 @@ export default function Admin() {
         "gpa",
         "phone_number",
         "email",
-        "password",
         "id_card_number",
       ],
       ...user.map((val) => [
@@ -242,15 +241,14 @@ export default function Admin() {
         numeral(val?.gpa).format("0.00"), // format GPA to two decimal places
         `'${val?.phoneNumber}`,
         val?.email,
-        "",
-        val?.idCardNumber,
+        `${val?.idCardNumber}`,
       ]),
     ];
 
     const csv = Papa.unparse(data);
 
     const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
-    saveAs(blob, "your-file-name.csv");
+    saveAs(blob, "student.csv");
   };
 
   const fileInputHandler = async (e) => {
