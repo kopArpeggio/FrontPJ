@@ -221,34 +221,68 @@ export default function Admin() {
     options.push(obj);
   }
 
-  const handleExportCSV = (user) => {
-    const data = [
-      [
-        "id",
-        "firstname",
-        "lastname",
-        "stu_no",
-        "gpa",
-        "phone_number",
-        "email",
-        "id_card_number",
-      ],
-      ...user.map((val) => [
-        val?.id,
-        val?.firstname,
-        val?.lastname,
-        val?.stuNo,
-        numeral(val?.gpa).format("0.00"), // format GPA to two decimal places
-        `'${val?.phoneNumber}`,
-        val?.email,
-        `${val?.idCardNumber}`,
-      ]),
-    ];
+  const ExcelJS = require("exceljs");
 
-    const csv = Papa.unparse(data);
+  const handleExportXLSX = (users) => {
+    // Create a new workbook
+    const workbook = new ExcelJS.Workbook();
 
-    const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
-    saveAs(blob, "student.csv");
+    // Add a new worksheet to the workbook
+    const worksheet = workbook.addWorksheet("Students");
+
+    // Define the validation list values
+    const validationListValues = ["Male", "Female"];
+
+    // Define the validation rule
+    const validationRule = {
+      type: "list",
+      allowBlank: true,
+      formulae: [`"${validationListValues.join(",")}"`],
+    };
+
+    // Add the header row to the worksheet
+    worksheet.addRow([
+      "id",
+      "firstname",
+      "lastname",
+      "gender",
+      "stu_no",
+      "gpa",
+      "phone_number",
+      "email",
+      "id_card_number",
+    ]);
+
+    // Loop through the users and add them to the worksheet
+    users.forEach((user) => {
+      const row = [
+        user.id,
+        user.firstname,
+        user.lastname,
+        user.gender,
+        user.stuNo,
+        numeral(user.gpa).format("0.00"),
+        `'${user.phoneNumber}`,
+        user.email,
+        `${user.idCardNumber}`,
+      ];
+
+      // Add data validation to the gender column
+      const cell = worksheet.getCell(`D${worksheet.lastRow.number}`);
+      cell.dataValidation = validationRule;
+
+      worksheet.addRow(row);
+    });
+
+    // Save the workbook
+    workbook.xlsx.writeBuffer().then((buffer) => {
+      saveAs(
+        new Blob([buffer], {
+          type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+        }),
+        "student.xlsx"
+      );
+    });
   };
 
   const fileInputHandler = async (e) => {
@@ -317,7 +351,7 @@ export default function Admin() {
                 >
                   {create} เพิ่มนักศึกษา
                 </Button>
-                <Button onClick={() => handleExportCSV(student)}>
+                <Button onClick={() => handleExportXLSX(student)}>
                   Test Download
                 </Button>
 
