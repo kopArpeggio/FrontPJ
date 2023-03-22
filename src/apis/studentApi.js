@@ -97,7 +97,7 @@ export const getAllStudentByStatus = async (queryParams) => {
 
 export const updateStudentById = async (body) => {
   try {
-    const { data, status } = await axios.put(
+    const { status } = await axios.put(
       `${UPDATE_USER_BY_ID}/${body?.stu?.id}`,
       body
     );

@@ -24,7 +24,7 @@ import AdminModal from "./Modal/AdminModal";
 import { Image } from "react-bootstrap";
 import { getImageUrl } from "../../utils/utils";
 import { deleteStudent } from "../../apis/studentApi";
-import { getAllBranchByStatus } from "../../apis/branchAPi";
+import { getAllBranch, getAllBranchByStatus } from "../../apis/branchAPi";
 import { uploadCsvStudentFile } from "../../apis/uploadApi";
 import { sweetAlertSubmit } from "../../swal2/swal2";
 import Swal from "sweetalert2";
@@ -36,6 +36,7 @@ export default function Admin() {
   const [createMode, setCreateMode] = useState(false);
   const [show, setShow] = useState(false);
   const [branch, setBranch] = useState([]);
+  const [branchForExcel, setBranchForExcel] = useState();
 
   const handleShow = (param) => {
     setShow(true);
@@ -196,16 +197,22 @@ export default function Admin() {
 
     getAllBranchByStatus().then((res) => {
       setBranch(res?.data);
+      setBranchForExcel(
+        res?.data.map((obj) => `${obj.id} : สาขาวิชา${obj.branchName}`)
+      );
     });
   }, []);
 
   const Searchtest = (rows) => {
-    return rows?.filter(
+    const filtered = rows?.filter(
       (row) =>
         row?.firstname.toLowerCase().indexOf(q) > -1 ||
         row?.lastname.toLowerCase().indexOf(q) > -1 ||
+        row?.stuNo.toLowerCase().indexOf(q) > -1 ||
         `${row?.firstname} ${row?.lastname}`.toLowerCase().indexOf(q) > -1
     );
+
+    return filtered;
   };
 
   const options = [];
@@ -223,57 +230,147 @@ export default function Admin() {
 
   const ExcelJS = require("exceljs");
 
-  const handleExportXLSX = (users) => {
+  const handleExportXLSX = (users, isExport) => {
     // Create a new workbook
     const workbook = new ExcelJS.Workbook();
 
     // Add a new worksheet to the workbook
     const worksheet = workbook.addWorksheet("Students");
 
+    // Set the width of column A to 20
+    const columns = ["B", "C", "D", "E", "F", "G", "H", "I"];
+    columns.forEach((col) => {
+      const column = worksheet.getColumn(col);
+      column.width = 20;
+    });
+
     // Define the validation list values
-    const validationListValues = ["Male", "Female"];
+    const validationListValues = branchForExcel;
 
     // Define the validation rule
     const validationRule = {
       type: "list",
-      allowBlank: true,
+      allowBlank: false,
       formulae: [`"${validationListValues.join(",")}"`],
+      showErrorMessage: true,
+      errorStyle: "error",
+      errorTitle: "ข้อมูลผิดพลาด",
+      error: "โปรดเลือกจาก Select List เท่านั้น",
     };
 
-    // Add the header row to the worksheet
-    worksheet.addRow([
-      "id",
-      "firstname",
-      "lastname",
-      "gender",
-      "stu_no",
-      "gpa",
-      "phone_number",
-      "email",
-      "id_card_number",
-    ]);
+    if (isExport) {
+      worksheet.addRow([
+        "id",
+        "firstname",
+        "lastname",
+        "major",
+        "stu_no",
+        "gpa",
+        "phone_number",
+        "email",
+        "id_card_number",
+      ]).font = { bold: true, color: "FFCCFFCC" };
 
-    // Loop through the users and add them to the worksheet
-    users.forEach((user) => {
-      const row = [
-        user.id,
-        user.firstname,
-        user.lastname,
-        user.gender,
-        user.stuNo,
-        numeral(user.gpa).format("0.00"),
-        `'${user.phoneNumber}`,
-        user.email,
-        `${user.idCardNumber}`,
-      ];
+      const firstRow = worksheet.getRow(1);
 
-      // Add data validation to the gender column
-      const cell = worksheet.getCell(`D${worksheet.lastRow.number}`);
+      firstRow.height = 30;
+
+      firstRow.border = {
+        top: { style: "thin" },
+        left: { style: "thin" },
+        bottom: { style: "thin" },
+        right: { style: "thin" },
+      };
+
+      firstRow.fill = {
+        type: "pattern",
+        pattern: "solid",
+        fgColor: { argb: "FFC0C0C0" }, // set the color to light gray
+      };
+
+      firstRow.alignment = {
+        vertical: "middle",
+        horizontal: "center",
+      };
+
+      const columns = ["A", "B", "C", "D", "E", "F", "G", "H", "I"];
+      columns.forEach((col) => {
+        const column = worksheet.getColumn(col);
+        column.border = {
+          top: { style: "thin" },
+          left: { style: "thin", color: { argb: "black" } },
+          bottom: { style: "thin" },
+          right: { style: "thin" },
+        };
+      });
+
+      // Loop through the users and add them to the worksheet
+      users.forEach((user) => {
+        const row = [
+          user?.id,
+          user?.firstname,
+          user?.lastname,
+          user?.gender,
+          `${user?.stuNo}`,
+          numeral(user?.gpa).format("0.00"),
+          `'${user?.phoneNumber}`,
+          user?.email,
+          `${user?.idCardNumber}`,
+        ];
+
+        worksheet.addRow(row);
+      });
+    } else {
+      worksheet.addRow([
+        "id",
+        "firstname",
+        "lastname",
+        "major",
+        "stu_no",
+        "gpa",
+        "phone_number",
+        "email",
+        "id_card_number",
+      ]).font = { bold: true };
+
+      const firstRow = worksheet.getRow(1);
+
+      firstRow.height = 30;
+
+      firstRow.border = {
+        top: { style: "thin" },
+        left: { style: "thin" },
+        bottom: { style: "thin" },
+        right: { style: "thin" },
+      };
+
+      firstRow.fill = {
+        type: "pattern",
+        pattern: "solid",
+        fgColor: { argb: "FFC0C0C0" }, // set the color to light gray
+      };
+
+      firstRow.alignment = {
+        vertical: "middle",
+        horizontal: "center",
+      };
+
+      const columns = ["A", "B", "C", "D", "E", "F", "G", "H", "I"];
+      columns.forEach((col) => {
+        const column = worksheet.getColumn(col);
+        column.border = {
+          top: { style: "thin" },
+          left: { style: "double", color: { argb: "black" } },
+          bottom: { style: "thin" },
+          right: { style: "thin" },
+        };
+      });
+    }
+
+    for (let i = 2; i <= 100; i++) {
+      const cell = worksheet.getCell(`D${i}`);
       cell.dataValidation = validationRule;
-
-      worksheet.addRow(row);
-    });
-
+    }
     // Save the workbook
     workbook.xlsx.writeBuffer().then((buffer) => {
       saveAs(
@@ -351,7 +448,9 @@ export default function Admin() {
                 >
                   {create} เพิ่มนักศึกษา
                 </Button>
-                <Button onClick={() => handleExportXLSX(student)}>
+                <Button
+                  onClick={() => handleExportXLSX(Searchtest(student), true)}
+                >
                   Test Download
                 </Button>
 
