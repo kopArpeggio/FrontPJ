@@ -25,12 +25,15 @@ function TestNav({ user, role }) {
     // { name: "test", path: "/admin/manage-company" },
   ];
 
+  const companyMenu = [
+    { name: "Home", path: "/company/student-list-company" },
+    // { name: "test", path: "/admin/manage-company" },
+  ];
   const teacherMenu = [
     { name: "ระบบนักศึกษา", path: "/teacher/student-list" },
     { name: "ระบบสถานประกอบการ", path: "/teacher/company-management" },
     { name: "เลือกนิเทศนักศึกษา", path: "/teacher/supervision-management" },
   ];
-
   // Upload Picture Modal/////////////////////////
   const [test, setTest] = useState(null);
   const [show, setShow] = useState(false);
@@ -171,13 +174,13 @@ function TestNav({ user, role }) {
                     </Navbar.Text>
                   ))}
                 </Nav>
-              ) : (
+              ) : role === "company" ? (
                 <Nav
                   className="me-auto my-2 my-lg-0"
                   style={{ maxHeight: "200px" }}
                   navbarScroll
                 >
-                  {teacherMenu.map((item, index) => (
+                  {companyMenu.map((item, index) => (
                     <Navbar.Text className="me-3 ms-3 " key={index}>
                       <Link className="navlink " to={item.path}>
                         <ul className="navbar-nav">
@@ -189,6 +192,8 @@ function TestNav({ user, role }) {
                     </Navbar.Text>
                   ))}
                 </Nav>
+              ) : (
+                ""
               )}
               <Nav
                 className="ms-auto my-2 my-lg-0 mt-5 me-5"
@@ -221,9 +226,7 @@ function TestNav({ user, role }) {
                         อาจารย์ {user?.firstname} {user?.lastname}
                       </div>
                     ) : role === "company" ? (
-                      <div>
-                        บริษัท {user?.companyName} {console.log(user)}
-                      </div>
+                      <div>บริษัท {user?.companyName}</div>
                     ) : role === "admin" ? (
                       <div className="">
                         แอดมิน {user?.firstname} {user?.lastname}

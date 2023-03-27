@@ -20,5 +20,15 @@ export const sweetAlertSubmit = (event, title) => {
 };
 
 export const sweetAlertSuccess = (title) => {
-  Swal.fire(title ? title : "สำเร็จ !", "", "success");
+  // Swal.fire(title ? title : "สำเร็จ !", "", "success");
+  return new Promise((resolve) => {
+    Swal.fire({
+      title: title ? title : "สำเร็จ !",
+      text: title,
+      icon: "success",
+      button: "OK",
+    }).then(() => {
+      resolve(true);
+    });
+  });
 };

@@ -8,11 +8,9 @@ import Button from "react-bootstrap/Button";
 import { saveAs } from "file-saver";
 import * as Papa from "papaparse";
 import numeral from "numeral";
+import { AiOutlineDownload,AiOutlineUpload } from "react-icons/ai";
 
 import {
-  faCheck,
-  faRotate,
-  faXmark,
   faPenToSquare,
   faTrash,
   faPlus,
@@ -28,6 +26,7 @@ import { getAllBranch, getAllBranchByStatus } from "../../apis/branchAPi";
 import { uploadCsvStudentFile } from "../../apis/uploadApi";
 import { sweetAlertSubmit } from "../../swal2/swal2";
 import Swal from "sweetalert2";
+import AdminUploadfileModal from "./Modal/AdminUploadfileModal";
 
 export default function Admin() {
   const [student, setStudent] = useState([]);
@@ -35,12 +34,18 @@ export default function Admin() {
   const [modalStudent, setModalStudent] = useState("");
   const [createMode, setCreateMode] = useState(false);
   const [show, setShow] = useState(false);
+  const [showUploadModal, setShowUploadModal] = useState(false);
   const [branch, setBranch] = useState([]);
   const [branchForExcel, setBranchForExcel] = useState();
+  const [file, setFile] = useState();
 
   const handleShow = (param) => {
     setShow(true);
     setModalStudent(param);
+  };
+
+  const handleShowUploadModal = (param) => {
+    setShowUploadModal(true);
   };
 
   const [q, SetQ] = useState("");
@@ -73,10 +78,7 @@ export default function Admin() {
     );
   };
 
-  const check = <FontAwesomeIcon icon={faCheck} className="correct" />;
   const create = <FontAwesomeIcon icon={faPlus} className="correct" />;
-  const wrong = <FontAwesomeIcon icon={faXmark} className="Wrong" />;
-  const checking = <FontAwesomeIcon icon={faRotate} className="Checking" />;
 
   const customStyles = {
     rows: {
@@ -115,6 +117,7 @@ export default function Admin() {
   const handleClose = () => {
     setShow(false);
     setCreateMode(false);
+    setShowUploadModal(false);
     getStudent();
   };
   const columns = [
@@ -268,7 +271,7 @@ export default function Admin() {
         "gpa",
         "phone_number",
         "email",
-        "id_card_number",
+        // "id_card_number",
       ]).font = { bold: true, color: "FFCCFFCC" };
 
       const firstRow = worksheet.getRow(1);
@@ -293,7 +296,7 @@ export default function Admin() {
         horizontal: "center",
       };
 
-      const columns = ["A", "B", "C", "D", "E", "F", "G", "H", "I"];
+      const columns = ["A", "B", "C", "D", "E", "F", "G", "H"];
       columns.forEach((col) => {
         const column = worksheet.getColumn(col);
         column.border = {
@@ -315,7 +318,7 @@ export default function Admin() {
           numeral(user?.gpa).format("0.00"),
           `'${user?.phoneNumber}`,
           user?.email,
-          `${user?.idCardNumber}`,
+          // `${user?.idCardNumber}`,
         ];
 
         worksheet.addRow(row);
@@ -360,7 +363,7 @@ export default function Admin() {
         const column = worksheet.getColumn(col);
         column.border = {
           top: { style: "thin" },
-          left: { style: "double", color: { argb: "black" } },
+          left: { style: "thin", color: { argb: "black" } },
           bottom: { style: "thin" },
           right: { style: "thin" },
         };
@@ -384,7 +387,7 @@ export default function Admin() {
 
   const fileInputHandler = async (e) => {
     const files = e?.target?.files;
-    await uploadCsvStudentFile(files[0]);
+    setFile(files[0]);
   };
 
   return (
@@ -401,6 +404,14 @@ export default function Admin() {
           options={options}
           branch={branch}
         />
+
+        <AdminUploadfileModal
+          show={showUploadModal}
+          handleClose={handleClose}
+          handleExportXLSX={handleExportXLSX}
+          fileInputHandler={fileInputHandler}
+          file={file}
+        />
         <DataTable
           progressPending={loading}
           progressComponent={
@@ -416,12 +427,12 @@ export default function Admin() {
           title="จัดการนักศึกษา"
           columns={columns}
           data={Searchtest(student)}
-          expandableRows
-          expandableRowsComponent={(value) => <pre>{value.data.firstname}</pre>}
+          // expandableRows
+          // expandableRowsComponent={(value) => <pre>{value.data.firstname}</pre>}
           pagination
           fixedHeader
           fixedHeaderScrollHeight="80vh"
-          //selectableRows
+          // selectableRows
           responsive
           highlightOnHover
           subHeader
@@ -438,9 +449,9 @@ export default function Admin() {
                 />
               </div>
               {/* <Form.Control type="text" className="" /> */}
-              <div>
+              <div className="d-flex flex-xl-row">
                 <Button
-                  className="button-t"
+                  className="button-data-table "
                   onClick={() => {
                     setCreateMode(true);
                     handleShow();
@@ -449,19 +460,19 @@ export default function Admin() {
                   {create} เพิ่มนักศึกษา
                 </Button>
                 <Button
+                  className="button-data-table"
                   onClick={() => handleExportXLSX(Searchtest(student), true)}
                 >
-                  Test Download
+                  <AiOutlineDownload className="correct" /> Export
                 </Button>
-
-                <label class="btn btn-primary">
-                  Choose File{" "}
-                  <input
-                    type="file"
-                    hidden
-                    onChange={(e) => fileInputHandler(e)}
-                  />
-                </label>
+                <Button
+                  className="button-data-table"
+                  onClick={() => {
+                    handleShowUploadModal();
+                  }}
+                >
+                 <AiOutlineUpload className="correct"/> Import
+                </Button>
               </div>
             </>
           }
@@ -476,7 +487,7 @@ export default function Admin() {
             Page {pageNumber} of {numPages}
           </p>
         </div> */}
-        <iframe src="/pdf/Hi.pdf" width="450" height="250" title="pdf"></iframe>
+        {/* <iframe src="/pdf/Hi.pdf" width="450" height="250" title="pdf"></iframe> */}
       </Container>
     </div>
   );

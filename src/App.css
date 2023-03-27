@@ -122,6 +122,31 @@ object {
   color: #ffffff;
 }
 
+.button-data-table {
+  background-color: #08805c;
+  border-radius: 7px;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  margin: 0px 2px;
+  letter-spacing: -0.004em;
+  border: none;
+  display: block;
+  font-size: 18px;
+}
+
+.button-data-table:hover {
+  background-color: #066146;
+  color: #ffffff;
+}
+
+.button-data-table:focus {
+  background-color: #066146;
+  color: #ffffff;
+}
+
+
+
 .nav-text {
   text-align: left;
 

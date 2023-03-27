@@ -34,7 +34,7 @@ export default function User() {
             {
               <img
                 style={{ width: 150 }}
-                src="https://sites.google.com/site/kittikornthammakitjawat/_/rsrc/1458360280559/line-id-qr-code/Line-QR.jpg"
+                src="/asset/img/lineChatBot.jpg"
                 alt="Line@"
               ></img>
             }
