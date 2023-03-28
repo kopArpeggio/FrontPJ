@@ -1,13 +1,32 @@
 import axios from "axios";
+import { sweetAlertError } from "../swal2/swal2";
 
 const prefix = "workplace";
 
 const GET_ALL_WORK_PLACE_URL = "get-all-workplace";
 const GET_ALL_WORK_PLACE_URL_WITH_STATUS = "get-all-workplace-with-status";
+const GET_STUDENT_IN_THAT_WORK_PLACE = `${prefix}/get-workplace-with-student-by-id`;
 const GET_WORK_PLACE_BY_ID_URL = `${prefix}/get-workplace-by-id`;
 const CREATE_WORK_PLACE = `${prefix}/create`;
 const UPDATE_WORK_PLACE_BY_ID_URL = `${prefix}/update-by-id`;
 const DELETE_WORK_PLACE_BY_ID_URL = `${prefix}/delete-by-id`;
+
+export const getStudentInThatWorkplace = async (id) => {
+  try {
+    const { data, status } = await axios.get(
+      `${GET_STUDENT_IN_THAT_WORK_PLACE}/${id}`
+    );
+
+    if (status === 200) {
+      return data;
+    }
+  } catch (error) {
+    const err = error?.response?.data?.error;
+
+    sweetAlertError(err);
+    return undefined;
+  }
+};
 
 export const getAllWorkplace = async () => {
   try {
@@ -21,7 +40,9 @@ export const getAllWorkplace = async () => {
 
     return undefined;
   } catch (error) {
-    console.log(error);
+    const err = error?.response?.data?.error;
+
+    sweetAlertError(err);
     return undefined;
   }
 };
@@ -37,7 +58,9 @@ export const getAllWorkplaceWithStatus = async () => {
 
     return undefined;
   } catch (error) {
-    console.log(error);
+    const err = error?.response?.data?.error;
+
+    sweetAlertError(err);
     return undefined;
   }
 };
@@ -54,7 +77,9 @@ export const getWorkplaceById = async (id) => {
 
     return undefined;
   } catch (error) {
-    console.log(error);
+    const err = error?.response?.data?.error;
+
+    sweetAlertError(err);
     return undefined;
   }
 };
@@ -69,8 +94,9 @@ export const createWorkplace = async (body) => {
 
     return undefined;
   } catch (error) {
-    console.log(error);
+    const err = error?.response?.data?.error;
 
+    sweetAlertError(err);
     return undefined;
   }
 };
@@ -86,8 +112,9 @@ export const updateWorkplaceById = async (body) => {
       return true;
     }
   } catch (error) {
-    console.log(error);
+    const err = error?.response?.data?.error;
 
+    sweetAlertError(err);
     return undefined;
   }
 };
@@ -102,8 +129,9 @@ export const deleteWorkplaceById = async (id) => {
       return true;
     }
   } catch (error) {
-    console.log(error);
+    const err = error?.response?.data?.error;
 
+    sweetAlertError(err);
     return undefined;
   }
 };
