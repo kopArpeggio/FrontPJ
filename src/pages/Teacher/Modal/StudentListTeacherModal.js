@@ -81,12 +81,6 @@ function StudentListTeacherModal({
         <Modal.Body>
           <Container>
             <Form noValidate validated={validated} onSubmit={handleSubmit}>
-              {/* <iframe
-            src="/pdf/Hi.pdf"
-            style={{ height: "80vh", width: "50%", marginBottom: "5vh" }}
-            title="pdf"
-          ></iframe> */}
-
               <Row className="mb-3 mt-5 d-flex flex-xl-row">
                 <Form.Label
                   className="col-form-label-lg"

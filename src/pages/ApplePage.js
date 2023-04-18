@@ -23,7 +23,7 @@ export default function ApplePage() {
   const map = (url) => {
     console.log(getCoordinatesFromGoogleMapURL(url));
   };
-  const api = "http://localhost:3001/api/";
+  const api = `${process.env.REACT_APP_UPLOAD_HOST}/${process.env.REACT_APP_API_PATH}/`;
   var url;
   const navigate = useNavigate();
 
@@ -31,7 +31,6 @@ export default function ApplePage() {
   async function getUser() {
     try {
       await axios.get(`${api}`).then(function (res) {
-        console.log(res);
         if (res.data.data.student) {
           setUser(res.data.data.student);
           setAddress(res.data.data.student.Address);
@@ -82,7 +81,8 @@ export default function ApplePage() {
 
   return (
     <div>
-      <TestNav user={user} role={role} />
+      {/* <TestNav user={user} role={role} /> */}
+      
       {role === "student"
         ? navigate("/user/dashboard")
         : role === "admin"

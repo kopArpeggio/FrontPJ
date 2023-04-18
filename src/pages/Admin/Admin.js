@@ -8,7 +8,7 @@ import Button from "react-bootstrap/Button";
 import { saveAs } from "file-saver";
 import * as Papa from "papaparse";
 import numeral from "numeral";
-import { AiOutlineDownload,AiOutlineUpload } from "react-icons/ai";
+import { AiOutlineDownload, AiOutlineUpload } from "react-icons/ai";
 
 import {
   faPenToSquare,
@@ -104,7 +104,7 @@ export default function Admin() {
   };
 
   const getStudent = async () => {
-    const api = "http://localhost:3001/api/";
+    const api = `${process.env.REACT_APP_UPLOAD_HOST}/${process.env.REACT_APP_API_PATH}/`;
     try {
       const res = await axios.get(`${api}/student/get-all-student`);
       setStudent(res.data.data);
@@ -471,7 +471,7 @@ export default function Admin() {
                     handleShowUploadModal();
                   }}
                 >
-                 <AiOutlineUpload className="correct"/> Import
+                  <AiOutlineUpload className="correct" /> Import
                 </Button>
               </div>
             </>

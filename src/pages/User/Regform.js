@@ -144,7 +144,7 @@ export default function Regform({ user }) {
     } catch (error) {}
   };
 
-  const api = "http://localhost:3001/api/";
+  const api = `${process.env.REACT_APP_UPLOAD_HOST}/${process.env.REACT_APP_API_PATH}/`;
 
   const getUser = async () => {
     try {

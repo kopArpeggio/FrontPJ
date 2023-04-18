@@ -4,24 +4,58 @@ import Navbar from "react-bootstrap/Navbar";
 import logo from "./logo/logo.png";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import Nav from "react-bootstrap/Nav";
-import { Button, Collapse, Container, Form, Image } from "react-bootstrap";
+import {
+  Button,
+  Col,
+  Collapse,
+  Container,
+  Form,
+  Image,
+  Row,
+  Toast,
+  ToastContainer,
+} from "react-bootstrap";
 import { getImageUrl } from "../utils/utils";
 import UploadProfileModal from "./Modal/UploadProfileModal";
 import { CgProfile } from "react-icons/cg";
 import { FiLogOut } from "react-icons/fi";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCheck, faRotate, faXmark } from "@fortawesome/free-solid-svg-icons";
 
 function TestNav({ user, role }) {
   const navigate = useNavigate();
 
   const userMenu = [
     { name: "หน้าหลัก", path: "/user/dashboard" },
-    { name: "ข้อมูลนักศึกษา", path: "/user/user-info" },
+    { name: "ใบสมัครสหกิจ", path: "/user/user-info" },
     { name: "รายละเอียดงาน", path: "/user/user-job-description" },
     { name: "จัดการเอกสาร", path: "/user/document" },
   ];
 
+  const check = (
+    <FontAwesomeIcon
+      icon={faCheck}
+      style={{ fontSize: "4vh" }}
+      className="corret-mark"
+    />
+  );
+  const wrong = (
+    <FontAwesomeIcon
+      icon={faXmark}
+      style={{ fontSize: "4vh" }}
+      className="Wrong"
+    />
+  );
+  const checking = (
+    <FontAwesomeIcon
+      icon={faRotate}
+      className="Checking"
+      style={{ fontSize: "4vh" }}
+    />
+  );
+
   const adminMenu = [
-    { name: "Home", path: "/admin/manage-student" },
+    { name: "หนัาหลัก", path: "/admin/manage-student" },
     // { name: "test", path: "/admin/manage-company" },
   ];
 
@@ -33,12 +67,14 @@ function TestNav({ user, role }) {
     { name: "ระบบนักศึกษา", path: "/teacher/student-list" },
     { name: "ระบบสถานประกอบการ", path: "/teacher/company-management" },
     { name: "เลือกนิเทศนักศึกษา", path: "/teacher/supervision-management" },
+    { name: "ประเมินนักศึกษา", path: "/teacher/evaluate-student" },
   ];
   // Upload Picture Modal/////////////////////////
   const [test, setTest] = useState(null);
   const [show, setShow] = useState(false);
   const [image, setImage] = useState(null);
   const [previewImage, setPreviewImage] = useState(null);
+  const [isAlert, setIsAlert] = useState(true);
 
   const handleShow = (param) => {
     setShow(true);
@@ -57,6 +93,58 @@ function TestNav({ user, role }) {
     window.location.reload();
   };
 
+  const statusAlert = (status) => {
+    return (
+      <Row>
+        <Col
+          sm={"4"}
+          className="d-flex justify-content-center align-items-center"
+        >
+          {status === "2" ||
+          status === "3" ||
+          status === "5" ||
+          status === "6" ||
+          status === "7" ||
+          status === "8"
+            ? checking
+            : status === "1" || status === "9"
+            ? wrong
+            : status === "0"
+            ? check
+            : ""}
+        </Col>
+        <Col>
+          <div style={{ fontSize: "2vh" }}>
+            {" "}
+            {status === "2" ? (
+              <div>Job Description รอการตอบรับจากสถานประกอบการ</div>
+            ) : status === "1" ? (
+              <div> Job Description ของคุณไม่ผ่าน โปรดแก้ไข</div>
+            ) : status === "0" ? (
+              <div> เอกสารทั้งหมดเสร็จแล้ว </div>
+            ) : status === "3" ? (
+              <div> Job Description ของคุณกำลังรออาจารย์ตรวจสอบ</div>
+            ) : status === "4" ? (
+              <div>โปรดกรอก ใบสมัครสหกิจให้เรียบร้อย และ กรอกรายละเอียดงาน</div>
+            ) : status === "5" ? (
+              <div> รอการประเมินจากสถานประกอบการ</div>
+            ) : status === "6" ? (
+              <div>รอการประเมินจากอาจารย์</div>
+            ) : status === "7" ? (
+              <div> รอส่งเอกสาร</div>
+            ) : status === "8" ? (
+              <div> กำลังตรวจสอบเอกสาร</div>
+            ) : status === "9" ? (
+              <div>เอกสารไม่ผ่าน</div>
+            ) : (
+              ""
+            )}
+          </div>
+        </Col>
+      </Row>
+    );
+  };
+
   useEffect(() => {
     if (user?.profilePic) {
       setTest(user?.profilePic);
@@ -66,7 +154,7 @@ function TestNav({ user, role }) {
   return (
     <div>
       {role ? (
-        <Navbar className="nav-color" bg="light" expand="lg">
+        <Navbar className="nav-color" bg="light" expand="lg" fixed="top">
           <Container fluid>
             <Navbar.Brand className="navbar-brand me-5">
               <Link className="navlink d-flex flex-row " to="/">
@@ -86,6 +174,28 @@ function TestNav({ user, role }) {
                   style={{ maxHeight: "200px" }}
                   navbarScroll
                 >
+                  <ToastContainer
+                    position="top-end"
+                    className="p-2 animate__bounceIn"
+                  >
+                    <Toast
+                      bg="light"
+                      show={isAlert}
+                      onClose={() => setIsAlert(false)}
+                    >
+                      <Toast.Header>
+                        <img
+                          src="holder.js/20x20?text=%20"
+                          className="rounded me-2"
+                          alt=""
+                        />
+                        <strong className="me-auto">แจ้งเตือนสถานะ</strong>
+                      </Toast.Header>
+                      <Toast.Body>
+                        {statusAlert(user?.documentStatus)}
+                      </Toast.Body>
+                    </Toast>
+                  </ToastContainer>
                   {userMenu.map((item, index) => (
                     <Navbar.Text
                       className="d-flex justify-content-around me-3 ms-3"
@@ -122,36 +232,32 @@ function TestNav({ user, role }) {
                   <Navbar.Text className="d-flex justify-content-around me-3 ms-3 mt-2">
                     <NavDropdown
                       className="profile-nav  "
-                      title={"Master Data"}
+                      title={"จัดการข้อมูล"}
                     >
                       <NavDropdown.Item className="masterData">
                         <Link className="" to={"/admin/manage-student"}>
-                          Student Management
+                          ระบบจัดการนักศึกษา
                         </Link>
                       </NavDropdown.Item>
 
                       <NavDropdown.Item className="masterData">
                         <Link to={"/admin/manage-company"}>
-                          Company Management
+                          ระบบจัดการสถานประกอบการ
                         </Link>
                       </NavDropdown.Item>
 
                       <NavDropdown.Item className="masterData">
                         <Link to={"/admin/manage-teacher"}>
-                          Teacher Management
+                          ระบบจัดการอาจารย์
                         </Link>
                       </NavDropdown.Item>
 
                       <NavDropdown.Item className="masterData">
-                        <Link to={"/admin/manage-branch"}>
-                          Branch Management
-                        </Link>
+                        <Link to={"/admin/manage-branch"}>ระบบจัดการสาขา</Link>
                       </NavDropdown.Item>
 
                       <NavDropdown.Item className="masterData">
-                        <Link to={"/admin/manage-faculty"}>
-                          Faculty Management
-                        </Link>
+                        <Link to={"/admin/manage-faculty"}>ระบบจัดการคณะ</Link>
                       </NavDropdown.Item>
                     </NavDropdown>
                   </Navbar.Text>
@@ -205,21 +311,25 @@ function TestNav({ user, role }) {
                   className=" profile-nav "
                   title={
                     role === "student" ? (
-                      <div className="mt-3" style={{ color: "#000000E6" }}>
-                        <Image
-                          width={"35px"}
-                          height={"35px"}
-                          roundedCircle
-                          src={
-                            test ? getImageUrl(test) : "/asset/img/noAvatar.jpg"
-                          }
-                          style={{
-                            boxShadow:
-                              "rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px",
-                          }}
-                          className="me-2"
-                        />
-                        นักศึกษา {user?.firstname} {user?.lastname}
+                      <div>
+                        <div className="mt-3" style={{ color: "#000000E6" }}>
+                          <Image
+                            width={"35px"}
+                            height={"35px"}
+                            roundedCircle
+                            src={
+                              test
+                                ? getImageUrl(test)
+                                : "/asset/img/noAvatar.jpg"
+                            }
+                            style={{
+                              boxShadow:
+                                "rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px",
+                            }}
+                            className="me-2"
+                          />
+                          นักศึกษา {user?.firstname} {user?.lastname}
+                        </div>
                       </div>
                     ) : role === "teacher" ? (
                       <div>
@@ -238,13 +348,18 @@ function TestNav({ user, role }) {
                   id="nav-dropdown"
                 >
                   {role === "student" ? (
-                    <NavDropdown.Item
-                      onClick={handleShow}
-                      className="upload-image"
-                    >
-                      <CgProfile style={{ fontSize: "20" }} /> อัพโหลดรูป
-                      Profile
-                    </NavDropdown.Item>
+                    <div>
+                      <NavDropdown.Item
+                        onClick={handleShow}
+                        className="upload-image"
+                      >
+                        <CgProfile style={{ fontSize: "20" }} /> อัพโหลดรูป
+                        Profile
+                      </NavDropdown.Item>
+                      <NavDropdown.Item className="upload-image">
+                        <CgProfile style={{ fontSize: "20" }} /> เปลี่ยนรหัสผ่าน
+                      </NavDropdown.Item>
+                    </div>
                   ) : (
                     ""
                   )}
@@ -273,7 +388,8 @@ function TestNav({ user, role }) {
       ) : (
         ""
       )}
-      <div style={{ marginBottom: "10vh" }}></div>
+
+      <div style={{ marginBottom: "20vh" }}></div>
     </div>
   );
 }

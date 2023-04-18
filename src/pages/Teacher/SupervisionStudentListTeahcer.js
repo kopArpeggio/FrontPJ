@@ -3,7 +3,6 @@ import React, { useEffect, useState } from "react";
 import Container from "react-bootstrap/esm/Container";
 import ReactLoading from "react-loading";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import Button from "react-bootstrap/Button";
 
 import {
   faCheck,
@@ -12,21 +11,16 @@ import {
   faPenToSquare,
   faTrash,
   faPlus,
-  faSearch,
 } from "@fortawesome/free-solid-svg-icons";
 import "react-pdf/dist/esm/Page/TextLayer.css";
 import "react-pdf/dist/esm/Page/AnnotationLayer.css";
-import { getAllWorkplace } from "../../apis/workplaceApi";
 import { Col, Form, Image, Row } from "react-bootstrap";
 import { getImageUrl } from "../../utils/utils";
 import {
   deleteStudent,
-  getAllStudent,
-  getAllStudentBranch,
   getAllStudentByStatus,
   getAllYearStudent,
 } from "../../apis/studentApi";
-import { getAllBranchByStatus } from "../../apis/branchAPi";
 import SupervisionStudentModal from "./Modal/SupervisionStudentModal";
 
 function SupervisionStudentListTeacher() {
@@ -241,18 +235,6 @@ function SupervisionStudentListTeacher() {
         student={modalStudent}
       />
       <Container className="tablecustom ">
-        {/* <AdminModal
-          show={show}
-          handleClose={handleClose}
-          student={modalStudent}
-          setStudent={setModalStudent}
-          createMode={createMode}
-          setCreateMode={setCreateMode}
-          setLoading={setLoading}
-          options={options}
-          branch={branch}
-        /> */}
-
         <DataTable
           progressPending={loading}
           progressComponent={
@@ -317,19 +299,6 @@ function SupervisionStudentListTeacher() {
                   </Form.Select>
                 </Form.Group>
               </Row>
-
-              {/* <Form.Control type="text" className="" /> */}
-              {/* <div className="d-flex flex-row">
-                <Button
-                  className="button-t"
-                  onClick={() => {
-                    setCreateMode(true);
-                    handleShow();
-                  }}
-                >
-                  {create} เพิ่มนักศึกษา
-                </Button>
-              </div> */}
             </>
           }
         />

@@ -1,4 +1,5 @@
 import axios from "axios";
+import { sweetAlertError } from "../swal2/swal2";
 
 // const prefix = "branch";
 const GET_DATA = ` `;
@@ -24,6 +25,7 @@ export const signIn = async (body) => {
     return undefined;
   } catch (error) {
     error.statusCode = 400;
+    console.log(error);
     if (error) throw error;
     return undefined;
   }
@@ -45,9 +47,8 @@ export const getData = async () => {
     }
     return undefined;
   } catch (error) {
-    error.statusCode = 400;
-    if (error) throw error;
-    return undefined;
+    const err = error?.response?.data?.error;
+    sweetAlertError(err);
   }
 };
 /** End @func getData */

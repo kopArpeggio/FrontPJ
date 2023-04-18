@@ -4,7 +4,7 @@ import axios from "axios";
 import Swal from "sweetalert2";
 
 const PrivateRouteTeacher = () => {
-  const api = "http://localhost:3001/api/";
+  const api = `${process.env.REACT_APP_UPLOAD_HOST}/${process.env.REACT_APP_API_PATH}/`;
   const [hirole, setRole] = useState("");
   const [hiuser, setUser] = useState([]);
 

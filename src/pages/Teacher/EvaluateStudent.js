@@ -3,7 +3,6 @@ import React, { useEffect, useState } from "react";
 import Container from "react-bootstrap/esm/Container";
 import ReactLoading from "react-loading";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import Button from "react-bootstrap/Button";
 
 import {
   faCheck,
@@ -12,24 +11,21 @@ import {
   faPenToSquare,
   faTrash,
   faPlus,
-  faSearch,
 } from "@fortawesome/free-solid-svg-icons";
 import "react-pdf/dist/esm/Page/TextLayer.css";
 import "react-pdf/dist/esm/Page/AnnotationLayer.css";
-import { getAllWorkplace } from "../../apis/workplaceApi";
 import { Col, Form, Image, Row } from "react-bootstrap";
 import { getImageUrl } from "../../utils/utils";
 import {
   deleteStudent,
-  getAllStudent,
-  getAllStudentBranch,
   getAllStudentByStatus,
   getAllYearStudent,
 } from "../../apis/studentApi";
-import { getAllBranchByStatus } from "../../apis/branchAPi";
-import StudentListTeacherModal from "./Modal/StudentListTeacherModal";
+import SupervisionStudentModal from "./Modal/SupervisionStudentModal";
+import EvaluateModal from "./Modal/EvaluateModal14_1";
+import SelectEvaluate from "./Modal/SelectEvaluate";
 
-function StudentListTeacher() {
+function EvaluateStudent() {
   const [student, setStudent] = useState([]);
   const [loading, setLoading] = useState(true);
   const [modalStudent, setModalStudent] = useState("");
@@ -37,12 +33,11 @@ function StudentListTeacher() {
   const [modalWorkplace, setModalWorkplace] = useState("");
   const [modalWork, setModalWork] = useState("");
   const [params, setParams] = useState({
-    status: "3",
+    status: "0",
     year: "",
   });
   const [createMode, setCreateMode] = useState(false);
   const [show, setShow] = useState(false);
-  const [branch, setBranch] = useState([]);
   const [studentYear, setStudentYear] = useState([]);
 
   const handleShow = (param) => {
@@ -83,7 +78,7 @@ function StudentListTeacher() {
     );
   };
 
-  const check = <FontAwesomeIcon icon={faCheck} className="correct" />;
+  const check = <FontAwesomeIcon icon={faCheck} className="corret-mark" />;
   const create = <FontAwesomeIcon icon={faPlus} className="correct" />;
   const wrong = <FontAwesomeIcon icon={faXmark} className="Wrong" />;
   const checking = <FontAwesomeIcon icon={faRotate} className="Checking" />;
@@ -182,13 +177,9 @@ function StudentListTeacher() {
     },
 
     {
-      name: "รายละเอียดงาน",
+      name: "ประเมินนักศึกษา",
       center: true,
-      cell: (row) => (
-        <div>
-          {edit(row)} {row?.documentStatus > 5 ? "" : ""}
-        </div>
-      ),
+      cell: (row) => <div>{edit(row)}</div>,
     },
     {
       name: "สถานะ",
@@ -196,7 +187,7 @@ function StudentListTeacher() {
       cell: (row) => (
         <div>
           {/* Later */}
-          {row?.status_id === 2
+          {row?.documentStatus === "0"
             ? check
             : row?.status_id === 1
             ? wrong
@@ -224,10 +215,6 @@ function StudentListTeacher() {
   useEffect(() => {
     getStudent();
 
-    getAllBranchByStatus().then((res) => {
-      setBranch(res?.data);
-    });
-
     getAllYearStudent().then((res) => {
       setStudentYear(res?.data);
     });
@@ -243,28 +230,13 @@ function StudentListTeacher() {
 
   return (
     <div>
-      <StudentListTeacherModal
+      <SelectEvaluate
         show={show}
-        setShow={setShow}
-        student={modalStudent}
-        address={modalAddress}
-        workplace={modalWorkplace}
         handleClose={handleClose}
-        work={modalWork}
+        setStudent={setModalStudent}
+        student={modalStudent}
       />
       <Container className="tablecustom ">
-        {/* <AdminModal
-          show={show}
-          handleClose={handleClose}
-          student={modalStudent}
-          setStudent={setModalStudent}
-          createMode={createMode}
-          setCreateMode={setCreateMode}
-          setLoading={setLoading}
-          options={options}
-          branch={branch}
-        /> */}
-
         <DataTable
           progressPending={loading}
           progressComponent={
@@ -277,11 +249,9 @@ function StudentListTeacher() {
           }
           customStyles={customStyles}
           theme="solarized"
-          title="ตรวจสอบเอกสาร Job Description"
+          title="เลือกประเมินนักศึกษา"
           columns={columns}
           data={Searchtest(student)}
-          expandableRows
-          expandableRowsComponent={(value) => <pre>{value.data.firstname}</pre>}
           pagination
           fixedHeader
           fixedHeaderScrollHeight="80vh"
@@ -296,7 +266,7 @@ function StudentListTeacher() {
                 className="d-flex flex-column flex-lg-row "
                 style={{ whiteSpace: "nowrap" }}
               >
-                <Form.Group as={Col} sm={4}>
+                <Form.Group as={Col} sm={6}>
                   <div>
                     <input
                       type="text"
@@ -311,30 +281,7 @@ function StudentListTeacher() {
                 <Form.Group
                   className="d-flex align-items-center"
                   as={Col}
-                  sm={4}
-                >
-                  <div className="">สถานะ : </div>
-                  <Form.Select
-                    title="สถานะ"
-                    defaultValue="3"
-                    aria-label="Default select example"
-                    onChange={(e) => {
-                      setParams({ ...params, status: e?.target?.value });
-                    }}
-                  >
-                    <option value="">ทั้งหมด</option>
-                    <option value="3">กำลังรออาจารย์</option>
-                    <option value="0">สำเร็จ</option>
-                    <option value="1">ไม่ผ่าน</option>
-                    <option value="2">รอการตอบรับจากสถานประกอบการ</option>
-                    <option value="4">ยังไม่ส่ง</option>
-                  </Form.Select>
-                </Form.Group>
-
-                <Form.Group
-                  className="d-flex align-items-center"
-                  as={Col}
-                  sm={4}
+                  sm={6}
                 >
                   <div className="">ปีการศึกษา : </div>
                   <Form.Select
@@ -352,19 +299,6 @@ function StudentListTeacher() {
                   </Form.Select>
                 </Form.Group>
               </Row>
-
-              {/* <Form.Control type="text" className="" /> */}
-              {/* <div className="d-flex flex-row">
-                <Button
-                  className="button-t"
-                  onClick={() => {
-                    setCreateMode(true);
-                    handleShow();
-                  }}
-                >
-                  {create} เพิ่มนักศึกษา
-                </Button>
-              </div> */}
             </>
           }
         />
@@ -373,4 +307,4 @@ function StudentListTeacher() {
   );
 }
 
-export default StudentListTeacher;
+export default EvaluateStudent;
