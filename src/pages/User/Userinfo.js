@@ -528,6 +528,30 @@ function Userinfo() {
                     />
                   </Form.Group>
                 </Row>
+
+                <Row className="mb-3 mt-4 justify-content-center d-flex flex-column flex-lg-row">
+                  <Form.Group as={Col} sm="8">
+                    <Form.Label
+                      style={{ fontSize: 20, color: "" }}
+                      className="d-flex flex-row"
+                    >
+                      บ้านเลขที่
+                    </Form.Label>
+                    <Form.Control
+                      required
+                      type="text"
+                      placeholder="5/1 หมู่ 2 ถนน"
+                      value={newAddress?.houseNumber}
+                      onChange={(event) =>
+                        setNewAddress({
+                          ...newAddress,
+                          houseNumber: event?.target?.value,
+                        })
+                      }
+                    />
+                  </Form.Group>
+                </Row>
+
                 <Row className="mb-3 mt-4 justify-content-center d-flex flex-column flex-lg-row">
                   <Form.Group as={Col} sm="8">
                     <Form.Label
@@ -586,29 +610,6 @@ function Userinfo() {
                       type="search"
                       disabled
                       value={newAddress?.zipCode}
-                    />
-                  </Form.Group>
-                </Row>
-
-                <Row className="mb-3 mt-4 justify-content-center d-flex flex-column flex-lg-row">
-                  <Form.Group as={Col} sm="8">
-                    <Form.Label
-                      style={{ fontSize: 20, color: "" }}
-                      className="d-flex flex-row"
-                    >
-                      บ้านเลขที่
-                    </Form.Label>
-                    <Form.Control
-                      required
-                      type="text"
-                      placeholder="5/1 หมู่ 2 ถนน"
-                      value={newAddress?.houseNumber}
-                      onChange={(event) =>
-                        setNewAddress({
-                          ...newAddress,
-                          houseNumber: event?.target?.value,
-                        })
-                      }
                     />
                   </Form.Group>
                 </Row>

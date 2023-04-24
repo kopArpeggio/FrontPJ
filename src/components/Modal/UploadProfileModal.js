@@ -82,7 +82,7 @@ export default function UploadProfileModal({
     <div>
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title>Upload Profile</Modal.Title>
+          <Modal.Title>อัพโหลดรูปโปรไฟล์</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           {isLoading ? (
@@ -97,7 +97,7 @@ export default function UploadProfileModal({
                 <div className="drag-drop-icon">
                   <FaUpload />
                 </div>
-                <h3>Drag and Drop or Click to Upload</h3>
+                <h3>ลากไฟล์ภาพ หรือ คลิกเพื่อเลือกไฟล์ภาพ</h3>
                 <input
                   id="fileInput"
                   type="file"
@@ -135,7 +135,7 @@ export default function UploadProfileModal({
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>
-            Close
+            ยกเลิก
           </Button>
           <Button
             variant="primary"
@@ -143,7 +143,7 @@ export default function UploadProfileModal({
               handleSubmitUpload(image);
             }}
           >
-            Save Changes
+            เปลี่ยนโปรไฟล์
           </Button>
         </Modal.Footer>
       </Modal>

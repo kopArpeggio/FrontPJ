@@ -5,26 +5,26 @@ import ReactLoading from "react-loading";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Button from "react-bootstrap/Button";
 
+import { HiOutlineXMark } from "react-icons/hi";
+
 import {
   faPenToSquare,
   faTrash,
   faPlus,
+  faCheck,
+  faXmark,
 } from "@fortawesome/free-solid-svg-icons";
 import {
   deleteWorkplaceById,
   getAllWorkplace,
+  getAllWorkplaceByApprove,
   updateWorkplaceById,
 } from "../../apis/workplaceApi";
 import { Form } from "react-bootstrap";
 import CompanyManagementTeacherModal from "./Modal/CompanyManagementTeacherModal";
-
-function CompanyManagementTeacher() {
+function ApproveCompanyTeacher() {
   const [company, setCompany] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [modalCompany, setModalCompany] = useState("");
-  const [createMode, setCreateMode] = useState(false);
-  const [show, setShow] = useState(false);
-  const [address, setAddress] = useState([]);
 
   const nrru = {
     latitude: 14.9846414,
@@ -40,58 +40,15 @@ function CompanyManagementTeacher() {
     return `https://maps.google.com/maps?saddr=${startLatitude},${startLongitude}&daddr=${endLatitude},${endLongitude}&output=embed`;
   };
 
-  const handleShow = (param) => {
-    setShow(true);
-    setModalCompany(param);
-  };
-
-  const handleClose = () => {
-    setShow(false);
-    setCreateMode(false);
-    getWorkplace();
-  };
-
   // Delete Logic
   const handleDelete = async (params) => {
     setLoading(true);
 
     // Logic Here and call function
-    await deleteWorkplaceById(params.id);
+    await deleteWorkplaceById(params);
 
     getWorkplace();
   };
-
-  const [q, SetQ] = useState("");
-
-  const edit = (param) => {
-    return (
-      <>
-        <FontAwesomeIcon
-          icon={faPenToSquare}
-          onClick={() => {
-            handleShow(param);
-          }}
-          className="tableAction"
-        />
-      </>
-    );
-  };
-
-  const deleteIcon = (param) => {
-    return (
-      <>
-        <FontAwesomeIcon
-          icon={faTrash}
-          onClick={() => {
-            handleDelete(param);
-          }}
-          className="tableAction"
-        />
-      </>
-    );
-  };
-
-  const create = <FontAwesomeIcon icon={faPlus} className="correct" />;
 
   const customStyles = {
     rows: {
@@ -116,8 +73,27 @@ function CompanyManagementTeacher() {
     },
   };
 
+  const check = () => (
+    <FontAwesomeIcon
+      icon={faCheck}
+      style={{ fontSize: "3vh" }}
+      className="corret-mark"
+    />
+  );
+
+  const wrong = (workplace) => (
+    <FontAwesomeIcon
+      icon={faXmark}
+      style={{ fontSize: "3vh" }}
+      onClick={() => handleDelete(workplace?.id)}
+      className="Wrong"
+    />
+  );
+
+  const cancel = {};
+
   const getWorkplace = async () => {
-    await getAllWorkplace().then((res) => {
+    await getAllWorkplaceByApprove().then((res) => {
       setLoading(true);
       setCompany(res?.data);
       setLoading(false);
@@ -149,88 +125,22 @@ function CompanyManagementTeacher() {
       sortable: true,
     },
     {
-      name: "แก้ไข / ลบ",
+      name: "อนุมัติ / ยกเลิก",
       center: true,
       cell: (row) => (
         <div>
-          {edit(row)} {deleteIcon(row)}
-        </div>
-      ),
-    },
-
-    {
-      name: "สถานะ",
-      center: true,
-      cell: (row) => (
-        <div>
-          {/* Later */}
-          {/* {row.status_id === 2 ? check : row.status_id === 1 ? wrong : checking} */}
-          <Form.Check
-            type="switch"
-            onChange={(event) => handleStatus(event?.target?.checked, row)}
-            checked={row.status}
-          />
+          {check(row)} {wrong(row)}
         </div>
       ),
     },
   ];
 
-  // Change Status Logic
-  const handleStatus = async (status, company) => {
-    const statusBody = {
-      ...company,
-      status,
-    };
-    await updateWorkplaceById(statusBody);
-    getWorkplace();
-  };
-
-  const fetchAPI = async () => {
-    await fetch(
-      "https://gist.githubusercontent.com/ChaiyachetU/a72a3af3c6561b97883d7af935188c6b/raw/0e9389fa1fc06b532f9081793b3e36db31a1e1c6/thailand.json"
-    )
-      .then((response) => response.json())
-      .then((result) => {
-        setAddress(result);
-      });
-  };
-
   useEffect(() => {
-    fetchAPI();
     getWorkplace();
   }, []);
 
-  const options = [];
-  for (var i = 0; i < address.length; i++) {
-    var obj = {};
-    obj["value"] = i;
-    obj["label"] =
-      address[i].district +
-      " >> " +
-      address[i].amphoe +
-      " >> " +
-      address[i].province;
-    options.push(obj);
-  }
-
-  const Searchtest = (rows) => {
-    return rows?.filter(
-      (row) => row?.companyName.toLowerCase().indexOf(q) > -1
-    );
-  };
-
   return (
     <div>
-      <CompanyManagementTeacherModal
-        show={show}
-        company={modalCompany}
-        setCompany={setModalCompany}
-        handleClose={handleClose}
-        createMode={createMode}
-        options={options}
-        address={address}
-      />
-
       <Container className="tablecustom">
         <DataTable
           progressPending={loading}
@@ -246,7 +156,7 @@ function CompanyManagementTeacher() {
           theme="solarized"
           title="ระบบจัดการสภานประกอบการ"
           columns={columns}
-          data={Searchtest(company)}
+          data={company}
           expandableRows
           expandableRowsComponent={(value) =>
             value?.data?.latitude && value?.data?.longtitude ? (
@@ -286,7 +196,7 @@ function CompanyManagementTeacher() {
           subHeaderAlign={"left"}
           subHeaderComponent={
             <>
-              <div style={{ justifyContent: "space-between" }}>
+              {/* <div style={{ justifyContent: "space-between" }}>
                 <input
                   type="text"
                   placeholder="ค้นหาสถานประกอบการ"
@@ -294,10 +204,10 @@ function CompanyManagementTeacher() {
                   value={q}
                   onChange={(e) => SetQ(e.target.value)}
                 />
-              </div>
+              </div> */}
               {/* <Form.Control type="text" className="" /> */}
               <div>
-                <Button
+                {/* <Button
                   className="button-t"
                   onClick={() => {
                     setCreateMode(true);
@@ -305,7 +215,7 @@ function CompanyManagementTeacher() {
                   }}
                 >
                   {create} เพิ่มบริษัท
-                </Button>
+                </Button> */}
               </div>
             </>
           }
@@ -315,4 +225,4 @@ function CompanyManagementTeacher() {
   );
 }
 
-export default CompanyManagementTeacher;
+export default ApproveCompanyTeacher;

@@ -19,9 +19,13 @@ import {
 import "react-pdf/dist/esm/Page/TextLayer.css";
 import "react-pdf/dist/esm/Page/AnnotationLayer.css";
 import AdminModal from "./Modal/AdminModal";
-import { Image } from "react-bootstrap";
+import { Form, Image } from "react-bootstrap";
 import { getImageUrl } from "../../utils/utils";
-import { deleteStudent } from "../../apis/studentApi";
+import {
+  deleteStudent,
+  getAllStudentByYear,
+  getAllYearStudent,
+} from "../../apis/studentApi";
 import { getAllBranch, getAllBranchByStatus } from "../../apis/branchAPi";
 import { uploadCsvStudentFile } from "../../apis/uploadApi";
 import { sweetAlertSubmit } from "../../swal2/swal2";
@@ -38,6 +42,10 @@ export default function Admin() {
   const [branch, setBranch] = useState([]);
   const [branchForExcel, setBranchForExcel] = useState();
   const [file, setFile] = useState();
+  const [studentYear, setStudentYear] = useState([]);
+  const [params, setParams] = useState({
+    year: "",
+  });
 
   const handleShow = (param) => {
     setShow(true);
@@ -104,13 +112,17 @@ export default function Admin() {
   };
 
   const getStudent = async () => {
-    const api = `${process.env.REACT_APP_UPLOAD_HOST}/${process.env.REACT_APP_API_PATH}/`;
-    try {
-      const res = await axios.get(`${api}/student/get-all-student`);
-      setStudent(res.data.data);
-      setLoading(false);
-    } catch (error) {
-      console.log(error);
+    setLoading(true);
+    if (!params) {
+      getAllStudentByYear(params).then((res) => {
+        setStudent(res?.data);
+        setLoading(false);
+      });
+    } else {
+      getAllStudentByYear(params).then((res) => {
+        setStudent(res?.data);
+        setLoading(false);
+      });
     }
   };
 
@@ -204,7 +216,11 @@ export default function Admin() {
         res?.data.map((obj) => `${obj.id} : สาขาวิชา${obj.branchName}`)
       );
     });
-  }, []);
+
+    getAllYearStudent().then((res) => {
+      setStudentYear(res?.data);
+    });
+  }, [params]);
 
   const Searchtest = (rows) => {
     const filtered = rows?.filter(
@@ -439,7 +455,10 @@ export default function Admin() {
           subHeaderAlign={"left"}
           subHeaderComponent={
             <>
-              <div style={{ justifyContent: "space-between" }}>
+              <div
+                style={{ justifyContent: "space-between" }}
+                className="d-flex justify-content-column"
+              >
                 <input
                   type="text"
                   placeholder="ค้นหานักศึกษา"
@@ -447,7 +466,24 @@ export default function Admin() {
                   value={q}
                   onChange={(e) => SetQ(e.target.value)}
                 />
+
+                <Form.Select
+                  defaultValue="3"
+                  aria-label="Default select example"
+                  style={{ justifyContent: "space-between", width: "50%" }}
+                  onChange={(e) => {
+                    setParams({ ...params, year: e?.target?.value });
+                  }}
+                >
+                  <option value={""}>ปีการศึกษา</option>
+                  {studentYear.map((val, index) => (
+                    <option key={index} value={val?.year}>
+                      {val?.year}
+                    </option>
+                  ))}
+                </Form.Select>
               </div>
+
               {/* <Form.Control type="text" className="" /> */}
               <div className="d-flex flex-xl-row">
                 <Button

@@ -11,30 +11,29 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { Col, Form, Image, Row } from "react-bootstrap";
 import { getAllFacultyByStatus } from "../../apis/facultyApi";
-import {
-  deleteBranchById,
-  getAllBranch,
-  updateBranchById,
-} from "../../apis/branchAPi";
 import { getAllStudentByCompany } from "../../apis/studentApi";
 import { getImageUrl } from "../../utils/utils";
+import JobDescriptionModal from "./Modal/JobDescriptionModal";
 
 function StudentListCompany() {
-  const [branch, setBranch] = useState([]);
+  const [student, setStudent] = useState([]);
+  const [work, setWork] = useState();
+  const [address, setAddress] = useState();
+  const [workplace, setWorkplace] = useState();
   const [loading, setLoading] = useState(true);
-  const [modalBranch, setModalBranch] = useState("");
-  const [createMode, setCreateMode] = useState(false);
+
   const [show, setShow] = useState(false);
-  const [faculty, setFaculty] = useState([]);
 
   const handleShow = (param) => {
     setShow(true);
-    setModalBranch(param);
+    console.log(param);
+    setWork(param?.Work);
+    setWorkplace(param?.Work?.Workplace);
+    setAddress(param?.Work?.Workplace?.Address)
   };
 
   const handleClose = () => {
     setShow(false);
-    setCreateMode(false);
     getBranch();
   };
 
@@ -86,7 +85,7 @@ function StudentListCompany() {
   const getBranch = async () => {
     await getAllStudentByCompany(params).then((res) => {
       setLoading(true);
-      setBranch(res?.data);
+      setStudent(res?.data);
       setLoading(false);
     });
   };
@@ -131,8 +130,8 @@ function StudentListCompany() {
     {
       name: "ตรวจสอบ",
       center: true,
-      cell: (row) => (
-        <Button variant="primary" size="sm">
+      selector: (row) => (
+        <Button variant="primary" size="sm" onClick={() => handleShow(row)}>
           ตรวจสอบ
         </Button>
       ),
@@ -141,14 +140,7 @@ function StudentListCompany() {
 
   // Change Status Logic
 
-  const getFaculty = async () => {
-    getAllFacultyByStatus().then((res) => {
-      setFaculty(res?.data);
-    });
-  };
-
   useEffect(() => {
-    getFaculty();
     getBranch();
   }, [params]);
 
@@ -163,6 +155,16 @@ function StudentListCompany() {
     <div>
       {" "}
       <Container className="tablecustom">
+        <JobDescriptionModal
+          show={show}
+          setShow={setShow}
+          student={student}
+          handleClose={handleClose}
+          work={work}
+          workplace={workplace}
+          address={address}
+        />
+
         <DataTable
           progressPending={loading}
           progressComponent={
@@ -175,9 +177,9 @@ function StudentListCompany() {
           }
           customStyles={customStyles}
           theme="solarized"
-          title="จัดการนักศึกษาฝึกงาน"
+          title="ระบบจัดการนักศึกษาฝึกงาน"
           columns={columns}
-          data={Searchtest(branch)}
+          data={Searchtest(student)}
           // expandableRows
           // expandableRowsComponent={(value) => <pre>{value.data.firstname}</pre>}
           pagination

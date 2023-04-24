@@ -21,9 +21,13 @@ import { CgProfile } from "react-icons/cg";
 import { FiLogOut } from "react-icons/fi";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck, faRotate, faXmark } from "@fortawesome/free-solid-svg-icons";
+import ChangePassword from "./Modal/ChangePassword";
+import ChangePasswordTeahcer from "./Modal/ChangePasswordTeahcer";
 
 function TestNav({ user, role }) {
   const navigate = useNavigate();
+
+  const [use, setUse] = useState();
 
   const userMenu = [
     { name: "หน้าหลัก", path: "/user/dashboard" },
@@ -39,6 +43,7 @@ function TestNav({ user, role }) {
       className="corret-mark"
     />
   );
+  
   const wrong = (
     <FontAwesomeIcon
       icon={faXmark}
@@ -46,6 +51,7 @@ function TestNav({ user, role }) {
       className="Wrong"
     />
   );
+
   const checking = (
     <FontAwesomeIcon
       icon={faRotate}
@@ -60,18 +66,23 @@ function TestNav({ user, role }) {
   ];
 
   const companyMenu = [
-    { name: "Home", path: "/company/student-list-company" },
+    { name: "ระบบจัดการนักศึกษา", path: "/company/student-list-company" },
+    { name: "ประเมินนักศึกษา", path: "/company/evaluate-student-company" },
     // { name: "test", path: "/admin/manage-company" },
   ];
   const teacherMenu = [
     { name: "ระบบนักศึกษา", path: "/teacher/student-list" },
     { name: "ระบบสถานประกอบการ", path: "/teacher/company-management" },
+    { name: "อนุมัติสถานประกอบการ", path: "/teacher/approve-company" },
     { name: "เลือกนิเทศนักศึกษา", path: "/teacher/supervision-management" },
     { name: "ประเมินนักศึกษา", path: "/teacher/evaluate-student" },
   ];
   // Upload Picture Modal/////////////////////////
   const [test, setTest] = useState(null);
   const [show, setShow] = useState(false);
+  const [showChangePassword, setShowChangePassword] = useState(false);
+  const [showChangePasswordTeacher, setShowChangePasswordTeacher] =
+    useState(false);
   const [image, setImage] = useState(null);
   const [previewImage, setPreviewImage] = useState(null);
   const [isAlert, setIsAlert] = useState(true);
@@ -80,10 +91,22 @@ function TestNav({ user, role }) {
     setShow(true);
   };
 
+  const handleShowChangePassword = () => {
+    setShowChangePassword(true);
+    setUse(user);
+  };
+
+  const handleShowChangePasswordTeacher = () => {
+    setShowChangePasswordTeacher(true);
+    setUse(user);
+  };
+
   const handleClose = () => {
     setShow(false);
     setImage(null);
     setPreviewImage(null);
+    setShowChangePassword(false);
+    setShowChangePasswordTeacher(false);
   };
   // End Here/////////////////////////////////////
 
@@ -356,10 +379,20 @@ function TestNav({ user, role }) {
                         <CgProfile style={{ fontSize: "20" }} /> อัพโหลดรูป
                         Profile
                       </NavDropdown.Item>
-                      <NavDropdown.Item className="upload-image">
+                      <NavDropdown.Item
+                        className="upload-image"
+                        onClick={handleShowChangePassword}
+                      >
                         <CgProfile style={{ fontSize: "20" }} /> เปลี่ยนรหัสผ่าน
                       </NavDropdown.Item>
                     </div>
+                  ) : role === "teacher" ? (
+                    <NavDropdown.Item
+                      className="upload-image"
+                      onClick={handleShowChangePasswordTeacher}
+                    >
+                      <CgProfile style={{ fontSize: "20" }} /> เปลี่ยนรหัสผ่าน
+                    </NavDropdown.Item>
                   ) : (
                     ""
                   )}
@@ -382,6 +415,18 @@ function TestNav({ user, role }) {
               setTest={setTest}
               setShow={setShow}
               test={test}
+            />
+            <ChangePassword
+              student={use}
+              setStudent={setUse}
+              show={showChangePassword}
+              handleClose={handleClose}
+            />
+            <ChangePasswordTeahcer
+              teacher={use}
+              setTeacher={setUse}
+              show={showChangePasswordTeacher}
+              handleClose={handleClose}
             />
           </Container>
         </Navbar>

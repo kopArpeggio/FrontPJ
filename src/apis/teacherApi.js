@@ -7,6 +7,7 @@ const GET_ALL_TEACHER_API = `${prefix}/get-all-teacher`;
 const CREATE_TEACHER_API = `${prefix}/create`;
 const UPDATE_TEACHER_BY_ID_API = `${prefix}/update-by-id`;
 const DELETE_TEACHER_BY_ID_API = `${prefix}/delete-by-id`;
+const UPDATE_TEACHER_PASSWORD_BY_ID = `${prefix}/update-teacher-password-by-id`;
 
 export const getAllTeacher = async () => {
   try {
@@ -57,6 +58,23 @@ export const updateTeacherById = async (body) => {
 export const deleteTeacherById = async (id) => {
   try {
     const { status } = await axios.delete(`${DELETE_TEACHER_BY_ID_API}/${id}`);
+
+    if (status === 200) {
+      return true;
+    }
+  } catch (error) {
+    const err = error?.response?.data?.error;
+
+    sweetAlertError(err);
+  }
+};
+
+export const updateTeacherPassword = async (body) => {
+  try {
+    const { status } = await axios.put(
+      `${UPDATE_TEACHER_PASSWORD_BY_ID}/${body?.id}`,
+      body
+    );
 
     if (status === 200) {
       return true;

@@ -32,6 +32,7 @@ import StudentListCompany from "./pages/Company/StudentListCompany";
 import CompanyManagementTeacher from "./pages/Teacher/CompanyManagementTeacher";
 import SupervisionStudentListTeacher from "./pages/Teacher/SupervisionStudentListTeahcer";
 import EvaluateStudent from "./pages/Teacher/EvaluateStudent";
+import ApproveCompanyTeacher from "./pages/Teacher/ApproveCompanyTeacher";
 
 function App() {
   const isAuthorized = localStorage.getItem("token");
@@ -39,7 +40,7 @@ function App() {
   setupAxios(axios);
 
   return (
-    <div className="App" style={{marginBottom:"10vh"}}>
+    <div className="App" style={{ marginBottom: "10vh" }}>
       <BrowserRouter>
         <Routes>
           {!isAuthorized ? (
@@ -94,6 +95,10 @@ function App() {
           </Route>
           <Route element={<PrivateRouteTeacher />}>
             <Route element={<BasepageTeacher />} path="/teacher">
+              <Route
+                element={<ApproveCompanyTeacher />}
+                path="approve-company"
+              />
               <Route element={<StudentListTeacher />} path="student-list" />
               <Route
                 element={<CompanyManagementTeacher />}
@@ -103,7 +108,7 @@ function App() {
                 element={<SupervisionStudentListTeacher />}
                 path="supervision-management"
               />
-              <Route element={<EvaluateStudent/>} path="evaluate-student"/>
+              <Route element={<EvaluateStudent />} path="evaluate-student" />
             </Route>
           </Route>
           <Route element={<PrivateRouteCompany />}>
@@ -116,8 +121,6 @@ function App() {
           </Route>
         </Routes>
       </BrowserRouter>
-
- 
     </div>
   );
 }

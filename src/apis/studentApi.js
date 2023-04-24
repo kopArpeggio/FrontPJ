@@ -11,6 +11,8 @@ const GET_ALL_STUDENT_BY_STATUS = `${prefix}/get-all-student-by-status`;
 const GET_ALL_STUDENT_BY_BRANCH = `${prefix}/get-all-student-by-branch`;
 const GET_ALL_YEAR_STUDENT = `${prefix}/get-student-year`;
 const GET_ALL_STUDENT_BY_COMPANY = `${prefix}/get-student-by-company`;
+const GET_ALL_ALL_STUDENT_BY_YEAR = `${prefix}/get-all-student-by-year`;
+const UPDATE_STUDENT_PASSWORD_BY_ID = `${prefix}/update-password-by-id`;
 
 export const getAllStudent = async () => {
   try {
@@ -77,6 +79,23 @@ export const getAllStudentByCompany = async (queryParams) => {
   }
 };
 
+export const getAllStudentByYear = async (queryParams) => {
+  try {
+    const { data, status } = await axios.get(GET_ALL_ALL_STUDENT_BY_YEAR, {
+      params: queryParams,
+    });
+    if (status === 200) {
+      return data;
+    }
+
+    return undefined;
+  } catch (error) {
+    const err = error?.response?.data?.error;
+
+    sweetAlertError(err);
+  }
+};
+
 export const getAllStudentByStatus = async (queryParams) => {
   try {
     const { data, status } = await axios.get(GET_ALL_STUDENT_BY_STATUS, {
@@ -129,6 +148,23 @@ export const createStudent = async (body) => {
 export const deleteStudent = async (id) => {
   try {
     const { status } = await axios.delete(`${DELETE_STUDENT}/${id}`);
+
+    if (status === 200) {
+      return true;
+    }
+  } catch (error) {
+    const err = error?.response?.data?.error;
+
+    sweetAlertError(err);
+  }
+};
+
+export const updateStudentPassword = async (body) => {
+  try {
+    const { status } = await axios.put(
+      `${UPDATE_STUDENT_PASSWORD_BY_ID}/${body?.id}`,
+      body
+    );
 
     if (status === 200) {
       return true;
