@@ -23,15 +23,18 @@ import {
 import { Form } from "react-bootstrap";
 import CompanyManagementTeacherModal from "./Modal/CompanyManagementTeacherModal";
 import CompanyApproveModalTeacher from "./Modal/CompanyApproveModalTeacher";
+import { getStudentByApproveCompany } from "../../apis/studentApi";
 function ApproveCompanyTeacher() {
   const [company, setCompany] = useState([]);
   const [companyModal, setCompanyModal] = useState();
   const [loading, setLoading] = useState(true);
   const [show, setShow] = useState(false);
+  const [student, setStudent] = useState()
 
   const handleShow = (param) => {
     setShow(true);
     setCompanyModal(param);
+    getStudentByApproveCompany(param?.id).then((res) => setStudent(res?.data))
   };
 
   const nrru = {
@@ -86,7 +89,7 @@ function ApproveCompanyTeacher() {
       icon={faCheck}
       style={{ fontSize: "3vh" }}
       className="corret-mark"
-      onClick={() => handleShow()}
+      onClick={() => handleShow(workplace)}
     />
   );
 
@@ -160,6 +163,8 @@ function ApproveCompanyTeacher() {
         setCompany={setCompanyModal}
         show={show}
         handleClose={handleClose}
+        student={student}
+        setStudent={setStudent}
       />
       <Container className="tablecustom">
         <DataTable
