@@ -177,7 +177,7 @@ function TestNav({ user, role }) {
   return (
     <div>
       {role ? (
-        <Navbar className="nav-color" bg="light" expand="lg" fixed="top">
+        <Navbar className="nav-color" bg="light" expand="xxl" fixed="top">
           <Container fluid>
             <Navbar.Brand className="navbar-brand me-5">
               <Link className="navlink d-flex flex-row " to="/">

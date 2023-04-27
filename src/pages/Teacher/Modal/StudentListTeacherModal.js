@@ -30,7 +30,7 @@ function StudentListTeacherModal({
   };
 
   const [validated, setValidated] = useState(false);
-  const [workStatus, setWorkStatus] = useState("");
+  const [workStatus, setWorkStatus] = useState({ status: false });
   const [studentStatus, setStudentStatus] = useState("");
 
   if (student) {
@@ -88,20 +88,59 @@ function StudentListTeacherModal({
                 >
                   รายละเอียดงานที่ไปปฎิบัติ
                 </Form.Label>
-                <Form.Group as={Col} sm="4">
+              </Row>
+
+              <Row className="mb-3 mt-4 justify-content-center d-flex flex-column flex-lg-row">
+                <Form.Group as={Col} sm="8">
                   <Form.Label
                     style={{ fontSize: 20, color: "" }}
                     className="d-flex flex-row"
                   >
-                    รายละเอียดงานที่ไปปฎิบัติ
+                    ชื่อจริง นักศึกษ่า
                   </Form.Label>
                   <Form.Control
                     disabled
+                    required
+                    type="text"
+                    value={student?.firstname}
+                  />
+                </Form.Group>
+              </Row>
+              <Row className="mb-3 mt-4 justify-content-center d-flex flex-column flex-lg-row">
+                <Form.Group as={Col} sm="8">
+                  <Form.Label
+                    style={{ fontSize: 20, color: "" }}
+                    className="d-flex flex-row"
+                  >
+                    นามสกุุล นักศึกษา
+                  </Form.Label>
+                  <Form.Control
+                    disabled
+                    required
+                    type="text"
+                    value={student?.lastname}
+                  />
+                </Form.Group>
+              </Row>
+              <Row className="mb-3 mt-4 justify-content-center d-flex flex-column flex-lg-row">
+                <Form.Group as={Col} sm="8">
+                  <Form.Label
+                    style={{ fontSize: 20, color: "" }}
+                    className="d-flex flex-row"
+                  >
+                    ตำแหน่งงาน
+                  </Form.Label>
+                  <Form.Control
+                    disabled
+                    required
                     type="text"
                     placeholder="Programmer"
                     value={Work?.jobTitle}
                   />
                 </Form.Group>
+              </Row>
+
+              <Row className="mb-3 mt-4 justify-content-center d-flex flex-column flex-lg-row">
                 <Form.Group as={Col} sm="8">
                   <Form.Label
                     style={{ fontSize: 20, color: "" }}
@@ -111,16 +150,17 @@ function StudentListTeacherModal({
                   </Form.Label>
                   <Form.Control
                     disabled
+                    required
                     as="textarea"
                     rows={3}
                     placeholder="ถ่ายเอกสาร ถูพื้น ล้างจาน ตัดต่อวีดีโอ ตัดย่า"
-                    value={Work?.jobDetail}
+                    value={work?.jobDetail}
                   />
                 </Form.Group>
               </Row>
 
-              <Row className="mb-3 mt-4 ">
-                <Form.Group as={Col} sm="12">
+              <Row className="mb-3 mt-4 justify-content-center d-flex flex-column flex-lg-row">
+                <Form.Group as={Col} sm="8">
                   <Form.Label
                     style={{ fontSize: 20, color: "" }}
                     className="d-flex flex-row"
@@ -128,156 +168,126 @@ function StudentListTeacherModal({
                     สวัสดิการจากสถานประกอบการที่ได้รับ (ถ้ามี)
                   </Form.Label>
                   <Form.Control
+                    required
                     disabled
                     as="textarea"
                     rows={3}
                     placeholder="เงิน ประกัน เบิกค่ารถ "
-                    value={Work?.benefit}
+                    value={work?.benefit}
                   />
                 </Form.Group>
               </Row>
-              <Row className="mb-3 mt-5 ">
+
+              <Row className="mb-3 mt-4 justify-content-center d-flex flex-column flex-lg-row">
                 <Form.Label
                   className="col-form-label-lg"
                   style={{ fontSize: 22, color: "", fontWeight: "bold" }}
                 >
                   สถานประกอบการที่ต้องการไปปฏิบัติสหกิจศึกษา
                 </Form.Label>
-                <Form.Group as={Col} sm="3">
-                  <Form.Label
-                    style={{ fontSize: 20, color: "" }}
-                    className="d-flex flex-row"
-                  >
-                    ชื่อหัวหน้าหน่วยงาน
-                  </Form.Label>
-                  <Form.Control
-                    disabled
-                    placeholder=""
-                    value={Work?.bossFirstname}
-                  />
-                </Form.Group>
-                <Form.Group as={Col} sm="3">
-                  <Form.Label
-                    style={{ fontSize: 20, color: "" }}
-                    className="d-flex flex-row"
-                  >
-                    นามสกุล
-                  </Form.Label>
-                  <Form.Control
-                    disabled
-                    placeholder=""
-                    value={Work?.bossLastname}
-                  />
-                </Form.Group>
-                <Form.Group as={Col} sm="4">
-                  <Form.Label
-                    style={{ fontSize: 20, color: "" }}
-                    className="d-flex flex-row"
-                  >
-                    ตำแหน่ง
-                  </Form.Label>
-                  <Form.Control
-                    disabled
-                    placeholder=""
-                    value={Work?.bossPosition}
-                  />
-                </Form.Group>
-                <Form.Group as={Col} sm="2">
-                  <Form.Label
-                    style={{ fontSize: 20, color: "" }}
-                    className="d-flex flex-row"
-                  >
-                    แผนก/ฝ่าย
-                  </Form.Label>
-                  <Form.Control
-                    disabled
-                    placeholder=""
-                    value={Work?.bossDepartment}
-                  />
-                </Form.Group>
-              </Row>
+                <Row className="mb-3 mt-4 justify-content-center d-flex flex-column flex-lg-row">
+                  <Form.Group as={Col} sm="8">
+                    <Form.Label
+                      style={{ fontSize: 20, color: "" }}
+                      className="d-flex flex-row justify-content-between"
+                    >
+                      <div>ชื่อหน่วยงาน</div>
+                    </Form.Label>
+                    <Form.Control
+                      disabled
+                      required
+                      placeholder=""
+                      value={workplace?.companyName}
+                    />
+                  </Form.Group>
+                </Row>
 
-              <Row className="mb-3 mt-5 ">
-                <Form.Group as={Col} sm="8">
-                  <Form.Label
-                    style={{ fontSize: 20, color: "" }}
-                    className="d-flex flex-row"
-                  >
-                    ชื่อหน่วยงาน
-                  </Form.Label>
-                  <Form.Control
-                    disabled
-                    placeholder=""
-                    value={workplace?.companyName}
-                  />
-                </Form.Group>
-                <Form.Group as={Col} sm="4">
-                  <Form.Label
-                    style={{ fontSize: 20, color: "" }}
-                    className="d-flex flex-row"
-                  >
-                    บ้านเลขที่
-                  </Form.Label>
-                  <Form.Control
-                    disabled
-                    placeholder=""
-                    value={address?.houseNumber}
-                  />
-                </Form.Group>
-              </Row>
+                <Row className="mb-3 mt-4 justify-content-center d-flex flex-column flex-lg-row">
+                  <Form.Group as={Col} sm="8">
+                    <Form.Label
+                      style={{ fontSize: 20, color: "" }}
+                      className="d-flex flex-row"
+                    >
+                      บ้านเลขที่
+                    </Form.Label>
+                    <Form.Control
+                      disabled
+                      required
+                      placeholder=""
+                      value={address?.houseNumber}
+                    />
+                  </Form.Group>
+                </Row>
+                <Row className="mb-3 mt-4 justify-content-center d-flex flex-column flex-lg-row">
+                  <Form.Group as={Col} sm="8">
+                    <Form.Label
+                      style={{ fontSize: 20, color: "" }}
+                      className="d-flex flex-row"
+                    >
+                      ตำบล
+                    </Form.Label>
+                    <Form.Control
+                      required
+                      type="text"
+                      disabled
+                      value={address?.district}
+                    />
+                  </Form.Group>
+                </Row>
 
-              <Row className="mb-3 mt-5 ">
-                <Row className=" "></Row>
-                <Form.Group as={Col} sm="3">
-                  <Form.Label
-                    style={{ fontSize: 20, color: "" }}
-                    className="d-flex flex-row"
-                  >
-                    ตำบล
-                  </Form.Label>
-                  <Form.Control
-                    disabled
-                    type="text"
-                    value={address?.district}
-                  />
-                </Form.Group>
-                <Form.Group as={Col} sm="3">
-                  <Form.Label
-                    style={{ fontSize: 20, color: "" }}
-                    className="d-flex flex-row"
-                  >
-                    อำเภอ
-                  </Form.Label>
-                  <Form.Control disabled type="text" value={address?.amphoe} />
-                </Form.Group>
-                <Form.Group as={Col} sm="3">
-                  <Form.Label
-                    style={{ fontSize: 20, color: "" }}
-                    className="d-flex flex-row"
-                  >
-                    จังหวัด
-                  </Form.Label>
-                  <Form.Control
-                    disabled
-                    type="text"
-                    value={address?.province}
-                  />
-                </Form.Group>
-                <Form.Group as={Col} sm="3">
-                  <Form.Label
-                    style={{ fontSize: 20, color: "" }}
-                    className="d-flex flex-row"
-                  >
-                    รหัสไปรษณีย์
-                  </Form.Label>
-                  <Form.Control
-                    disabled
-                    type="search"
-                    value={address?.zipCode}
-                  />
-                </Form.Group>
-                <Row className="mb-3 mt-3 ">
-                  <Form.Group as={Col} sm="4">
+                <Row className="mb-3 mt-4 justify-content-center d-flex flex-column flex-lg-row">
+                  <Form.Group as={Col} sm="8">
+                    <Form.Label
+                      style={{ fontSize: 20, color: "" }}
+                      className="d-flex flex-row"
+                    >
+                      อำเภอ
+                    </Form.Label>
+                    <Form.Control
+                      required
+                      type="text"
+                      disabled
+                      value={address?.amphoe}
+                    />
+                  </Form.Group>
+                </Row>
+
+                <Row className="mb-3 mt-4 justify-content-center d-flex flex-column flex-lg-row">
+                  <Form.Group as={Col} sm="8">
+                    <Form.Label
+                      style={{ fontSize: 20, color: "" }}
+                      className="d-flex flex-row"
+                    >
+                      จังหวัด
+                    </Form.Label>
+                    <Form.Control
+                      required
+                      type="text"
+                      disabled
+                      value={address?.province}
+                    />
+                  </Form.Group>
+                </Row>
+
+                <Row className="mb-3 mt-4 justify-content-center d-flex flex-column flex-lg-row">
+                  <Form.Group as={Col} sm="8">
+                    <Form.Label
+                      style={{ fontSize: 20, color: "" }}
+                      className="d-flex flex-row"
+                    >
+                      รหัสไปรษณีย์
+                    </Form.Label>
+                    <Form.Control
+                      required
+                      type="search"
+                      disabled
+                      value={address?.zipCode}
+                    />
+                  </Form.Group>
+                </Row>
+
+                <Row className="mb-3 mt-4 justify-content-center d-flex flex-column flex-lg-row">
+                  <Form.Group as={Col} sm="8">
                     <Form.Label
                       style={{ fontSize: 20, color: "" }}
                       className="d-flex flex-row"
@@ -286,11 +296,14 @@ function StudentListTeacherModal({
                     </Form.Label>
                     <Form.Control
                       disabled
+                      required
                       placeholder=""
-                      value={Work?.phoneNumber}
+                      value={work?.phoneNumber}
                       maxLength="10"
                     />
                   </Form.Group>
+                </Row>
+                <Row className="mb-3 mt-4 justify-content-center d-flex flex-column flex-lg-row">
                   <Form.Group as={Col} sm="8">
                     <Form.Label
                       style={{ fontSize: 20, color: "" }}
@@ -300,74 +313,93 @@ function StudentListTeacherModal({
                     </Form.Label>
                     <Form.Control
                       disabled
+                      required
                       type="email"
                       placeholder=""
-                      value={Work?.email}
+                      value={work?.email}
                     />
                   </Form.Group>
                 </Row>
-                <Row className="mb-3 mt-5 ">
+
+                <Row>
                   <Form.Label
                     className="col-form-label-lg"
                     style={{ fontSize: 22, color: "", fontWeight: "bold" }}
                   >
-                    บุลคลในสถานประกอบการที่นักศึกษาติดต่อสำหรับการปฏิบัติงานสหกิจศึกษา
+                    บุคคลในสถานประกอบการที่นักศึกษาติดต่อสำหรับการปฏิบัติงานสหกิจศึกษา
                   </Form.Label>
-                  <Form.Group as={Col} sm="3">
-                    <Form.Label
-                      style={{ fontSize: 20, color: "" }}
-                      className="d-flex flex-row"
-                    >
-                      ชื่อจริง
-                    </Form.Label>
-                    <Form.Control
-                      disabled
-                      placeholder=""
-                      value={Work?.contactorsFirstname}
-                    />
-                  </Form.Group>
-                  <Form.Group as={Col} sm="3">
-                    <Form.Label
-                      style={{ fontSize: 20, color: "" }}
-                      className="d-flex flex-row"
-                    >
-                      นามสกุล
-                    </Form.Label>
-                    <Form.Control
-                      disabled
-                      placeholder=""
-                      value={Work?.contactorsLastname}
-                    />
-                  </Form.Group>
-                  <Form.Group as={Col} sm="4">
-                    <Form.Label
-                      style={{ fontSize: 20, color: "" }}
-                      className="d-flex flex-row"
-                    >
-                      ตำแหน่ง
-                    </Form.Label>
-                    <Form.Control
-                      disabled
-                      placeholder=""
-                      value={Work?.contactorsPosition}
-                    />
-                  </Form.Group>
-                  <Form.Group as={Col} sm="2">
-                    <Form.Label
-                      style={{ fontSize: 20, color: "" }}
-                      className="d-flex flex-row"
-                    >
-                      แผนก/ฝ่าย
-                    </Form.Label>
-                    <Form.Control
-                      disabled
-                      placeholder=""
-                      value={Work?.contactorsDepartment}
-                    />
-                  </Form.Group>
+
+                  <Row className="mb-3 mt-4 justify-content-center d-flex flex-column flex-lg-row">
+                    <Form.Group as={Col} sm="8">
+                      <Form.Label
+                        style={{ fontSize: 20, color: "" }}
+                        className="d-flex flex-row"
+                      >
+                        ชื่อจริง
+                      </Form.Label>
+                      <Form.Control
+                        disabled
+                        required
+                        placeholder=""
+                        value={work?.contactorsFirstname}
+                      />
+                    </Form.Group>
+                  </Row>
+
+                  <Row className="mb-3 mt-4 justify-content-center d-flex flex-column flex-lg-row">
+                    <Form.Group as={Col} sm="8">
+                      <Form.Label
+                        style={{ fontSize: 20, color: "" }}
+                        className="d-flex flex-row"
+                      >
+                        นามสกุล
+                      </Form.Label>
+                      <Form.Control
+                        disabled
+                        required
+                        placeholder=""
+                        value={work?.contactorsLastname}
+                      />
+                    </Form.Group>
+                  </Row>
+
+                  <Row className="mb-3 mt-4 justify-content-center d-flex flex-column flex-lg-row">
+                    <Form.Group as={Col} sm="8">
+                      <Form.Label
+                        style={{ fontSize: 20, color: "" }}
+                        className="d-flex flex-row"
+                      >
+                        ตำแหน่ง
+                      </Form.Label>
+                      <Form.Control
+                        disabled
+                        required
+                        placeholder=""
+                        value={work?.contactorsPosition}
+                      />
+                    </Form.Group>
+                  </Row>
+
+                  <Row className="mb-3 mt-4 justify-content-center d-flex flex-column flex-lg-row">
+                    <Form.Group as={Col} sm="8">
+                      <Form.Label
+                        style={{ fontSize: 20, color: "" }}
+                        className="d-flex flex-row"
+                      >
+                        แผนก/ฝ่าย
+                      </Form.Label>
+                      <Form.Control
+                        disabled
+                        required
+                        placeholder=""
+                        value={work?.contactorsDepartment}
+                      />
+                    </Form.Group>
+                  </Row>
                 </Row>
-                <Row className="mb-3 mt-3 ">
-                  <Form.Group as={Col} sm="4">
+
+                <Row className="mb-3 mt-4 justify-content-center d-flex flex-column flex-lg-row">
+                  <Form.Group as={Col} sm="8">
                     <Form.Label
                       style={{ fontSize: 20, color: "" }}
                       className="d-flex flex-row"
@@ -376,11 +408,15 @@ function StudentListTeacherModal({
                     </Form.Label>
                     <Form.Control
                       disabled
+                      required
                       placeholder=""
-                      value={Work?.contactorsPhoneNumber}
+                      value={work?.contactorsPhoneNumber}
                       maxLength="10"
                     />
                   </Form.Group>
+                </Row>
+
+                <Row className="mb-3 mt-4 justify-content-center d-flex flex-column flex-lg-row">
                   <Form.Group as={Col} sm="8">
                     <Form.Label
                       style={{ fontSize: 20, color: "" }}
@@ -389,10 +425,11 @@ function StudentListTeacherModal({
                       E-mail
                     </Form.Label>
                     <Form.Control
-                      disabled
+                      required
                       type="email"
+                      disabled
                       placeholder=""
-                      value={Work?.contactorsEmail}
+                      value={work?.contactorsEmail}
                     />
                   </Form.Group>
                 </Row>
@@ -555,9 +592,12 @@ function StudentListTeacherModal({
                     as="textarea"
                     rows={3}
                     value={work?.description}
-                    onChange={(e) => {
-                      setWorkStatus({ ...work, description: e?.target?.value });
-                    }}
+                    onChange={(e) =>
+                      setWorkStatus({
+                        ...workStatus,
+                        description: e?.target?.value,
+                      })
+                    }
                   />
                 </Form.Group>
               </Row>

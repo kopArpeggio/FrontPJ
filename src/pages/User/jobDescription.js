@@ -174,7 +174,11 @@ function Jobdescription() {
           if (!finalWorkplace?.id) {
             createWorkplaceByStudent(finalAddress).then((res) => {
               setWork({ ...work, id: res?.data?.id });
-              setStu({ ...stu, documentStatus: "3" });
+
+              if (stu?.documentStatus === "4" || stu?.documentStatus === "1") {
+                setStu({ ...stu, documentStatus: "3" });
+              }
+
               finalAddress.id = res?.data?.id;
               console.log(work);
               console.log(res);
@@ -875,9 +879,6 @@ function Jobdescription() {
                   required
                   onChange={(e) => {
                     setIsConfirm(e?.target?.checked);
-                    if (stu?.documentStatus === "4") {
-                      setStu({ ...stu, documentStatus: "3" });
-                    }
                   }}
                 />
               </Form.Group>
@@ -890,9 +891,13 @@ function Jobdescription() {
                   type="submit"
                   value="ยืนยัน"
                   disabled={
-                    !isConfirm ||
-                    stu?.documentStatus === "1" ||
-                    stu?.documentStatus === "4"
+                    isConfirm === true
+                      ? stu?.documentStatus === "4"
+                        ? false
+                        : stu?.documentStatus === "1"
+                        ? false
+                        : true
+                      : true
                   }
                   style={{ width: "20%" }}
                 />

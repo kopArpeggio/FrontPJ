@@ -4,6 +4,7 @@ import Container from "react-bootstrap/esm/Container";
 import ReactLoading from "react-loading";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Button from "react-bootstrap/Button";
+import { saveAs } from "file-saver";
 
 import {
   faCheck,
@@ -15,6 +16,8 @@ import {
   faSearch,
 } from "@fortawesome/free-solid-svg-icons";
 import "react-pdf/dist/esm/Page/TextLayer.css";
+import { AiOutlineDownload, AiOutlineUpload } from "react-icons/ai";
+
 import "react-pdf/dist/esm/Page/AnnotationLayer.css";
 import { getAllWorkplace } from "../../apis/workplaceApi";
 import { Col, Form, Image, Row } from "react-bootstrap";
@@ -25,9 +28,11 @@ import {
   getAllStudentBranch,
   getAllStudentByStatus,
   getAllYearStudent,
+  updateStudentById,
 } from "../../apis/studentApi";
 import { getAllBranchByStatus } from "../../apis/branchAPi";
 import StudentListTeacherModal from "./Modal/StudentListTeacherModal";
+import { sweetAlertSubmit, sweetAlertSuccess } from "../../swal2/swal2";
 
 function StudentListTeacher() {
   const [student, setStudent] = useState([]);
@@ -36,6 +41,7 @@ function StudentListTeacher() {
   const [modalAddress, setModalAddress] = useState("");
   const [modalWorkplace, setModalWorkplace] = useState("");
   const [modalWork, setModalWork] = useState("");
+  const [branchForExcel, setBranchForExcel] = useState();
   const [params, setParams] = useState({
     status: "3",
     year: "",
@@ -69,6 +75,35 @@ function StudentListTeacher() {
     );
   };
 
+  const updateStatus = (param) => {
+    return (
+      <>
+        <FontAwesomeIcon
+          icon={faPenToSquare}
+          className="corret-mark"
+          onClick={() => {
+            param.documentStatus === "2"
+              ? (param.documentStatus = "10")
+              : param.documentStatus === "10"
+              ? (param.documentStatus = "7")
+              : (param.documentStatus = "2");
+            sweetAlertSubmit(undefined, "อนุมัติหรือไม่ ?").then(
+              async (results) => {
+                if (results.isConfirmed) {
+                  const done = await updateStudentById({ stu: param });
+                  if (done) {
+                    getStudent();
+                    sweetAlertSuccess();
+                  }
+                }
+              }
+            );
+          }}
+        />
+      </>
+    );
+  };
+
   const deleteIcon = (param) => {
     return (
       <>
@@ -83,7 +118,160 @@ function StudentListTeacher() {
     );
   };
 
-  const check = <FontAwesomeIcon icon={faCheck} className="correct" />;
+  const ExcelJS = require("exceljs");
+
+  const handleExportXLSX = (users, isExport) => {
+    // console.log(users);
+    // Create a new workbook
+    const workbook = new ExcelJS.Workbook();
+
+    // Add a new worksheet to the workbook
+    const worksheet = workbook.addWorksheet("Students");
+
+    // Set the width of column A to 20
+    const columns = ["A", "B", "C", "D", "E", "F", "G"];
+    columns.forEach((col) => {
+      const column = worksheet.getColumn(col);
+      column.width = 20;
+    });
+
+    // Define the validation list values
+    const validationListValues = branchForExcel;
+
+    // Define the validation rule
+    const validationRule = {
+      type: "list",
+      allowBlank: false,
+      formulae: [`"${validationListValues.join(",")}"`],
+      showErrorMessage: true,
+      errorStyle: "error",
+      errorTitle: "ข้อมูลผิดพลาด",
+      error: "โปรดเลือกจาก Select List เท่านั้น",
+    };
+
+    if (isExport) {
+      worksheet.addRow([
+        "stu_no",
+        "firstname",
+        "lastname",
+        "major",
+        "boss_firstname",
+        "boss_lastname",
+        "boss_position",
+      ]).font = { bold: true, color: "FFCCFFCC" };
+
+      const firstRow = worksheet.getRow(1);
+
+      firstRow.height = 30;
+
+      firstRow.border = {
+        top: { style: "thin" },
+        left: { style: "thin" },
+        bottom: { style: "thin" },
+        right: { style: "thin" },
+      };
+
+      firstRow.fill = {
+        type: "pattern",
+        pattern: "solid",
+        fgColor: { argb: "FFC0C0C0" }, // set the color to light gray
+      };
+
+      firstRow.alignment = {
+        vertical: "middle",
+        horizontal: "center",
+      };
+
+      const columns = ["A", "B", "C", "D", "E", "F", "G"];
+      columns.forEach((col) => {
+        const column = worksheet.getColumn(col);
+        column.border = {
+          top: { style: "thin" },
+          left: { style: "thin", color: { argb: "black" } },
+          bottom: { style: "thin" },
+          right: { style: "thin" },
+        };
+      });
+
+      // Loop through the users and add them to the worksheet
+      users.forEach((user) => {
+        console.log(user);
+        const row = [
+          user?.stuNo,
+          user?.firstname,
+          user?.lastname,
+          user?.branchName,
+          user?.bossFirstname,
+          user?.bossLastname,
+          user?.bossPosition,
+          // `${user?.idCardNumber}`,
+        ];
+
+        worksheet.addRow(row);
+      });
+    } else {
+      worksheet.addRow([
+        "id",
+        "firstname",
+        "lastname",
+        "major",
+        "stu_no",
+        "gpa",
+        "phone_number",
+        "email",
+        "id_card_number",
+      ]).font = { bold: true };
+
+      const firstRow = worksheet.getRow(1);
+
+      firstRow.height = 30;
+
+      firstRow.border = {
+        top: { style: "thin" },
+        left: { style: "thin" },
+        bottom: { style: "thin" },
+        right: { style: "thin" },
+      };
+
+      firstRow.fill = {
+        type: "pattern",
+        pattern: "solid",
+        fgColor: { argb: "FFC0C0C0" }, // set the color to light gray
+      };
+
+      firstRow.alignment = {
+        vertical: "middle",
+        horizontal: "center",
+      };
+
+      const columns = ["A", "B", "C", "D", "E", "F", "G", "H", "I"];
+      columns.forEach((col) => {
+        const column = worksheet.getColumn(col);
+        column.border = {
+          top: { style: "thin" },
+          left: { style: "thin", color: { argb: "black" } },
+          bottom: { style: "thin" },
+          right: { style: "thin" },
+        };
+      });
+    }
+
+    for (let i = 2; i <= 100; i++) {
+      const cell = worksheet.getCell(`D${i}`);
+      cell.dataValidation = validationRule;
+    }
+    // Save the workbook
+    workbook.xlsx.writeBuffer().then((buffer) => {
+      saveAs(
+        new Blob([buffer], {
+          type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+        }),
+        "student.xlsx"
+      );
+    });
+  };
+
+  const check = <FontAwesomeIcon icon={faCheck} className="corret-mark" />;
   const create = <FontAwesomeIcon icon={faPlus} className="correct" />;
   const wrong = <FontAwesomeIcon icon={faXmark} className="Wrong" />;
   const checking = <FontAwesomeIcon icon={faRotate} className="Checking" />;
@@ -182,28 +370,30 @@ function StudentListTeacher() {
     },
 
     {
-      name: "รายละเอียดงาน",
+      name: "อนุมัติ",
       center: true,
       cell: (row) => (
         <div>
-          {edit(row)} {row?.documentStatus > 5 ? "" : ""}
+          {params?.status === "10" || params?.status === "2"
+            ? updateStatus(row)
+            : edit(row)}
         </div>
       ),
     },
-    {
-      name: "สถานะ",
-      center: true,
-      cell: (row) => (
-        <div>
-          {/* Later */}
-          {row?.status_id === 2
-            ? check
-            : row?.status_id === 1
-            ? wrong
-            : checking}
-        </div>
-      ),
-    },
+    // {
+    //   name: "สถานะ",
+    //   center: true,
+    //   cell: (row) => (
+    //     <div>
+    //       {/* Later */}
+    //       {row?.status_id === 2
+    //         ? check
+    //         : row?.status_id === 1
+    //         ? wrong
+    //         : checking}
+    //     </div>
+    //   ),
+    // },
   ];
 
   const test = () => {
@@ -226,6 +416,9 @@ function StudentListTeacher() {
 
     getAllBranchByStatus().then((res) => {
       setBranch(res?.data);
+      setBranchForExcel(
+        res?.data.map((obj) => `${obj.id} : สาขาวิชา${obj.branchName}`)
+      );
     });
 
     getAllYearStudent().then((res) => {
@@ -277,7 +470,13 @@ function StudentListTeacher() {
           }
           customStyles={customStyles}
           theme="solarized"
-          title="ตรวจสอบเอกสาร Job Description"
+          title={
+            params?.status === "10"
+              ? "ระบบจัดการหนังสือส่งตัว"
+              : params?.status === "2"
+              ? "ระบบจัดการหนังสือขอความอนุเคราะห์"
+              : "ระบบจัดการ Job Description"
+          }
           columns={columns}
           data={Searchtest(student)}
           expandableRows
@@ -292,66 +491,85 @@ function StudentListTeacher() {
           subHeaderAlign={"left"}
           subHeaderComponent={
             <>
-              <Row
-                className="d-flex flex-column flex-lg-row "
-                style={{ whiteSpace: "nowrap" }}
+              <Form.Group as={Col} sm={3}>
+                <div>
+                  <input
+                    type="text"
+                    placeholder={`ค้นหานักศึกษา`}
+                    className="w-100 form-control"
+                    value={q}
+                    onChange={(e) => SetQ(e.target.value)}
+                  />
+                </div>
+              </Form.Group>
+
+              <Form.Group
+                className="d-flex align-items-center justify-content-start"
+                as={Col}
+                sm={3}
               >
-                <Form.Group as={Col} sm={4}>
-                  <div>
-                    <input
-                      type="text"
-                      placeholder={`ค้นหานักศึกษา`}
-                      className="w-100 form-control"
-                      value={q}
-                      onChange={(e) => SetQ(e.target.value)}
-                    />
-                  </div>
-                </Form.Group>
-
-                <Form.Group
-                  className="d-flex align-items-center"
-                  as={Col}
-                  sm={4}
+                <div className="" style={{ whiteSpace: "nowrap" }}>
+                  สถานะ :{" "}
+                </div>
+                <Form.Select
+                  title="สถานะ"
+                  defaultValue="3"
+                  aria-label="Default select example"
+                  onChange={(e) => {
+                    setParams({ ...params, status: e?.target?.value });
+                  }}
                 >
-                  <div className="">สถานะ : </div>
-                  <Form.Select
-                    title="สถานะ"
-                    defaultValue="3"
-                    aria-label="Default select example"
-                    onChange={(e) => {
-                      setParams({ ...params, status: e?.target?.value });
-                    }}
-                  >
-                    <option value="">ทั้งหมด</option>
-                    <option value="3">กำลังรออาจารย์</option>
-                    <option value="0">สำเร็จ</option>
-                    <option value="1">ไม่ผ่าน</option>
-                    <option value="2">รอการตอบรับจากสถานประกอบการ</option>
-                    <option value="4">ยังไม่ส่ง</option>
-                  </Form.Select>
-                </Form.Group>
+                  <option value="">ทั้งหมด</option>
+                  <option value="4">ยังไม่ส่ง</option>
+                  <option value="1">Job Description ไม่ผ่าน</option>
+                  <option value="3">
+                    กำลังรออาจารย์ตรวจสอบ Job Description
+                  </option>
+                  <option value="2">รอหนังสือขอความอนุเคราะห์</option>
+                  <option value="10">รอหนังสือส่งตัว</option>
+                  <option value="7">รอส่งเอกสาร</option>
+                  <option value="0">สำเร็จ</option>
+                </Form.Select>
+              </Form.Group>
 
-                <Form.Group
-                  className="d-flex align-items-center"
-                  as={Col}
-                  sm={4}
+              <Form.Group
+                className="d-flex align-items-center justify-content-start"
+                as={Col}
+                sm={3}
+              >
+                <div className="" style={{ whiteSpace: "nowrap" }}>
+                  ปีการศึกษา :{" "}
+                </div>
+                <Form.Select
+                  defaultValue="3"
+                  aria-label="Default select example"
+                  onChange={(e) => {
+                    setParams({ ...params, year: e?.target?.value });
+                  }}
                 >
-                  <div className="">ปีการศึกษา : </div>
-                  <Form.Select
-                    defaultValue="3"
-                    aria-label="Default select example"
-                    onChange={(e) => {
-                      setParams({ ...params, year: e?.target?.value });
-                    }}
-                  >
-                    {studentYear.map((val, index) => (
-                      <option key={index} value={val?.year}>
-                        {val?.year}
-                      </option>
-                    ))}
-                  </Form.Select>
-                </Form.Group>
-              </Row>
+                  {studentYear.map((val, index) => (
+                    <option key={index} value={val?.year}>
+                      {val?.year}
+                    </option>
+                  ))}
+                </Form.Select>
+              </Form.Group>
+
+              <div className="d-flex flex-xl-row">
+                <Button
+                  className="button-data-table"
+                  hidden={
+                    params?.status === "10"
+                      ? false
+                      : params?.status === "2"
+                      ? false
+                      : true
+                  }
+                  onClick={() => handleExportXLSX(Searchtest(student), true)}
+                >
+                  <AiOutlineUpload className="correct" /> Export
+                </Button>
+              </div>
 
               {/* <Form.Control type="text" className="" /> */}
               {/* <div className="d-flex flex-row">

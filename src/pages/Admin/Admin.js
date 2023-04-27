@@ -285,8 +285,8 @@ export default function Admin() {
         "major",
         "stu_no",
         "gpa",
-        "phone_number",
-        "email",
+        "boss_firstname",
+        "boss_lastname",
         // "id_card_number",
       ]).font = { bold: true, color: "FFCCFFCC" };
 

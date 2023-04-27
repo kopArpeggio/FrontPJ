@@ -22,9 +22,17 @@ import {
 } from "../../apis/workplaceApi";
 import { Form } from "react-bootstrap";
 import CompanyManagementTeacherModal from "./Modal/CompanyManagementTeacherModal";
+import CompanyApproveModalTeacher from "./Modal/CompanyApproveModalTeacher";
 function ApproveCompanyTeacher() {
   const [company, setCompany] = useState([]);
+  const [companyModal, setCompanyModal] = useState();
   const [loading, setLoading] = useState(true);
+  const [show, setShow] = useState(false);
+
+  const handleShow = (param) => {
+    setShow(true);
+    setCompanyModal(param);
+  };
 
   const nrru = {
     latitude: 14.9846414,
@@ -73,11 +81,12 @@ function ApproveCompanyTeacher() {
     },
   };
 
-  const check = () => (
+  const check = (workplace) => (
     <FontAwesomeIcon
       icon={faCheck}
       style={{ fontSize: "3vh" }}
       className="corret-mark"
+      onClick={() => handleShow()}
     />
   );
 
@@ -135,12 +144,23 @@ function ApproveCompanyTeacher() {
     },
   ];
 
+  const handleClose = () => {
+    setShow(false);
+    getWorkplace();
+  };
+
   useEffect(() => {
     getWorkplace();
   }, []);
 
   return (
     <div>
+      <CompanyApproveModalTeacher
+        company={companyModal}
+        setCompany={setCompanyModal}
+        show={show}
+        handleClose={handleClose}
+      />
       <Container className="tablecustom">
         <DataTable
           progressPending={loading}
