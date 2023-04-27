@@ -20,13 +20,16 @@ import {
   deleteStudent,
   getAllStudentByStatus,
   getAllYearStudent,
+  getStudentByEvaluate,
 } from "../../apis/studentApi";
 import SupervisionStudentModal from "./Modal/SupervisionStudentModal";
 import EvaluateModal from "./Modal/EvaluateModal14_1";
 import SelectEvaluate from "./Modal/SelectEvaluate";
+import { getData } from "../../apis/rootApi";
 
 function EvaluateStudent() {
   const [student, setStudent] = useState([]);
+  const [teacher, setTeacher] = useState("");
   const [loading, setLoading] = useState(true);
   const [modalStudent, setModalStudent] = useState("");
   const [modalAddress, setModalAddress] = useState("");
@@ -108,13 +111,14 @@ function EvaluateStudent() {
 
   const getStudent = async () => {
     setLoading(true);
+    params.teacherId = teacher?.id;
     if (!params) {
-      getAllStudentByStatus(params).then((res) => {
+      getStudentByEvaluate(params).then((res) => {
         setStudent(res?.data);
         setLoading(false);
       });
     } else {
-      getAllStudentByStatus(params).then((res) => {
+      getStudentByEvaluate(params).then((res) => {
         setStudent(res?.data);
         setLoading(false);
       });
@@ -181,20 +185,6 @@ function EvaluateStudent() {
       center: true,
       cell: (row) => <div>{edit(row)}</div>,
     },
-    {
-      name: "สถานะ",
-      center: true,
-      cell: (row) => (
-        <div>
-          {/* Later */}
-          {row?.documentStatus === "0"
-            ? check
-            : row?.status_id === 1
-            ? wrong
-            : checking}
-        </div>
-      ),
-    },
   ];
 
   const test = () => {
@@ -214,6 +204,9 @@ function EvaluateStudent() {
 
   useEffect(() => {
     getStudent();
+    getData().then((res) => {
+      setTeacher(res?.data?.teacher);
+    });
 
     getAllYearStudent().then((res) => {
       setStudentYear(res?.data);

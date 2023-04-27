@@ -29,12 +29,12 @@ function ApproveCompanyTeacher() {
   const [companyModal, setCompanyModal] = useState();
   const [loading, setLoading] = useState(true);
   const [show, setShow] = useState(false);
-  const [student, setStudent] = useState()
+  const [student, setStudent] = useState();
 
   const handleShow = (param) => {
     setShow(true);
     setCompanyModal(param);
-    getStudentByApproveCompany(param?.id).then((res) => setStudent(res?.data))
+    getStudentByApproveCompany(param?.id).then((res) => setStudent(res?.data));
   };
 
   const nrru = {

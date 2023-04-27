@@ -23,10 +23,64 @@ function EvaluateModal13({ show, handleClose, student, setStudent }) {
     <div>
       <Modal show={show} onHide={handleClose} size="lg" centered>
         <Modal.Header closeButton>
-          <Modal.Title>FCn 12</Modal.Title>
+          <Modal.Title>FCn 13</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form noValidate validated={validated} onSubmit={handleSubmit}>
+            <Form.Label>
+              โปรดบันทึกหมาย 5, 4, 3, 2, 1 หรือ 0
+              ตามความเห็นของท่านในแต่ละหัวข้อการประเมิน โดยใช้เกณฑ์การประเมิน
+              ค่าสำหรับระดับความคิดเห็น ดังน
+            </Form.Label>
+            <Form.Group
+              as={Row}
+              className="d-flex justify-content-center"
+              controlId="exampleForm.ControlInput1"
+            >
+              <Form.Label
+                column
+                sm={8}
+                className="d-flex justify-content-start"
+              >
+                5 หมายถึง มีการพัฒนาตนเองมากที่สุด หรือเหมาะสมมากที่สุด
+              </Form.Label>
+              <Form.Label
+                column
+                sm={8}
+                className="d-flex justify-content-start"
+              >
+                4 หมายถึง มีการพัฒนาตนเองมาก หรือเหมาะสมมาก
+              </Form.Label>
+              <Form.Label
+                column
+                sm={8}
+                className="d-flex justify-content-start"
+              >
+                3 หมายถึง มีการพัฒนาตนเองปานกลาง หรือเหมาะสมปานกลาง
+              </Form.Label>
+              <Form.Label
+                column
+                sm={8}
+                className="d-flex justify-content-start"
+              >
+                2 หมายถึง มีการพัฒนาตนเองน้อย หรือเหมาะสมน้อย
+              </Form.Label>
+              <Form.Label
+                column
+                sm={8}
+                className="d-flex justify-content-start"
+              >
+                1 หมายถึง มีการพัฒนาตนเองน้อยที่สุด หรือเหมาะสมน้อยที่สุด
+              </Form.Label>
+              <Form.Label
+                column
+                sm={8}
+                className="d-flex justify-content-start"
+              >
+                0 หมายถึง ไม่สามารถให้ระดับคะแนนได้ เช่น ไม่มีความเห็น
+                ไม่มีข้อมูล ไม่ต้องการประเมิน เป็นต้น
+              </Form.Label>
+            </Form.Group>
             <div style={{ fontSize: "3vh" }}>หัวข้อประเมิน/Items</div>
 
             <Form.Group as={Row} controlId="exampleForm.ControlInput1">
@@ -270,7 +324,6 @@ function EvaluateModal13({ show, handleClose, student, setStudent }) {
                 column
                 sm={7}
                 className="d-flex justify-content-start"
-                style={{ fontSize: "2vh", fontWeight: "bold" }}
               >
                 2. การจัดการ และสนับสนุน
               </Form.Label>
@@ -303,7 +356,6 @@ function EvaluateModal13({ show, handleClose, student, setStudent }) {
                 column
                 sm={7}
                 className="d-flex  justify-content-start"
-                style={{ fontSize: "2vh", fontWeight: "bold" }}
               >
                 3. ความประพฤติ คุณธรรม จริยธรรม และการปฏิบัติ
               </Form.Label>
@@ -337,7 +389,6 @@ function EvaluateModal13({ show, handleClose, student, setStudent }) {
                 column
                 sm={7}
                 className="d-flex justify-content-start"
-                style={{ fontSize: "2vh", fontWeight: "bold" }}
               >
                 4. ความรู้ความสามารถพื้นฐานที่จำเป็นต่อการปฏิบัติงาน
                 ที่ได้รับมอบหมายให้สำเร็จ
@@ -371,7 +422,6 @@ function EvaluateModal13({ show, handleClose, student, setStudent }) {
                 column
                 sm={7}
                 className="d-flex justify-content-start"
-                style={{ fontSize: "2vh", fontWeight: "bold" }}
               >
                 5. ความก้าวหน้าของการจัดทำรายงาน (Work term Report)
               </Form.Label>
@@ -539,8 +589,6 @@ function EvaluateModal13({ show, handleClose, student, setStudent }) {
                 />
               </Col>
             </Form.Group>
-          
-          
 
             <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
               <Form.Label className="d-flex flex-row modalLabel">

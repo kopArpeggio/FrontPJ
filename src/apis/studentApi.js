@@ -14,24 +14,61 @@ const GET_ALL_STUDENT_BY_COMPANY = `${prefix}/get-student-by-company`;
 const GET_ALL_ALL_STUDENT_BY_YEAR = `${prefix}/get-all-student-by-year`;
 const UPDATE_STUDENT_PASSWORD_BY_ID = `${prefix}/update-password-by-id`;
 const GET_STUDENT_BY_APPROVE_COMPANY = `${prefix}/get-student-by-approve-company-status`;
+const GET_ALL_STUDNET_BY_EMPTY_TEACHER = `${prefix}/get-all-student-by-empty-teacher`;
+const GET_ALL_STUDENT_BY_EVALUATE = `${prefix}/get-all-student-by-evaluate`;
 
 export const getStudentByApproveCompany = async (id) => {
   try {
-
-    const { data, status } = await axios.get(`${GET_STUDENT_BY_APPROVE_COMPANY}/${id}`);
+    const { data, status } = await axios.get(
+      `${GET_STUDENT_BY_APPROVE_COMPANY}/${id}`
+    );
 
     if (status === 200) {
       return data;
     }
 
-    return undefined
-
+    return undefined;
   } catch (error) {
     const err = error?.response?.data?.error;
-    sweetAlertError(err)
+    sweetAlertError(err);
   }
+};
 
-}
+export const getStudentByEvaluate = async (queryParams) => {
+  try {
+    const { data, status } = await axios.get(GET_ALL_STUDENT_BY_EVALUATE, {
+      params: queryParams,
+    });
+
+    if (status === 200) {
+      return data;
+    }
+
+    return undefined;
+  } catch (error) {
+    const err = error?.response?.data?.error;
+
+    sweetAlertError(err);
+  }
+};
+
+export const GetAllStudentByEmptyTeacher = async (queryParams) => {
+  try {
+    const { data, status } = await axios.get(GET_ALL_STUDNET_BY_EMPTY_TEACHER, {
+      params: queryParams,
+    });
+
+    if (status === 200) {
+      return data;
+    }
+
+    return undefined;
+  } catch (error) {
+    const err = error?.response?.data?.error;
+
+    sweetAlertError(err);
+  }
+};
 
 export const getAllStudent = async () => {
   try {

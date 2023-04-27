@@ -27,6 +27,60 @@ function EvaluateModal12({ show, handleClose, student, setStudent }) {
         </Modal.Header>
         <Modal.Body>
           <Form noValidate validated={validated} onSubmit={handleSubmit}>
+            <Form.Label>
+              โปรดบันทึกหมาย 5, 4, 3, 2, 1 หรือ 0
+              ตามความเห็นของท่านในแต่ละหัวข้อการประเมิน โดยใช้เกณฑ์การประเมิน
+              ค่าสำหรับระดับความคิดเห็น ดังน
+            </Form.Label>
+            <Form.Group
+              as={Row}
+              className="d-flex justify-content-center"
+              controlId="exampleForm.ControlInput1"
+            >
+              <Form.Label
+                column
+                sm={8}
+                className="d-flex justify-content-start"
+              >
+                5 หมายถึง มีการพัฒนาตนเองมากที่สุด หรือเหมาะสมมากที่สุด
+              </Form.Label>
+              <Form.Label
+                column
+                sm={8}
+                className="d-flex justify-content-start"
+              >
+                4 หมายถึง มีการพัฒนาตนเองมาก หรือเหมาะสมมาก
+              </Form.Label>
+              <Form.Label
+                column
+                sm={8}
+                className="d-flex justify-content-start"
+              >
+                3 หมายถึง มีการพัฒนาตนเองปานกลาง หรือเหมาะสมปานกลาง
+              </Form.Label>
+              <Form.Label
+                column
+                sm={8}
+                className="d-flex justify-content-start"
+              >
+                2 หมายถึง มีการพัฒนาตนเองน้อย หรือเหมาะสมน้อย
+              </Form.Label>
+              <Form.Label
+                column
+                sm={8}
+                className="d-flex justify-content-start"
+              >
+                1 หมายถึง มีการพัฒนาตนเองน้อยที่สุด หรือเหมาะสมน้อยที่สุด
+              </Form.Label>
+              <Form.Label
+                column
+                sm={8}
+                className="d-flex justify-content-start"
+              >
+                0 หมายถึง ไม่สามารถให้ระดับคะแนนได้ เช่น ไม่มีความเห็น
+                ไม่มีข้อมูล ไม่ต้องการประเมิน เป็นต้น
+              </Form.Label>
+            </Form.Group>
             <div style={{ fontSize: "3vh" }}>หัวข้อประเมิน/Items</div>
 
             <Form.Group as={Row} controlId="exampleForm.ControlInput1">
@@ -91,15 +145,14 @@ function EvaluateModal12({ show, handleClose, student, setStudent }) {
               <Col sm={3} className="d-flex justify-content-start"></Col>
             </Form.Group>
             <Form.Group as={Row} controlId="exampleForm.ControlInput1">
-              <Form.Label
-                column
-                sm={9}
-                className="d-flex justify-content-start"
-              >
+              <Form.Label column sm={9} className="align-self-start">
                 2.1 การประสานงานด้านการจัดการดูแลนักศึกษา
                 ภายในสถานประกอบการระหว่าง ฝ่ายบุคคล และพนักงานที่ปรึกษา
               </Form.Label>
-              <Col sm={3} className="d-flex justify-content-start">
+              <Col
+                sm={3}
+                className="d-flex justify-content-start text-align-left"
+              >
                 <Form.Label
                   className="me-2"
                   column
@@ -116,8 +169,8 @@ function EvaluateModal12({ show, handleClose, student, setStudent }) {
                 sm={9}
                 className="d-flex justify-content-start"
               >
-                2.2 การให้ค าแนะน าดูแลนักศึกษาของฝ่ายบริหารบุคคล (การปฐมนิเทศ
-                การแนะน าระเบียบวินัย การลางาน สวัสดิการ การจ่ายค่าตอบแทน)
+                2.2 การให้คำแนะนำดูแลนักศึกษาของฝ่ายบริหารบุคคล (การปฐมนิเทศ
+                การแนะนำระเบียบวินัย การลางาน สวัสดิการ การจ่ายค่าตอบแทน)
               </Form.Label>
               <Col sm={3} className="d-flex justify-content-start">
                 <Form.Label
@@ -403,7 +456,7 @@ function EvaluateModal12({ show, handleClose, student, setStudent }) {
                 sm={9}
                 className="d-flex justify-content-start"
               >
-                5.6 การให้ความส าคัญต่อการประเมินผลการปฏิบัติงานและ
+                5.6 การให้ความสำคัญต่อการประเมินผลการปฏิบัติงานและ
                 เขียนรายงานของพนักงานที่ปรึกษา
               </Form.Label>
               <Col sm={3} className="d-flex justify-content-start">
@@ -423,7 +476,7 @@ function EvaluateModal12({ show, handleClose, student, setStudent }) {
                 sm={9}
                 className="d-flex justify-content-start"
               >
-                5.7 ความพร้อมของอุปกรณ์เครื่องมือส าหรับนักศึกษา
+                5.7 ความพร้อมของอุปกรณ์เครื่องมือสำหรับนักศึกษา
                 (พิจารณาในกรณีนักศึกษาสหกิจศึกษา ซึ่งไปปฏิบัติงาน
                 ชั่วคราวเท่านั้น)
               </Form.Label>

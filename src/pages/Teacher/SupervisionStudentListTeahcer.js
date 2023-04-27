@@ -17,11 +17,15 @@ import "react-pdf/dist/esm/Page/AnnotationLayer.css";
 import { Col, Form, Image, Row } from "react-bootstrap";
 import { getImageUrl } from "../../utils/utils";
 import {
+  GetAllStudentByEmptyTeacher,
   deleteStudent,
   getAllStudentByStatus,
   getAllYearStudent,
+  updateStudentById,
 } from "../../apis/studentApi";
 import SupervisionStudentModal from "./Modal/SupervisionStudentModal";
+import { getData } from "../../apis/rootApi";
+import { sweetAlertSubmit, sweetAlertSuccess } from "../../swal2/swal2";
 
 function SupervisionStudentListTeacher() {
   const [student, setStudent] = useState([]);
@@ -37,6 +41,8 @@ function SupervisionStudentListTeacher() {
   const [createMode, setCreateMode] = useState(false);
   const [show, setShow] = useState(false);
   const [studentYear, setStudentYear] = useState([]);
+  const [teacher, setTeacher] = useState("");
+  const [updateStudent, setUpdateStudent] = useState("");
 
   const handleShow = (param) => {
     setShow(true);
@@ -54,7 +60,19 @@ function SupervisionStudentListTeacher() {
         <FontAwesomeIcon
           icon={faPenToSquare}
           onClick={() => {
-            handleShow(param);
+            console.log(updateStudent);
+            sweetAlertSubmit(
+              undefined,
+              "ท่านต้องการเลือกนิเทศนักศึกษาท่านนี้หรือไม่"
+            ).then(async (results) => {
+              if (results.isConfirmed) {
+                const done = await updateStudentById({ stu: updateStudent });
+                if (done) {
+                  sweetAlertSuccess();
+                  getStudent();
+                }
+              }
+            });
           }}
           className="tableAction"
         />
@@ -107,12 +125,12 @@ function SupervisionStudentListTeacher() {
   const getStudent = async () => {
     setLoading(true);
     if (!params) {
-      getAllStudentByStatus(params).then((res) => {
+      GetAllStudentByEmptyTeacher(params).then((res) => {
         setStudent(res?.data);
         setLoading(false);
       });
     } else {
-      getAllStudentByStatus(params).then((res) => {
+      GetAllStudentByEmptyTeacher(params).then((res) => {
         setStudent(res?.data);
         setLoading(false);
       });
@@ -177,21 +195,10 @@ function SupervisionStudentListTeacher() {
     {
       name: "เลือกนิเทศ",
       center: true,
-      cell: (row) => <div>{edit(row)}</div>,
-    },
-    {
-      name: "สถานะ",
-      center: true,
-      cell: (row) => (
-        <div>
-          {/* Later */}
-          {row?.documentStatus === "0"
-            ? check
-            : row?.status_id === 1
-            ? wrong
-            : checking}
-        </div>
-      ),
+      cell: (row) => {
+        setUpdateStudent({ id: row?.id, teacherId: teacher?.id });
+        return <div>{edit(row)}</div>;
+      },
     },
   ];
 
@@ -212,6 +219,9 @@ function SupervisionStudentListTeacher() {
 
   useEffect(() => {
     getStudent();
+    getData().then((res) => {
+      setTeacher(res?.data?.teacher);
+    });
 
     getAllYearStudent().then((res) => {
       setStudentYear(res?.data);

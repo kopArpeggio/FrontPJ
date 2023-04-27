@@ -26,6 +26,36 @@ function EvaluateModal({ show, handleClose, student, setStudent }) {
           <Modal.Title>FCn 14.1</Modal.Title>
         </Modal.Header>
         <Modal.Body>
+          <Form.Label>
+            โปรดบันทึกหมาย 5, 4, 3, 2, 1 หรือ 0
+            ตามความเห็นของท่านในแต่ละหัวข้อการประเมิน โดยใช้เกณฑ์การประเมิน
+            ค่าสำหรับระดับความคิดเห็น ดังน
+          </Form.Label>
+          <Form.Group
+            as={Row}
+            className="d-flex justify-content-center"
+            controlId="exampleForm.ControlInput1"
+          >
+            <Form.Label column sm={8} className="d-flex justify-content-start">
+              5 หมายถึง มีการพัฒนาตนเองมากที่สุด หรือเหมาะสมมากที่สุด
+            </Form.Label>
+            <Form.Label column sm={8} className="d-flex justify-content-start">
+              4 หมายถึง มีการพัฒนาตนเองมาก หรือเหมาะสมมาก
+            </Form.Label>
+            <Form.Label column sm={8} className="d-flex justify-content-start">
+              3 หมายถึง มีการพัฒนาตนเองปานกลาง หรือเหมาะสมปานกลาง
+            </Form.Label>
+            <Form.Label column sm={8} className="d-flex justify-content-start">
+              2 หมายถึง มีการพัฒนาตนเองน้อย หรือเหมาะสมน้อย
+            </Form.Label>
+            <Form.Label column sm={8} className="d-flex justify-content-start">
+              1 หมายถึง มีการพัฒนาตนเองน้อยที่สุด หรือเหมาะสมน้อยที่สุด
+            </Form.Label>
+            <Form.Label column sm={8} className="d-flex justify-content-start">
+              0 หมายถึง ไม่สามารถให้ระดับคะแนนได้ เช่น ไม่มีความเห็น ไม่มีข้อมูล
+              ไม่ต้องการประเมิน เป็นต้น
+            </Form.Label>
+          </Form.Group>
           <Form.Label
             style={{ fontSize: 20, color: "" }}
             className="d-flex flex-row"
@@ -380,7 +410,11 @@ function EvaluateModal({ show, handleClose, student, setStudent }) {
               <Form.Label className="d-flex flex-row modalLabel">
                 ข้อคิดเห็นเพิ่มเติม/Other comments
               </Form.Label>
-              <Form.Control as="textarea" required style={{ height: '100px' }} />
+              <Form.Control
+                as="textarea"
+                required
+                style={{ height: "100px" }}
+              />
             </Form.Group>
 
             <Modal.Footer>

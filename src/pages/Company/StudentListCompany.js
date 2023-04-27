@@ -29,7 +29,7 @@ function StudentListCompany() {
     console.log(param);
     setWork(param?.Work);
     setWorkplace(param?.Work?.Workplace);
-    setAddress(param?.Work?.Workplace?.Address)
+    setAddress(param?.Work?.Workplace?.Address);
   };
 
   const handleClose = () => {
@@ -39,7 +39,7 @@ function StudentListCompany() {
 
   const [q, SetQ] = useState("");
   const [params, setParams] = useState({
-    status: "2",
+    status: "5",
     year: "",
   });
 
@@ -223,9 +223,8 @@ function StudentListCompany() {
                     }}
                   >
                     <option value="">ทั้งหมด</option>
-                    <option value="0">สำเร็จ</option>
-                    <option value="1">ไม่ผ่าน</option>
-                    <option value="2">รอการตอบรับ</option>
+                    <option value="0">ประเมินแล้ว</option>
+                    <option value="5">ที่ต้องประเมิน</option>
                   </Form.Select>
                 </Form.Group>
               </Row>
