@@ -111,7 +111,6 @@ function EvaluateStudent() {
 
   const getStudent = async () => {
     setLoading(true);
-    params.teacherId = teacher?.id;
     if (!params) {
       getStudentByEvaluate(params).then((res) => {
         setStudent(res?.data);

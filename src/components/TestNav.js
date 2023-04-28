@@ -23,6 +23,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck, faRotate, faXmark } from "@fortawesome/free-solid-svg-icons";
 import ChangePassword from "./Modal/ChangePassword";
 import ChangePasswordTeahcer from "./Modal/ChangePasswordTeahcer";
+import ChangePaswordAdmin from "./Modal/ChangePaswordAdmin";
 
 function TestNav({ user, role }) {
   const navigate = useNavigate();
@@ -43,7 +44,7 @@ function TestNav({ user, role }) {
       className="corret-mark"
     />
   );
-  
+
   const wrong = (
     <FontAwesomeIcon
       icon={faXmark}
@@ -83,6 +84,7 @@ function TestNav({ user, role }) {
   const [showChangePassword, setShowChangePassword] = useState(false);
   const [showChangePasswordTeacher, setShowChangePasswordTeacher] =
     useState(false);
+  const [showChangePasswordAdmin, setShowChangePasswordAdmin] = useState(false);
   const [image, setImage] = useState(null);
   const [previewImage, setPreviewImage] = useState(null);
   const [isAlert, setIsAlert] = useState(true);
@@ -100,6 +102,10 @@ function TestNav({ user, role }) {
     setShowChangePasswordTeacher(true);
     setUse(user);
   };
+  const handleShowChangePasswordAdmin = () => {
+    setShowChangePasswordAdmin(true);
+    setUse(user);
+  };
 
   const handleClose = () => {
     setShow(false);
@@ -107,6 +113,7 @@ function TestNav({ user, role }) {
     setPreviewImage(null);
     setShowChangePassword(false);
     setShowChangePasswordTeacher(false);
+    setShowChangePasswordAdmin(false);
   };
   // End Here/////////////////////////////////////
 
@@ -257,29 +264,49 @@ function TestNav({ user, role }) {
                       className="profile-nav  "
                       title={"จัดการข้อมูล"}
                     >
-                      <NavDropdown.Item className="masterData">
+                      <NavDropdown.Item
+                        as={Link}
+                        to={"/admin/manage-student"}
+                        className="masterData"
+                      >
                         <Link className="" to={"/admin/manage-student"}>
                           ระบบจัดการนักศึกษา
                         </Link>
                       </NavDropdown.Item>
 
-                      <NavDropdown.Item className="masterData">
+                      <NavDropdown.Item
+                        className="masterData"
+                        as={Link}
+                        to={"/admin/manage-company"}
+                      >
                         <Link to={"/admin/manage-company"}>
                           ระบบจัดการสถานประกอบการ
                         </Link>
                       </NavDropdown.Item>
 
-                      <NavDropdown.Item className="masterData">
+                      <NavDropdown.Item
+                        className="masterData"
+                        as={Link}
+                        to={"/admin/manage-teacher"}
+                      >
                         <Link to={"/admin/manage-teacher"}>
                           ระบบจัดการอาจารย์
                         </Link>
                       </NavDropdown.Item>
 
-                      <NavDropdown.Item className="masterData">
+                      <NavDropdown.Item
+                        className="masterData"
+                        as={Link}
+                        to={"/admin/manage-branch"}
+                      >
                         <Link to={"/admin/manage-branch"}>ระบบจัดการสาขา</Link>
                       </NavDropdown.Item>
 
-                      <NavDropdown.Item className="masterData">
+                      <NavDropdown.Item
+                        className="masterData"
+                        as={Link}
+                        to={"/admin/manage-faculty"}
+                      >
                         <Link to={"/admin/manage-faculty"}>ระบบจัดการคณะ</Link>
                       </NavDropdown.Item>
                     </NavDropdown>
@@ -393,6 +420,13 @@ function TestNav({ user, role }) {
                     >
                       <CgProfile style={{ fontSize: "20" }} /> เปลี่ยนรหัสผ่าน
                     </NavDropdown.Item>
+                  ) : role === "admin" ? (
+                    <NavDropdown.Item
+                      className="upload-image"
+                      onClick={handleShowChangePasswordAdmin}
+                    >
+                      <CgProfile style={{ fontSize: "20" }} /> เปลี่ยนรหัสผ่าน
+                    </NavDropdown.Item>
                   ) : (
                     ""
                   )}
@@ -426,6 +460,13 @@ function TestNav({ user, role }) {
               teacher={use}
               setTeacher={setUse}
               show={showChangePasswordTeacher}
+              handleClose={handleClose}
+            />
+
+            <ChangePaswordAdmin
+              admin={use}
+              setAdmin={setUse}
+              show={showChangePasswordAdmin}
               handleClose={handleClose}
             />
           </Container>

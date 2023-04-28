@@ -130,6 +130,7 @@ function ApproveCompanyTeacher() {
       selector: (row) => row?.amphoe,
       sortable: true,
     },
+
     {
       // sortable: true,
       name: "ตำบล",

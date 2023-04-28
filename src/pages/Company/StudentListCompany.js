@@ -128,13 +128,9 @@ function StudentListCompany() {
     },
 
     {
-      name: "ตรวจสอบ",
+      name: "ประเมิน",
       center: true,
-      selector: (row) => (
-        <Button variant="primary" size="sm" onClick={() => handleShow(row)}>
-          ตรวจสอบ
-        </Button>
-      ),
+      selector: (row) => edit(row),
     },
   ];
 

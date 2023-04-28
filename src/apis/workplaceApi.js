@@ -48,6 +48,7 @@ export const getAllWorkplace = async () => {
     return undefined;
   }
 };
+
 export const getAllWorkplaceWithStatus = async () => {
   try {
     const { data, status } = await axios.get(

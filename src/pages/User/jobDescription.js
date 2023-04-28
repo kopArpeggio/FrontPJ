@@ -674,7 +674,7 @@ function Jobdescription() {
                 className="col-form-label-lg"
                 style={{ fontSize: 22, color: "", fontWeight: "bold" }}
               >
-                บุลคลในสถานประกอบการที่นักศึกษาติดต่อสำหรับการปฏิบัติงานสหกิจศึกษา
+                บุคคลในสถานประกอบการที่นักศึกษาติดต่อสำหรับการปฏิบัติงานสหกิจศึกษา
               </Form.Label>
 
               <Row className="mb-3 mt-4 justify-content-center d-flex flex-column flex-lg-row">
@@ -766,7 +766,6 @@ function Jobdescription() {
               </Row>
             </Row>
 
-            <Row></Row>
 
             <Row className="mb-3 mt-4 justify-content-center d-flex flex-column flex-lg-row">
               <Form.Group as={Col} sm="8">
