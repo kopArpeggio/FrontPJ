@@ -620,7 +620,7 @@ function Userinfo() {
                     >
                       รูปถ่าย 1 นิ้ว
                     </Form.Label>
-                    <Form.Control type="file" size="lg" />
+                    <Form.Control type="file" size="lg" onChange={(e) => {console.log(e?.target?.files[0])}} />
                   </Form.Group>
                 </Row>
               </Accordion.Body>

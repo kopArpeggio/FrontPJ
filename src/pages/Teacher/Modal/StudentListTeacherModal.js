@@ -73,7 +73,7 @@ function StudentListTeacherModal({
             className="btn btn-primary ms-5"
             onClick={() => setShow(false)}
 
-            //   onClick={handleClose}
+          //   onClick={handleClose}
           >
             หน้าหลัก
           </Button>
@@ -83,7 +83,7 @@ function StudentListTeacherModal({
             <Form noValidate validated={validated} onSubmit={handleSubmit}>
               <Row className="mb-3 mt-5 d-flex flex-xl-row">
                 <Form.Label
-                  className="col-form-label-lg"
+                  className="col-form-label-lg d-flex justify-content-center"
                   style={{ fontSize: 22, color: "", fontWeight: "bold" }}
                 >
                   รายละเอียดงานที่ไปปฎิบัติ
@@ -180,7 +180,7 @@ function StudentListTeacherModal({
 
               <Row className="mb-3 mt-4 justify-content-center d-flex flex-column flex-lg-row">
                 <Form.Label
-                  className="col-form-label-lg"
+                  className="col-form-label-lg d-flex justify-content-center"
                   style={{ fontSize: 22, color: "", fontWeight: "bold" }}
                 >
                   สถานประกอบการที่ต้องการไปปฏิบัติสหกิจศึกษา
@@ -323,8 +323,9 @@ function StudentListTeacherModal({
 
                 <Row>
                   <Form.Label
-                    className="col-form-label-lg"
+                    className="col-form-label-lg d-flex justify-content-center"
                     style={{ fontSize: 22, color: "", fontWeight: "bold" }}
+                    
                   >
                     บุคคลในสถานประกอบการที่นักศึกษาติดต่อสำหรับการปฏิบัติงานสหกิจศึกษา
                   </Form.Label>
@@ -435,7 +436,7 @@ function StudentListTeacherModal({
                 </Row>
                 <Row className="mb-3 mt-5 ">
                   <Form.Label
-                    className="col-form-label-lg"
+                    className="col-form-label-lg d-flex justify-content-center"
                     style={{ fontSize: 22, color: "", fontWeight: "bold" }}
                   >
                     <p> การติดต่อสถานประกอบการ เพื่อปฏิบัติงานของนักศึกษา</p>
@@ -477,14 +478,14 @@ function StudentListTeacherModal({
               </Row>
 
               {address?.latitude && address?.longtitude ? (
-                <div>
+                <div >
                   <Form.Label
-                    className="col-form-label-lg"
+                    className="col-form-label-lg d-flex justify-content-center"
                     style={{ fontSize: 22, color: "", fontWeight: "bold" }}
                   >
-                    <p> แผนที่ Google Map</p>
+                    <p className=""> แผนที่ Google Map</p>
                   </Form.Label>
-                  <div>
+                  <div className="d-flex justify-content-center">
                     <iframe
                       title="googleMap"
                       style={{
@@ -505,7 +506,7 @@ function StudentListTeacherModal({
                       // height="300"
                       allowfullscreen=""
                       loading="lazy"
-                      className="mb-3"
+                      className="mb-3 "
                       referrerpolicy="no-referrer-when-downgrade"
                     ></iframe>
                   </div>
@@ -515,13 +516,13 @@ function StudentListTeacherModal({
               )}
 
               <div
-                class="btn-group "
+                class="btn-group d-flex justify-content-center"
                 role="group"
                 aria-label="Basic radio toggle button group"
               >
                 <input
                   type="radio"
-                  className="btn-check"
+                  className="btn-check "
                   name="btnradio"
                   defaultChecked={work?.status === false}
                   id="btnradio1"
@@ -545,8 +546,10 @@ function StudentListTeacherModal({
 
                 <input
                   type="radio"
-                  className=" btn-check"
+                  className=" btn-check d-flex justify-content-center"
                   name="btnradio"
+
+
                   id="btnradio2"
                   autoComplete="off"
                   defaultChecked={work?.status === true}
@@ -563,7 +566,7 @@ function StudentListTeacherModal({
                       : true
                   }
                 />
-                <label className="btn btn-outline-primary" for="btnradio2">
+                <label className="btn btn-outline-primary " for="btnradio2">
                   อนุมัติ
                 </label>
               </div>
@@ -606,6 +609,7 @@ function StudentListTeacherModal({
                 <Button
                   type="submit"
                   variant="success"
+                  style={{width:"30%"}}
                   disabled={
                     work?.status === false || !work?.status
                       ? student?.documentStatus === "1" ||
