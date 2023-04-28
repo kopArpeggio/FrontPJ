@@ -506,6 +506,28 @@ function Userinfo() {
                   </Form.Label>
                 </Row>
                 <Row className="mb-3 mt-4 justify-content-center d-flex flex-column flex-lg-row">
+                  <Form.Group as={Col} sm="8">
+                    <Form.Label
+                      style={{ fontSize: 20, color: "" }}
+                      className="d-flex flex-row"
+                    >
+                      บ้านเลขที่
+                    </Form.Label>
+                    <Form.Control
+                      required
+                      type="text"
+                      placeholder="5/1 หมู่ 2 ถนน"
+                      value={newAddress?.houseNumber}
+                      onChange={(event) =>
+                        setNewAddress({
+                          ...newAddress,
+                          houseNumber: event?.target?.value,
+                        })
+                      }
+                    />
+                  </Form.Group>
+                </Row>
+                <Row className="mb-3 mt-4 justify-content-center d-flex flex-column flex-lg-row">
                   <Form.Group
                     as={Col}
                     className="mb-3"
@@ -525,29 +547,6 @@ function Userinfo() {
                       value={options.value}
                       placeholder="กรอกชื่อตำบล"
                       onChange={(e) => onChangedistrict(e)}
-                    />
-                  </Form.Group>
-                </Row>
-
-                <Row className="mb-3 mt-4 justify-content-center d-flex flex-column flex-lg-row">
-                  <Form.Group as={Col} sm="8">
-                    <Form.Label
-                      style={{ fontSize: 20, color: "" }}
-                      className="d-flex flex-row"
-                    >
-                      บ้านเลขที่
-                    </Form.Label>
-                    <Form.Control
-                      required
-                      type="text"
-                      placeholder="5/1 หมู่ 2 ถนน"
-                      value={newAddress?.houseNumber}
-                      onChange={(event) =>
-                        setNewAddress({
-                          ...newAddress,
-                          houseNumber: event?.target?.value,
-                        })
-                      }
                     />
                   </Form.Group>
                 </Row>
@@ -611,6 +610,17 @@ function Userinfo() {
                       disabled
                       value={newAddress?.zipCode}
                     />
+                  </Form.Group>
+                </Row>
+                <Row className="mb-3 mt-4 justify-content-center d-flex flex-column flex-lg-row">
+                  <Form.Group as={Col} sm="8">
+                    <Form.Label
+                      style={{ fontSize: 20, color: "" }}
+                      className="d-flex flex-row"
+                    >
+                      รูปถ่าย 1 นิ้ว
+                    </Form.Label>
+                    <Form.Control type="file" size="lg" />
                   </Form.Group>
                 </Row>
               </Accordion.Body>
@@ -938,6 +948,21 @@ function Userinfo() {
                       style={{ fontSize: 20, color: "" }}
                       className="d-flex flex-row"
                     >
+                      บ้านเลขที่
+                    </Form.Label>
+                    <Form.Control
+                      type="text"
+                      disabled
+                      value={oldAddress?.houseNumber}
+                    />
+                  </Form.Group>
+                </Row>
+                <Row className="mb-3 mt-4 justify-content-center d-flex flex-column flex-lg-row">
+                  <Form.Group as={Col} sm="8">
+                    <Form.Label
+                      style={{ fontSize: 20, color: "" }}
+                      className="d-flex flex-row"
+                    >
                       ตำบล
                     </Form.Label>
                     <Form.Control
@@ -1005,21 +1030,6 @@ function Userinfo() {
                       type="text"
                       disabled
                       value={oldAddress?.zipCode}
-                    />
-                  </Form.Group>
-                </Row>
-                <Row className="mb-3 mt-4 justify-content-center d-flex flex-column flex-lg-row">
-                  <Form.Group as={Col} sm="8">
-                    <Form.Label
-                      style={{ fontSize: 20, color: "" }}
-                      className="d-flex flex-row"
-                    >
-                      บ้านเลขที่
-                    </Form.Label>
-                    <Form.Control
-                      type="text"
-                      disabled
-                      value={oldAddress?.houseNumber}
                     />
                   </Form.Group>
                 </Row>
