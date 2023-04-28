@@ -67,8 +67,6 @@ function SupervisionStudentListTeacher() {
   ) =>
     `https://maps.google.com/maps?saddr=${startLatitude},${startLongitude}&daddr=${endLatitude},${endLongitude}&output=embed`;
 
-
-
   const edit = (param) => {
     return (
       <>
@@ -81,7 +79,9 @@ function SupervisionStudentListTeacher() {
               "ท่านต้องการเลือกนิเทศนักศึกษาท่านนี้หรือไม่"
             ).then(async (results) => {
               if (results.isConfirmed) {
-                const done = await updateStudentById({ stu: updateStudent });
+                const done = await updateStudentById({
+                  stu: { id: param?.id, teacherId: teacher?.id },
+                });
                 if (done) {
                   sweetAlertSuccess();
                   getStudent();
@@ -139,19 +139,18 @@ function SupervisionStudentListTeacher() {
 
   const getStudent = async () => {
     setLoading(true);
-    if (!params) {
-      GetAllStudentByEmptyTeacher(params).then((res) => {
-        setStudent(res?.data);
-        setLoading(false);
-        console.log(res?.data)
-
-      });
-    } else {
-      GetAllStudentByEmptyTeacher(params).then((res) => {
-        console.log(res?.data)
-        setStudent(res?.data);
-        setLoading(false);
-      });
+    try {
+      let response;
+      if (!params) {
+        response = await GetAllStudentByEmptyTeacher(params);
+      } else {
+        response = await GetAllStudentByEmptyTeacher(params);
+      }
+      setStudent(response?.data);
+      setLoading(false);
+    } catch (error) {
+      console.error(error);
+      setLoading(false);
     }
   };
 
@@ -213,10 +212,7 @@ function SupervisionStudentListTeacher() {
     {
       name: "เลือกนิเทศ",
       center: true,
-      cell: (row) => {
-        setUpdateStudent({ id: row?.id, teacherId: teacher?.id });
-        return <div>{edit(row)}</div>;
-      },
+      cell: (row) => edit(row),
     },
   ];
 
@@ -236,15 +232,32 @@ function SupervisionStudentListTeacher() {
   };
 
   useEffect(() => {
+    setLoading(true);
     getStudent();
+  }, [params]);
+
+  useEffect(() => {
     getData().then((res) => {
       setTeacher(res?.data?.teacher);
     });
+  }, []);
 
+  useEffect(() => {
     getAllYearStudent().then((res) => {
       setStudentYear(res?.data);
     });
-  }, [params]);
+  }, []);
+
+  // useEffect(() => {
+  //   getStudent();
+  //   getData().then((res) => {
+  //     setTeacher(res?.data?.teacher);
+  //   });
+
+  //   getAllYearStudent().then((res) => {
+  //     setStudentYear(res?.data);
+  //   });
+  // }, [params]);
 
   const Searchtest = (rows) => {
     return rows?.filter(
@@ -279,118 +292,107 @@ function SupervisionStudentListTeacher() {
           columns={columns}
           data={Searchtest(student)}
           expandableRows
-          expandableRowsComponent={(value) => <div>
-            <Row className="mb-3 mt-4 justify-content-center d-flex flex-column flex-lg-row">
-              <Form.Group as={Col} sm="8">
-                <Form.Label
-                  className="d-flex flex-row"
-                >
-                  ชื่อจริง : {value?.data?.firstname}
-                </Form.Label>
-                <Form.Label
-                  className="d-flex flex-row"
-                >
-                  นามสกุล : {value?.data?.lastname}
-                </Form.Label>
-                <Form.Label
-                  className="d-flex flex-row"
-                >
-                  ชื่อตำแหน่งงานที่ไปทำ : {value?.data?.Work?.jobTitle}
-                </Form.Label>
-                <Form.Label
-                  className="d-flex flex-row"
-                >
-                  รายละเอียดงานที่ไปทำ : {value?.data?.Work?.jobDetail}
-                </Form.Label>
-                <Form.Label
-                  className="d-flex flex-row"
-                >
-                  ชื่อบริษัท : {value?.data?.Work?.Workplace?.companyName}
-                </Form.Label>
-                <Form.Label
-                  className="d-flex flex-row"
-                >
-                  ที่ตั้ง บริษัท :  <iframe
-                    title="googleMap"
-                    style={{
-                      boxShadow:
-                        "rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px",
-                      width: "80%",
-                      height: "30vh",
-                    }}
-                    src={generateEmbedGoogleMapDirectionURL(
-                      nrru?.latitude,
-                      nrru?.longtitude,
-                      // Work Location
-                      value?.data?.latitude,
-                      value?.data?.longtitude
-                    )}
-                    // style={{  }}
-                    // width="400"
-                    // height="300"
-                    allowfullscreen=""
-                    loading="lazy"
-                    className="mb-3"
-                    referrerpolicy="no-referrer-when-downgrade"
-                  ></iframe>
-                </Form.Label>
-              
-
-              </Form.Group>
-            </Row>
-          </div>}
-pagination
-fixedHeader
-fixedHeaderScrollHeight = "80vh"
-//selectableRows
-responsive
-highlightOnHover
-subHeader
-subHeaderAlign = { "left"}
-subHeaderComponent = {
+          expandableRowsComponent={(value) => (
+            <div>
+              <Row className="mb-3 mt-4 justify-content-center d-flex flex-column flex-lg-row">
+                <Form.Group as={Col} sm="8">
+                  <Form.Label className="d-flex flex-row">
+                    ชื่อจริง : {value?.data?.firstname}
+                  </Form.Label>
+                  <Form.Label className="d-flex flex-row">
+                    นามสกุล : {value?.data?.lastname}
+                  </Form.Label>
+                  <Form.Label className="d-flex flex-row">
+                    ชื่อตำแหน่งงานที่ไปทำ : {value?.data?.Work?.jobTitle}
+                  </Form.Label>
+                  <Form.Label className="d-flex flex-row">
+                    รายละเอียดงานที่ไปทำ : {value?.data?.Work?.jobDetail}
+                  </Form.Label>
+                  <Form.Label className="d-flex flex-row">
+                    ชื่อบริษัท : {value?.data?.Work?.Workplace?.companyName}
+                  </Form.Label>
+                  <Form.Label className="d-flex flex-row">
+                    ที่ตั้ง บริษัท :{" "}
+                    <iframe
+                      title="googleMap"
+                      style={{
+                        boxShadow:
+                          "rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px",
+                        width: "80%",
+                        height: "30vh",
+                      }}
+                      src={generateEmbedGoogleMapDirectionURL(
+                        nrru?.latitude,
+                        nrru?.longtitude,
+                        // Work Location
+                        value?.data?.Work?.Workplace?.latitude,
+                        value?.data?.Work?.Workplace?.longtitude
+                      )}
+                      // style={{  }}
+                      // width="400"
+                      // height="300"
+                      allowfullscreen=""
+                      loading="lazy"
+                      className="mb-3"
+                      referrerpolicy="no-referrer-when-downgrade"
+                    ></iframe>
+                  </Form.Label>
+                </Form.Group>
+              </Row>
+            </div>
+          )}
+          pagination
+          fixedHeader
+          fixedHeaderScrollHeight="80vh"
+          //selectableRows
+          responsive
+          highlightOnHover
+          subHeader
+          subHeaderAlign={"left"}
+          subHeaderComponent={
             <>
-  <Row
-    className="d-flex flex-column flex-lg-row "
-    style={{ whiteSpace: "nowrap" }}
-  >
-    <Form.Group as={Col} sm={6}>
-      <div>
-        <input
-          type="text"
-          placeholder={`ค้นหานักศึกษา`}
-          className="w-100 form-control"
-          value={q}
-          onChange={(e) => SetQ(e.target.value)}
-        />
-      </div>
-    </Form.Group>
+              <Row
+                className="d-flex flex-column flex-lg-row "
+                style={{ whiteSpace: "nowrap" }}
+              >
+                <Form.Group as={Col} sm={6}>
+                  <div>
+                    <input
+                      type="text"
+                      placeholder={`ค้นหานักศึกษา`}
+                      className="w-100 form-control"
+                      value={q}
+                      onChange={(e) => SetQ(e.target.value)}
+                    />
+                  </div>
+                </Form.Group>
 
-    <Form.Group
-      className="d-flex align-items-center"
-      as={Col}
-      sm={6}
-    >
-      <div className="">ปีการศึกษา : </div>
-      <Form.Select
-        defaultValue="3"
-        aria-label="Default select example"
-        onChange={(e) => {
-          setParams({ ...params, year: e?.target?.value });
-        }}
-      >
-        {studentYear.map((val, index) => (
-          <option key={index} value={val?.year}>
-            {val?.year}
-          </option>
-        ))}
-      </Form.Select>
-    </Form.Group>
-  </Row>
+                <Form.Group
+                  className="d-flex align-items-center"
+                  as={Col}
+                  sm={6}
+                >
+                  <div className="">ปีการศึกษา : </div>
+                  <Form.Select
+                    defaultValue="3"
+                    aria-label="Default select example"
+                    onChange={(e) => {
+                      setParams({ ...params, year: e?.target?.value });
+                    }}
+                  >
+                    {studentYear.map((val, index) => (
+                      <option key={index} value={val?.year}>
+                        {val?.year}
+                      </option>
+                    ))}
+                  </Form.Select>
+                </Form.Group>
+              </Row>
             </>
           }
-/>
-      </Container >
-    </div >
+        />
+      </Container>
+    </div>
   );
 }
 

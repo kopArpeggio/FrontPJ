@@ -24,6 +24,7 @@ import { Form } from "react-bootstrap";
 import CompanyManagementTeacherModal from "./Modal/CompanyManagementTeacherModal";
 import CompanyApproveModalTeacher from "./Modal/CompanyApproveModalTeacher";
 import { getStudentByApproveCompany } from "../../apis/studentApi";
+import { sweetAlertSubmit, sweetAlertSuccess } from "../../swal2/swal2";
 function ApproveCompanyTeacher() {
   const [company, setCompany] = useState([]);
   const [companyModal, setCompanyModal] = useState();
@@ -53,12 +54,16 @@ function ApproveCompanyTeacher() {
 
   // Delete Logic
   const handleDelete = async (params) => {
-    setLoading(true);
-
+    sweetAlertSubmit(undefined, "ต้องการยกเลิกสถานประกอบการที่เสนอมาหรือไม่ !").then(async (results) => {
+      if (results.isConfirmed) {
+        const done = await deleteWorkplaceById(params);
+        if (done) {
+          sweetAlertSuccess();
+          getWorkplace();
+        }
+      }
+    });
     // Logic Here and call function
-    await deleteWorkplaceById(params);
-
-    getWorkplace();
   };
 
   const customStyles = {
@@ -180,7 +185,7 @@ function ApproveCompanyTeacher() {
           }
           customStyles={customStyles}
           theme="solarized"
-          title="ระบบจัดการสภานประกอบการ"
+          title="ระบบอนุมัติสถานประกอบการ"
           columns={columns}
           data={company}
           expandableRows

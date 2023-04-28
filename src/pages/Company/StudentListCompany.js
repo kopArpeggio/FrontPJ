@@ -14,6 +14,7 @@ import { getAllFacultyByStatus } from "../../apis/facultyApi";
 import { getAllStudentByCompany } from "../../apis/studentApi";
 import { getImageUrl } from "../../utils/utils";
 import JobDescriptionModal from "./Modal/JobDescriptionModal";
+import SelectValuateCompany from "./Modal/SelectValuateCompany";
 
 function StudentListCompany() {
   const [student, setStudent] = useState([]);
@@ -151,14 +152,11 @@ function StudentListCompany() {
     <div>
       {" "}
       <Container className="tablecustom">
-        <JobDescriptionModal
+        <SelectValuateCompany
           show={show}
-          setShow={setShow}
-          student={student}
           handleClose={handleClose}
-          work={work}
-          workplace={workplace}
-          address={address}
+          student={student}
+          setStudent={setStudent}
         />
 
         <DataTable

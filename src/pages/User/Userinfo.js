@@ -11,6 +11,7 @@ import axios from "axios";
 import { Accordion, Button, Toast } from "react-bootstrap";
 import { updateStudentById } from "../../apis/studentApi";
 import { sweetAlertSubmit, sweetAlertSuccess } from "../../swal2/swal2";
+import { uploadImageFile } from "../../apis/uploadApi";
 
 function Userinfo() {
   const [address, setAddress] = useState([]);
@@ -26,6 +27,8 @@ function Userinfo() {
     latitude: undefined || "",
     longtitude: undefined || "",
   });
+
+  const [regPic, setRegPic] = useState("");
 
   const [newAddress, setNewAddress] = useState({
     district: undefined || "",
@@ -144,19 +147,24 @@ function Userinfo() {
     } else {
       sweetAlertSubmit(event).then(async (result) => {
         if (result.isConfirmed) {
-          setIsAlert(true);
-          const stu = formData;
-          const done = await updateStudentById({
-            stu,
-            newAddress,
-            oldAddress,
-            birthData,
-            father,
-            mother,
+          await uploadImageFile(regPic).then(async (pictureName) => {
+            console.log(pictureName);
+            setFormData({ ...formData, profileReg: pictureName });
+
+            setIsAlert(true);
+            const stu = formData;
+            const done = await updateStudentById({
+              stu,
+              newAddress,
+              oldAddress,
+              birthData,
+              father,
+              mother,
+            });
+            if (done) {
+              sweetAlertSuccess();
+            }
           });
-          if (done) {
-            sweetAlertSuccess();
-          }
         }
       });
     }
@@ -620,7 +628,13 @@ function Userinfo() {
                     >
                       รูปถ่าย 1 นิ้ว
                     </Form.Label>
-                    <Form.Control type="file" size="lg" onChange={(e) => {console.log(e?.target?.files[0])}} />
+                    <Form.Control
+                      type="file"
+                      size="lg"
+                      onChange={(e) => {
+                        setRegPic(e?.target?.files[0]);
+                      }}
+                    />
                   </Form.Group>
                 </Row>
               </Accordion.Body>
