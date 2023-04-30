@@ -147,24 +147,25 @@ function Userinfo() {
     } else {
       sweetAlertSubmit(event).then(async (result) => {
         if (result.isConfirmed) {
-          await uploadImageFile(regPic).then(async (pictureName) => {
-            console.log(pictureName);
-            setFormData({ ...formData, profileReg: pictureName });
-
-            setIsAlert(true);
-            const stu = formData;
-            const done = await updateStudentById({
-              stu,
-              newAddress,
-              oldAddress,
-              birthData,
-              father,
-              mother,
+          if (regPic) {
+            await uploadImageFile(regPic).then(async (pictureName) => {
+              console.log(pictureName);
+              setFormData({ ...formData, profileReg: pictureName });
             });
-            if (done) {
-              sweetAlertSuccess();
-            }
+          }
+          setIsAlert(true);
+          const stu = formData;
+          const done = await updateStudentById({
+            stu,
+            newAddress,
+            oldAddress,
+            birthData,
+            father,
+            mother,
           });
+          if (done) {
+            sweetAlertSuccess();
+          }
         }
       });
     }

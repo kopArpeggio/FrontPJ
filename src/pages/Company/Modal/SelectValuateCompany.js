@@ -2,12 +2,21 @@ import React from "react";
 import { useState } from "react";
 import { Button, Modal } from "react-bootstrap";
 import Fcn9_2 from "./Fcn9_2";
+import Fcn10_1 from "./Fcn10_1";
+import Fcn10_2 from "./Fcn10_2";
+import Fcn11 from "./Fcn11";
 
 function SelectValuateCompany({ show, handleClose, student, setStudent }) {
   const [doc9_2, setDoc9_2] = useState(false);
+  const [doc10_1, setDoc10_1] = useState(false);
+  const [doc10_2, setDoc10_2] = useState(false);
+  const [doc11, setDoc11] = useState(false);
 
   const closeModalDoc = () => {
     setDoc9_2(false);
+    setDoc10_1(false);
+    setDoc10_2(false);
+    setDoc11(false);
   };
 
   return (
@@ -15,6 +24,24 @@ function SelectValuateCompany({ show, handleClose, student, setStudent }) {
       {" "}
       <Fcn9_2
         show={doc9_2}
+        handleClose={closeModalDoc}
+        setStudent={setStudent}
+        student={student}
+      />
+      <Fcn10_1
+        show={doc10_1}
+        handleClose={closeModalDoc}
+        setStudent={setStudent}
+        student={student}
+      />
+      <Fcn10_2
+        show={doc10_2}
+        handleClose={closeModalDoc}
+        setStudent={setStudent}
+        student={student}
+      />
+      <Fcn11
+        show={doc11}
         handleClose={closeModalDoc}
         setStudent={setStudent}
         student={student}
@@ -39,7 +66,7 @@ function SelectValuateCompany({ show, handleClose, student, setStudent }) {
               className="d-flex justify-content-start"
               size="lg"
               style={{ fontSize: "2vh" }}
-              onClick={() => setDoc9_2(true)}
+              onClick={() => setDoc10_1(true)}
             >
               FCn 10.1 (แบบประเมินรายงานนักศึกษาสหกิจศึกษา
               (ประเภทโครงการที่มีลักษณะงานวิจัย))
@@ -49,7 +76,7 @@ function SelectValuateCompany({ show, handleClose, student, setStudent }) {
               className="d-flex justify-content-start"
               size="lg"
               style={{ fontSize: "2vh" }}
-              onClick={() => setDoc9_2(true)}
+              onClick={() => setDoc10_2(true)}
             >
               FCn 10.2 (แบบประเมินรายงานนักศึกษาสหกิจศึกษา
               (ประเภทโครงการการปฏิบัติงาน))
@@ -59,7 +86,7 @@ function SelectValuateCompany({ show, handleClose, student, setStudent }) {
               className="d-flex justify-content-start"
               size="lg"
               style={{ fontSize: "2vh" }}
-              onClick={() => setDoc9_2(true)}
+              onClick={() => setDoc11(true)}
             >
               FCn 11 (แบบประเมินการดำเนินงานสหกิจศึกษาของสถาบันการศึกษา)
             </Button>

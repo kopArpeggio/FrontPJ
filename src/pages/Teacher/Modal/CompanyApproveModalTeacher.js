@@ -118,15 +118,18 @@ function CompanyApproveModalTeacher({
             </Form.Group>
           </Modal.Body>
           <Modal.Footer>
-            <Button variant="secondary">Close</Button>
+            <Button variant="secondary">ยกเลิก</Button>
             <Button
               variant="primary"
               type="submit"
+              onClick={() => {
+                setCompany({ ...company, approve: true });
+              }}
               disabled={
                 company?.password === company?.confirmPassword ? false : true
               }
             >
-              Save Changes
+              ยืนยัน
             </Button>
           </Modal.Footer>
         </Form>

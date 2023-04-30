@@ -386,7 +386,7 @@ function Fcn9_2({ show, handleClose, student, setStudent }) {
               <Form.Label
                 column
                 sm={9}
-                className="d-flex justify-content-start"
+                className="d-flex justify-content-start "
               >
                 8.1 ความสามารถในการติดต่อสื่อสาร พูด เขียน และนำเสนอ
                 (Presentation) สามารถสื่อให้เข้าใจได้ง่าย ชัดเจน ถูกต้อง รัดกุม
@@ -841,7 +841,6 @@ function Fcn9_2({ show, handleClose, student, setStudent }) {
                   style={{ whiteSpace: "nowrap" }}
                   type="radio"
                   name="grouped"
-              
                 />
                 <Form.Check
                   required
@@ -851,7 +850,6 @@ function Fcn9_2({ show, handleClose, student, setStudent }) {
                   style={{ whiteSpace: "nowrap" }}
                   type="radio"
                   name="grouped"
-             
                 />
                 <Form.Check
                   required
@@ -861,7 +859,6 @@ function Fcn9_2({ show, handleClose, student, setStudent }) {
                   style={{ whiteSpace: "nowrap" }}
                   type="radio"
                   name="grouped"
-              
                 />
               </Form.Group>
             </Row>
