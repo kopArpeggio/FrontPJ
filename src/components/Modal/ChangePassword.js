@@ -9,8 +9,7 @@ function ChangePassword({ show, handleClose, student, setStudent }) {
   const [validated, setValidated] = useState(false);
 
   const handleSubmit = async (event) => {
-    // setLoading(true);
-
+   
     const form = event?.currentTarget;
     if (form.checkValidity() === false) {
       event.preventDefault();

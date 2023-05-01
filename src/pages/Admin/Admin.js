@@ -132,6 +132,7 @@ export default function Admin() {
     setShowUploadModal(false);
     getStudent();
   };
+
   const columns = [
     {
       name: "โปรไฟล์",
@@ -428,6 +429,7 @@ export default function Admin() {
           fileInputHandler={fileInputHandler}
           file={file}
         />
+
         <DataTable
           progressPending={loading}
           progressComponent={

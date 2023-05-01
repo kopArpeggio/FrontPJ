@@ -5,9 +5,34 @@ import { MenuList } from "../../User/Helper";
 
 import { Button, Col, Container, Form, Row } from "react-bootstrap";
 import { updateStudentById } from "../../../apis/studentApi";
+import { updateEvaluateById } from "../../../apis/evaluateApi";
+import { sweetAlertSubmit, sweetAlertSuccess } from "../../../swal2/swal2";
 
 function Fcn9_2({ show, handleClose, student, setStudent }) {
   const [validated, setValidated] = useState(false);
+
+  const [score, setScore] = useState({
+    score1: 0,
+    score2: 0,
+    score3: 0,
+    score4: 0,
+    score5: 0,
+    score6: 0,
+    score7: 0,
+    score8: 0,
+    score9: 0,
+    score10: 0,
+    score11: 0,
+    score12: 0,
+    score13: 0,
+    score14: 0,
+    score15: 0,
+    score16: 0,
+    score17: 0,
+    score18: 0,
+    score19: 0,
+    score20: 0,
+  });
 
   const handleSubmit = async (event) => {
     const form = event?.currentTarget;
@@ -15,10 +40,46 @@ function Fcn9_2({ show, handleClose, student, setStudent }) {
       event.preventDefault();
       event.stopPropagation();
     } else {
+      sweetAlertSubmit().then(async (results) => {
+        if (results.isConfirmed) {
+          const done = await updateEvaluateById({
+            evaluateId: student?.evaluateId,
+            fcn9_2Point:
+              score?.score1 +
+              score?.score2 +
+              score?.score3 +
+              score?.score4 +
+              score?.score5 +
+              score?.score6 +
+              score?.score7 +
+              score?.score8 +
+              score?.score9 +
+              score?.score10 +
+              score?.score11 +
+              score?.score12 +
+              score?.score13 +
+              score?.score14 +
+              score?.score15 +
+              score?.score16 +
+              score?.score17 +
+              score?.score18 +
+              score?.score19 +
+              score?.score20,
+            fcn9_2Strength: score?.fcn9_2Strength,
+            fcn9_2Improvement: score?.fcn9_2Improvement,
+          });
+
+          if (done) {
+            sweetAlertSuccess("ประเมินนักศึกษาเสร็จสิ้น")
+          }
+        }
+      });
+
       event.preventDefault();
     }
     setValidated(true);
   };
+
   return (
     <div>
       <Modal show={show} onHide={handleClose} size="lg" centered>
@@ -113,7 +174,9 @@ function Fcn9_2({ show, handleClose, student, setStudent }) {
                 >
                   10 คะแนน
                 </Form.Label>
-                <Form.Control min={1} max={10} type="number" required />
+                <Form.Control min={1} max={10} type="number" required onChange={(e) =>
+                  setScore({ ...score, score1: parseInt(e?.target.value) })
+                } />
               </Col>
             </Form.Group>
             <Form.Group as={Row} controlId="exampleForm.ControlInput1">
@@ -135,7 +198,9 @@ function Fcn9_2({ show, handleClose, student, setStudent }) {
                 >
                   10 คะแนน
                 </Form.Label>
-                <Form.Control min={1} max={10} type="number" required />
+                <Form.Control min={1} max={10} type="number" required onChange={(e) =>
+                  setScore({ ...score, score2: parseInt(e?.target.value) })
+                } />
               </Col>
             </Form.Group>
 
@@ -166,7 +231,9 @@ function Fcn9_2({ show, handleClose, student, setStudent }) {
                 >
                   10 คะแนน
                 </Form.Label>
-                <Form.Control min={1} max={10} type="number" required />
+                <Form.Control min={1} max={10} type="number" required onChange={(e) =>
+                  setScore({ ...score, score3: parseInt(e?.target.value) })
+                } />
               </Col>
             </Form.Group>
             <Form.Group as={Row} controlId="exampleForm.ControlInput1">
@@ -187,7 +254,9 @@ function Fcn9_2({ show, handleClose, student, setStudent }) {
                 >
                   10 คะแนน
                 </Form.Label>
-                <Form.Control min={1} max={10} type="number" required />
+                <Form.Control min={1} max={10} type="number" required onChange={(e) =>
+                  setScore({ ...score, score4: parseInt(e?.target.value) })
+                } />
               </Col>
             </Form.Group>
 
@@ -220,7 +289,9 @@ function Fcn9_2({ show, handleClose, student, setStudent }) {
                 >
                   10 คะแนน
                 </Form.Label>
-                <Form.Control min={1} max={10} type="number" required />
+                <Form.Control min={1} max={10} type="number" required onChange={(e) =>
+                  setScore({ ...score, score5: parseInt(e?.target.value) })
+                } />
               </Col>
             </Form.Group>
 
@@ -255,7 +326,9 @@ function Fcn9_2({ show, handleClose, student, setStudent }) {
                 >
                   10 คะแนน
                 </Form.Label>
-                <Form.Control min={1} max={10} type="number" required />
+                <Form.Control min={1} max={10} type="number" required onChange={(e) =>
+                  setScore({ ...score, score6: parseInt(e?.target.value) })
+                } />
               </Col>
             </Form.Group>
 
@@ -289,7 +362,9 @@ function Fcn9_2({ show, handleClose, student, setStudent }) {
                 >
                   10 คะแนน
                 </Form.Label>
-                <Form.Control min={1} max={10} type="number" required />
+                <Form.Control min={1} max={10} type="number" required onChange={(e) =>
+                  setScore({ ...score, score7: parseInt(e?.target.value) })
+                } />
               </Col>
             </Form.Group>
 
@@ -327,7 +402,9 @@ function Fcn9_2({ show, handleClose, student, setStudent }) {
                 >
                   10 คะแนน
                 </Form.Label>
-                <Form.Control min={1} max={10} type="number" required />
+                <Form.Control min={1} max={10} type="number" required onChange={(e) =>
+                  setScore({ ...score, score8: parseInt(e?.target.value) })
+                } />
               </Col>
             </Form.Group>
             <Form.Group as={Row} controlId="exampleForm.ControlInput1">
@@ -363,7 +440,9 @@ function Fcn9_2({ show, handleClose, student, setStudent }) {
                 >
                   10 คะแนน
                 </Form.Label>
-                <Form.Control min={1} max={10} type="number" required />
+                <Form.Control min={1} max={10} type="number" required onChange={(e) =>
+                  setScore({ ...score, score9: parseInt(e?.target.value) })
+                } />
               </Col>
             </Form.Group>
             <Form.Group as={Row} controlId="exampleForm.ControlInput1">
@@ -402,7 +481,9 @@ function Fcn9_2({ show, handleClose, student, setStudent }) {
                 >
                   10 คะแนน
                 </Form.Label>
-                <Form.Control min={1} max={10} type="number" required />
+                <Form.Control min={1} max={10} type="number" required onChange={(e) =>
+                  setScore({ ...score, score10: parseInt(e?.target.value) })
+                } />
               </Col>
             </Form.Group>
             <Form.Group
@@ -427,7 +508,9 @@ function Fcn9_2({ show, handleClose, student, setStudent }) {
                 >
                   10 คะแนน
                 </Form.Label>
-                <Form.Control min={1} max={10} type="number" required />
+                <Form.Control min={1} max={10} type="number" required onChange={(e) =>
+                  setScore({ ...score, score11: parseInt(e?.target.value) })
+                } />
               </Col>
             </Form.Group>
 
@@ -466,7 +549,9 @@ function Fcn9_2({ show, handleClose, student, setStudent }) {
                 >
                   10 คะแนน
                 </Form.Label>
-                <Form.Control min={1} max={10} type="number" required />
+                <Form.Control min={1} max={10} type="number" required onChange={(e) =>
+                  setScore({ ...score, score12: parseInt(e?.target.value) })
+                } />
               </Col>
             </Form.Group>
 
@@ -507,7 +592,9 @@ function Fcn9_2({ show, handleClose, student, setStudent }) {
                 >
                   10 คะแนน
                 </Form.Label>
-                <Form.Control min={1} max={10} type="number" required />
+                <Form.Control min={1} max={10} type="number" required onChange={(e) =>
+                  setScore({ ...score, score13: parseInt(e?.target.value) })
+                } />
               </Col>
             </Form.Group>
             <Form.Group as={Row} controlId="exampleForm.ControlInput1">
@@ -544,7 +631,9 @@ function Fcn9_2({ show, handleClose, student, setStudent }) {
                 >
                   10 คะแนน
                 </Form.Label>
-                <Form.Control min={1} max={10} type="number" required />
+                <Form.Control min={1} max={10} type="number" required onChange={(e) =>
+                  setScore({ ...score, score14: parseInt(e?.target.value) })
+                } />
               </Col>
             </Form.Group>
 
@@ -584,7 +673,9 @@ function Fcn9_2({ show, handleClose, student, setStudent }) {
                 >
                   10 คะแนน
                 </Form.Label>
-                <Form.Control min={1} max={10} type="number" required />
+                <Form.Control min={1} max={10} type="number" required onChange={(e) =>
+                  setScore({ ...score, score15: parseInt(e?.target.value) })
+                } />
               </Col>
             </Form.Group>
 
@@ -623,7 +714,9 @@ function Fcn9_2({ show, handleClose, student, setStudent }) {
                 >
                   10 คะแนน
                 </Form.Label>
-                <Form.Control min={1} max={10} type="number" required />
+                <Form.Control min={1} max={10} type="number" required onChange={(e) =>
+                  setScore({ ...score, score16: parseInt(e?.target.value) })
+                } />
               </Col>
             </Form.Group>
 
@@ -662,7 +755,9 @@ function Fcn9_2({ show, handleClose, student, setStudent }) {
                 >
                   10 คะแนน
                 </Form.Label>
-                <Form.Control min={1} max={10} type="number" required />
+                <Form.Control min={1} max={10} type="number" required onChange={(e) =>
+                  setScore({ ...score, score17: parseInt(e?.target.value) })
+                } />
               </Col>
             </Form.Group>
             <Form.Group as={Row} controlId="exampleForm.ControlInput1">
@@ -700,7 +795,9 @@ function Fcn9_2({ show, handleClose, student, setStudent }) {
                 >
                   10 คะแนน
                 </Form.Label>
-                <Form.Control min={1} max={10} type="number" required />
+                <Form.Control min={1} max={10} type="number" required onChange={(e) =>
+                  setScore({ ...score, score18: parseInt(e?.target.value) })
+                } />
               </Col>
             </Form.Group>
             <Form.Group as={Row} controlId="exampleForm.ControlInput1">
@@ -740,7 +837,9 @@ function Fcn9_2({ show, handleClose, student, setStudent }) {
                 >
                   10 คะแนน
                 </Form.Label>
-                <Form.Control min={1} max={10} type="number" required />
+                <Form.Control min={1} max={10} type="number" required onChange={(e) =>
+                  setScore({ ...score, score19: parseInt(e?.target.value) })
+                } />
               </Col>
             </Form.Group>
 
@@ -778,7 +877,9 @@ function Fcn9_2({ show, handleClose, student, setStudent }) {
                 >
                   10 คะแนน
                 </Form.Label>
-                <Form.Control min={1} max={10} type="number" required />
+                <Form.Control min={1} max={10} type="number" required onChange={(e) =>
+                  setScore({ ...score, score20: parseInt(e?.target.value) })
+                } />
               </Col>
             </Form.Group>
 
@@ -796,6 +897,9 @@ function Fcn9_2({ show, handleClose, student, setStudent }) {
                 จุดเด่นของนักศึกษา / Strength
               </Form.Label>
               <Form.Control
+              onChange={(e) => {
+                  setScore({ ...score, fcn9_2Strength: e?.target?.value})
+              }}
                 as="textarea"
                 required
                 style={{ height: "100px" }}
@@ -806,6 +910,9 @@ function Fcn9_2({ show, handleClose, student, setStudent }) {
                 ข้อควรปรับปรุงของนักศึกษา / Improvement
               </Form.Label>
               <Form.Control
+                onChange={(e) => {
+                  setScore({ ...score, fcn9_2Improvement: e?.target?.value })
+                }}
                 as="textarea"
                 required
                 style={{ height: "100px" }}
@@ -823,7 +930,7 @@ function Fcn9_2({ show, handleClose, student, setStudent }) {
 
             <Row className="mb-3 mt-5  d-flex justify-content-center">
               <Form.Label
-                className="col-form-label-lg"
+                className="col-form-label-lg d-flex justify-content-center"
                 style={{ fontSize: 22, color: "", fontWeight: "bold" }}
               >
                 <p> การติดต่อสถานประกอบการ เพื่อปฏิบัติงานของนักศึกษา</p>

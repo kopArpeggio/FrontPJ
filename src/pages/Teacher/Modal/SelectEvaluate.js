@@ -10,6 +10,7 @@ import EvaluateModal13 from "./EvaluateModal13";
 import EvaluateModal15 from "./EvaluateModal15";
 
 function SelectEvaluate({ show, handleClose, student, setStudent }) {
+  console.log(student)
   const [doc12, setDoc12] = useState(false);
   const [doc13, setDoc13] = useState(false);
   const [doc14_1, setDoc14_1] = useState(false);
@@ -69,6 +70,7 @@ function SelectEvaluate({ show, handleClose, student, setStudent }) {
               size="lg"
               style={{ fontSize: "2vh" }}
               onClick={() => setDoc12(true)}
+              disabled={student?.Evaluate?.fcn12Point}
             >
               FCn 12 (แบบประเมินการดำเนินงานสหกิจศึกษาของสถานประกอบการ)
             </Button>
@@ -78,6 +80,8 @@ function SelectEvaluate({ show, handleClose, student, setStudent }) {
               size="lg"
               style={{ fontSize: "2vh" }}
               onClick={() => setDoc13(true)}
+              disabled={student?.Evaluate?.fcn13Point}
+
             >
               FCn 13 (แบบประเมินการพัฒนาตนเองของนักศึกษาสหกิจศึกษา)
             </Button>
@@ -87,6 +91,8 @@ function SelectEvaluate({ show, handleClose, student, setStudent }) {
               size="lg"
               style={{ fontSize: "2vh" }}
               onClick={() => setDoc14_1(true)}
+              disabled={student?.Evaluate?.fcn14_2Point}
+
             >
               FCn 14.1 (แบบประเมินรายงานนักศึกษาสหกิจศึกษา
               (ประเภทโครงการที่มีลักษณะงานวิจัย))
@@ -97,6 +103,8 @@ function SelectEvaluate({ show, handleClose, student, setStudent }) {
               size="lg"
               style={{ fontSize: "2vh" }}
               onClick={() => setDoc14_2(true)}
+              disabled={student?.Evaluate?.fcn14_1Point}
+
             >
               FCn 14.2 (แบบประเมินรายงานนักศึกษาสหกิจศึกษา
               (ประเภทโครงการการปฏิบัติงาน))
@@ -107,6 +115,8 @@ function SelectEvaluate({ show, handleClose, student, setStudent }) {
               size="lg"
               style={{ fontSize: "2vh" }}
               onClick={() => setDoc15(true)}
+              disabled={student?.Evaluate?.fcn15Point}
+
             >
               FCn 15 (แบบประเมินผลสมุดบันทึกการปฏิบัติงานโครงการสหกิจศึกษา)
             </Button>

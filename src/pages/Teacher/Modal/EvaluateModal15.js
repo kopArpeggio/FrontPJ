@@ -5,24 +5,70 @@ import { MenuList } from "../../User/Helper";
 
 import { Button, Col, Container, Form, Row } from "react-bootstrap";
 import { updateStudentById } from "../../../apis/studentApi";
+import { sweetAlertSubmit, sweetAlertSuccess } from "../../../swal2/swal2";
+import { updateEvaluateById } from "../../../apis/evaluateApi";
 
 function EvaluateModal15({ show, handleClose, student, setStudent }) {
   const [validated, setValidated] = useState(false);
+
+  const [score, setScore] = useState({
+    score1: 0,
+    score2: 0,
+    score3: 0,
+    score4: 0,
+    score5: 0,
+    score6: 0,
+    score7: 0,
+    score8: 0,
+    score9: 0,
+    score10: 0,
+    score11: 0,
+    score12: 0,
+    score13: 0,
+    score14: 0,
+    sumpoint: 0,
+  });
+
   const handleSubmit = async (event) => {
     const form = event?.currentTarget;
     if (form.checkValidity() === false) {
       event.preventDefault();
       event.stopPropagation();
     } else {
+      sweetAlertSubmit().then(async (results) => {
+        if (results.isConfirmed) {
+          const done = await updateEvaluateById({
+            evaluateId: student?.evaluateId,
+            fcn15Point:
+              score?.score1 +
+              score?.score2 +
+              score?.score3 +
+              score?.score4 +
+              score?.score5 +
+              score?.score6 +
+              score?.score7 +
+              score?.score8 +
+              score?.score9 +
+              score?.score10 ,
+            fcn15Comment: score?.fcn15Comment,
+          });
+
+          if (done) {
+            sweetAlertSuccess("ประเมินนักศึกษาเสร็จสิ้น")
+          }
+        }
+      });
+
       event.preventDefault();
     }
     setValidated(true);
   };
+  
   return (
     <div>
       <Modal show={show} onHide={handleClose} size="lg" centered>
         <Modal.Header closeButton>
-          <Modal.Title>FCn 12</Modal.Title>
+          <Modal.Title>FCn 15</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form noValidate validated={validated} onSubmit={handleSubmit}>
@@ -109,7 +155,9 @@ function EvaluateModal15({ show, handleClose, student, setStudent }) {
                 >
                   5 คะแนน
                 </Form.Label>
-                <Form.Control min={1} max={5} type="number" required />
+                <Form.Control min={0} max={5} type="number" required onChange={(e) =>
+                  setScore({ ...score, score1: parseInt(e?.target.value) })
+                } />
               </Col>
             </Form.Group>
             <Form.Group as={Row} controlId="exampleForm.ControlInput1">
@@ -128,7 +176,9 @@ function EvaluateModal15({ show, handleClose, student, setStudent }) {
                 >
                   5 คะแนน
                 </Form.Label>
-                <Form.Control min={1} max={5} type="number" required />
+                <Form.Control min={0} max={5} type="number" required onChange={(e) =>
+                  setScore({ ...score, score2: parseInt(e?.target.value) })
+                } />
               </Col>
             </Form.Group>
             <Form.Group as={Row} controlId="exampleForm.ControlInput1">
@@ -147,7 +197,9 @@ function EvaluateModal15({ show, handleClose, student, setStudent }) {
                 >
                   5 คะแนน
                 </Form.Label>
-                <Form.Control min={1} max={5} type="number" required />
+                <Form.Control min={0} max={5} type="number" required onChange={(e) =>
+                  setScore({ ...score, score3: parseInt(e?.target.value) })
+                } />
               </Col>
             </Form.Group>
             <Form.Group as={Row} controlId="exampleForm.ControlInput1">
@@ -166,7 +218,9 @@ function EvaluateModal15({ show, handleClose, student, setStudent }) {
                 >
                   5 คะแนน
                 </Form.Label>
-                <Form.Control min={1} max={5} type="number" required />
+                <Form.Control min={0} max={5} type="number" required onChange={(e) =>
+                  setScore({ ...score, score4: parseInt(e?.target.value) })
+                } />
               </Col>
             </Form.Group>
             <Form.Group as={Row} controlId="exampleForm.ControlInput1">
@@ -185,7 +239,9 @@ function EvaluateModal15({ show, handleClose, student, setStudent }) {
                 >
                   5 คะแนน
                 </Form.Label>
-                <Form.Control min={1} max={5} type="number" required />
+                <Form.Control min={0} max={5} type="number" required onChange={(e) =>
+                  setScore({ ...score, score5: parseInt(e?.target.value) })
+                } />
               </Col>
             </Form.Group>
             <Form.Label
@@ -212,7 +268,9 @@ function EvaluateModal15({ show, handleClose, student, setStudent }) {
                 >
                   5 คะแนน
                 </Form.Label>
-                <Form.Control min={1} max={5} type="number" required />
+                <Form.Control min={0} max={5} type="number" required onChange={(e) =>
+                  setScore({ ...score, score6: parseInt(e?.target.value) })
+                } />
               </Col>
             </Form.Group>
             <Form.Group as={Row} controlId="exampleForm.ControlInput1">
@@ -233,7 +291,9 @@ function EvaluateModal15({ show, handleClose, student, setStudent }) {
                 >
                   5 คะแนน
                 </Form.Label>
-                <Form.Control min={1} max={5} type="number" required />
+                <Form.Control min={0} max={5} type="number" required onChange={(e) =>
+                  setScore({ ...score, score7: parseInt(e?.target.value) })
+                } />
               </Col>
             </Form.Group>
             <Form.Group as={Row} controlId="exampleForm.ControlInput1">
@@ -252,7 +312,9 @@ function EvaluateModal15({ show, handleClose, student, setStudent }) {
                 >
                   5 คะแนน
                 </Form.Label>
-                <Form.Control min={1} max={5} type="number" required />
+                <Form.Control min={0} max={5} type="number" required onChange={(e) =>
+                  setScore({ ...score, score8: parseInt(e?.target.value) })
+                } />
               </Col>
             </Form.Group>
 
@@ -281,7 +343,9 @@ function EvaluateModal15({ show, handleClose, student, setStudent }) {
                 >
                   5 คะแนน
                 </Form.Label>
-                <Form.Control min={1} max={5} type="number" required />
+                <Form.Control min={0} max={5} type="number" required onChange={(e) =>
+                  setScore({ ...score, score9: parseInt(e?.target.value) })
+                } />
               </Col>
             </Form.Group>
 
@@ -302,8 +366,24 @@ function EvaluateModal15({ show, handleClose, student, setStudent }) {
                 >
                   5 คะแนน
                 </Form.Label>
-                <Form.Control min={1} max={5} type="number" required />
+                <Form.Control min={0} max={5} type="number" required onChange={(e) =>
+                  setScore({ ...score, score10: parseInt(e?.target.value) })
+                } />
               </Col>
+            </Form.Group>
+
+            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+              <Form.Label className="d-flex flex-row modalLabel">
+                ข้อคิดเห็นเพิ่มเติม/Other comments
+              </Form.Label>
+              <Form.Control
+                as="textarea"
+                required
+                onChange={(e) => {
+                  setScore({ ...score, fcn15Comment: e?.target?.value })
+                }}
+                style={{ height: "100px" }}
+              />
             </Form.Group>
 
             <Modal.Footer>

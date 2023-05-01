@@ -9,7 +9,6 @@ import { updateEvaluateById } from "../../../apis/evaluateApi";
 import { sweetAlertSubmit, sweetAlertSuccess } from "../../../swal2/swal2";
 
 function EvaluateModal12({ show, handleClose, student, setStudent }) {
-  console.log(student);
   const [validated, setValidated] = useState(false);
 
   const [score, setScore] = useState({

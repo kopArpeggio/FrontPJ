@@ -22,6 +22,7 @@ function StudentListCompany() {
   const [address, setAddress] = useState();
   const [workplace, setWorkplace] = useState();
   const [loading, setLoading] = useState(true);
+  const [modalStudent, setModalStudent] = useState();
 
   const [show, setShow] = useState(false);
 
@@ -29,6 +30,7 @@ function StudentListCompany() {
     setShow(true);
     console.log(param);
     setWork(param?.Work);
+    setModalStudent(param)
     setWorkplace(param?.Work?.Workplace);
     setAddress(param?.Work?.Workplace?.Address);
   };
@@ -155,8 +157,8 @@ function StudentListCompany() {
         <SelectValuateCompany
           show={show}
           handleClose={handleClose}
-          student={student}
-          setStudent={setStudent}
+          student={modalStudent}
+          setStudent={setModalStudent}
         />
 
         <DataTable
