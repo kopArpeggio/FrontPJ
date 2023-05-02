@@ -64,45 +64,7 @@ export default function Uploadfile() {
         }}
       >
         <Accordion defaultActiveKey={["0", "1", "2", "3"]} alwaysOpen>
-          <Accordion.Item eventKey="0">
-            <Accordion.Header>ใบสมัครสหกิจ</Accordion.Header>
-            <Accordion.Body>
-              <Form.Group className="mb-5 text box " style={{ width: "80%" }}>
-                <Form.Label
-                  as={Col}
-                  style={{ fontSize: "3vh" }}
-                  className="mb-3"
-                >
-                  ใบสมัครสหกิจ{" "}
-                </Form.Label>
-                <div className="flex">
-                  <Form.Control
-                    type="file"
-                    size="lg"
-                    accept=".pdf"
-                    disabled={
-                      user?.documentStatus === "0"
-                        ? true
-                        : user?.documentStatus === "8"
-                        ? true
-                        : false
-                    }
-                    className=""
-                    onChange={(e) =>
-                      setFiles({ ...files, regis: e?.target?.files[0] })
-                    }
-                  />
-                  {/* <Button
-                    variant="primary"
-                    className="ms-3 "
-                    onClick={Sendfile}
-                  >
-                    Upload
-                  </Button> */}
-                </div>
-              </Form.Group>
-            </Accordion.Body>
-          </Accordion.Item>
+
           <Accordion.Item eventKey="1">
             <Accordion.Header>
               แบบสำรวจการคัดกรองข้อมูลสหกิจศึกษา
@@ -126,8 +88,8 @@ export default function Uploadfile() {
                       user?.documentStatus === "0"
                         ? true
                         : user?.documentStatus === "8"
-                        ? true
-                        : false
+                          ? true
+                          : false
                     }
                     onChange={(e) =>
                       setFiles({ ...files, file4: e?.target?.files[0] })
@@ -160,8 +122,8 @@ export default function Uploadfile() {
                       user?.documentStatus === "0"
                         ? true
                         : user?.documentStatus === "8"
-                        ? true
-                        : false
+                          ? true
+                          : false
                     }
                     onChange={(e) =>
                       setFiles({ ...files, fcn1: e?.target?.files[0] })
@@ -194,8 +156,8 @@ export default function Uploadfile() {
                       user?.documentStatus === "0"
                         ? true
                         : user?.documentStatus === "8"
-                        ? true
-                        : false
+                          ? true
+                          : false
                     }
                     onChange={(e) =>
                       setFiles({ ...files, fcn2: e?.target?.files[0] })

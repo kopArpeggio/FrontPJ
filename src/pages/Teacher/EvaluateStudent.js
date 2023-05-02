@@ -36,7 +36,7 @@ function EvaluateStudent() {
   const [modalWorkplace, setModalWorkplace] = useState("");
   const [modalWork, setModalWork] = useState("");
   const [params, setParams] = useState({
-    status: "0",
+    status: "5",
     year: "",
   });
   const [createMode, setCreateMode] = useState(false);

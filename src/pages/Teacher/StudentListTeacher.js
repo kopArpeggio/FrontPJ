@@ -85,8 +85,8 @@ function StudentListTeacher() {
             param.documentStatus === "2"
               ? (param.documentStatus = "10")
               : param.documentStatus === "10"
-              ? (param.documentStatus = "7")
-              : (param.documentStatus = "2");
+                ? (param.documentStatus = "7")
+                : (param.documentStatus = "2");
             sweetAlertSubmit(undefined, "อนุมัติหรือไม่ ?").then(
               async (results) => {
                 if (results.isConfirmed) {
@@ -380,20 +380,68 @@ function StudentListTeacher() {
         </div>
       ),
     },
-    // {
-    //   name: "สถานะ",
-    //   center: true,
-    //   cell: (row) => (
-    //     <div>
-    //       {/* Later */}
-    //       {row?.status_id === 2
-    //         ? check
-    //         : row?.status_id === 1
-    //         ? wrong
-    //         : checking}
-    //     </div>
-    //   ),
-    // },
+  ];
+
+  const columnsSuccess = [
+    {
+      name: "โปรไฟล์",
+      center: true,
+      cell: (row) => (
+        <div>
+          <Image
+            width={"35px"}
+            height={"35px"}
+            roundedCircle
+            src={
+              row?.profilePic
+                ? getImageUrl(row?.profilePic)
+                : "/asset/img/noAvatar.jpg"
+            }
+            style={{
+              boxShadow:
+                "rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px",
+            }}
+            className="me-2"
+          />
+        </div>
+      ),
+    },
+    {
+      name: "ชื่อจริง",
+      selector: (row) => row?.firstname,
+      sortable: true,
+      center: true,
+    },
+    {
+      name: "นามสกุล",
+      selector: (row) => row?.lastname,
+      sortable: true,
+      center: true,
+    },
+    {
+      name: "สาขาวิชา",
+      selector: (row) => row?.branchName,
+      sortable: true,
+      center: true,
+    },
+    {
+      name: "คะแนน Fcn9.2",
+      selector: (row) => console.log(row),
+      sortable: true,
+      center: true,
+    },
+
+    {
+      name: "อนุมัติ",
+      center: true,
+      cell: (row) => (
+        <div>
+          {params?.status === "10" || params?.status === "2"
+            ? updateStatus(row)
+            : edit(row)}
+        </div>
+      ),
+    },
   ];
 
   const test = () => {
@@ -474,10 +522,10 @@ function StudentListTeacher() {
             params?.status === "10"
               ? "ระบบจัดการหนังสือส่งตัว"
               : params?.status === "2"
-              ? "ระบบจัดการหนังสือขอความอนุเคราะห์"
-              : "ระบบจัดการ Job Description"
+                ? "ระบบจัดการหนังสือขอความอนุเคราะห์"
+                : "ระบบจัดการ Job Description"
           }
-          columns={columns}
+          columns={params?.status === "0" ? columnsSuccess : columns}
           data={Searchtest(student)}
           expandableRows
           expandableRowsComponent={(value) => <pre>{value.data.firstname}</pre>}
@@ -562,8 +610,8 @@ function StudentListTeacher() {
                     params?.status === "10"
                       ? false
                       : params?.status === "2"
-                      ? false
-                      : true
+                        ? false
+                        : true
                   }
                   onClick={() => handleExportXLSX(Searchtest(student), true)}
                 >

@@ -1,7 +1,7 @@
 import React from "react";
 import { Button, Modal } from "react-bootstrap";
 import { AiOutlineUpload } from "react-icons/ai";
-import { uploadXlsxStudentFile } from "../../../apis/uploadApi";
+import { uploadXlsxTeacherFile } from "../../../apis/uploadApi";
 import { sweetAlertSuccess } from "../../../swal2/swal2";
 
 function AdminImportTeacherModal({
@@ -55,9 +55,9 @@ function AdminImportTeacherModal({
                 <Modal.Footer>
                     <Button
                         onClick={async () => {
-                            const status = await uploadXlsxStudentFile(file);
+                            const status = await uploadXlsxTeacherFile(file);
                             if (status) {
-                                sweetAlertSuccess("Upload Student Succesful.").then((okay) => {
+                                sweetAlertSuccess("Upload Teachers Succesful.").then((okay) => {
                                     if (okay) {
                                         handleClose();
                                     }

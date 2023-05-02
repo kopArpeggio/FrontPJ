@@ -91,7 +91,7 @@ function SelectEvaluate({ show, handleClose, student, setStudent }) {
               size="lg"
               style={{ fontSize: "2vh" }}
               onClick={() => setDoc14_1(true)}
-              disabled={student?.Evaluate?.fcn14_2Point}
+              disabled={student?.Evaluate?.fcn14_1Point ? true : student?.Evaluate?.fcn14_2Point ? true : false}
 
             >
               FCn 14.1 (แบบประเมินรายงานนักศึกษาสหกิจศึกษา
@@ -103,7 +103,7 @@ function SelectEvaluate({ show, handleClose, student, setStudent }) {
               size="lg"
               style={{ fontSize: "2vh" }}
               onClick={() => setDoc14_2(true)}
-              disabled={student?.Evaluate?.fcn14_1Point}
+              disabled={student?.Evaluate?.fcn14_1Point ? true : student?.Evaluate?.fcn14_2Point ? true : false}
 
             >
               FCn 14.2 (แบบประเมินรายงานนักศึกษาสหกิจศึกษา
