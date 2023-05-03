@@ -388,7 +388,7 @@ function StudentListTeacher() {
     },
 
     {
-      name: params?.status === "7" ? "ตรวจสอบเอกสาร" : "อนุมัติ",
+      name: params?.status === "7" ? "เปลี่ยนสถานะ" : "อนุมัติ",
       center: true,
       cell: (row) => (
         <div>
@@ -683,7 +683,7 @@ function StudentListTeacher() {
                   <option value="2">รอหนังสือขอความอนุเคราะห์</option>
                   <option value="10">รอหนังสือส่งตัว</option>
                   <option value="7">รอตรวจสอบเอกสาร</option>
-                  <option value="0">สำเร็จ</option>
+                  <option value="0">ตรวจสอบเอกสารสำเร็จ</option>
                 </Form.Select>
               </Form.Group>
 

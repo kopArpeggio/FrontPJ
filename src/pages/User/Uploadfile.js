@@ -65,9 +65,7 @@ export default function Uploadfile() {
       >
         <Accordion defaultActiveKey={["0", "1", "2", "3"]} alwaysOpen>
           <Accordion.Item eventKey="1">
-            <Accordion.Header>
-              แบบสำรวจการคัดกรองข้อมูลสหกิจศึกษา
-            </Accordion.Header>
+            <Accordion.Header>เอกสารสมบูรณ์</Accordion.Header>
             <Accordion.Body>
               <Form.Group className="mb-5 text box " style={{ width: "80%" }}>
                 <Form.Label
@@ -75,7 +73,7 @@ export default function Uploadfile() {
                   style={{ fontSize: "3vh" }}
                   className="mb-3"
                 >
-                  แบบสำรวจการคัดกรองข้อมูลสหกิจศึกษา{" "}
+                  เอกสารสมบูรณ์{" "}
                 </Form.Label>
                 <div className="flex">
                   <Form.Control
@@ -99,9 +97,7 @@ export default function Uploadfile() {
             </Accordion.Body>
           </Accordion.Item>
           <Accordion.Item eventKey="2">
-            <Accordion.Header>
-              FCn 1 แบบแจ้งรายละเอียดที่พักระหว่างการปฏิบัติงานสหกิจศึกษา
-            </Accordion.Header>
+            <Accordion.Header>บทความ</Accordion.Header>
             <Accordion.Body>
               <Form.Group className="mb-5 text box " style={{ width: "80%" }}>
                 <Form.Label
@@ -109,7 +105,7 @@ export default function Uploadfile() {
                   style={{ fontSize: "3vh" }}
                   className="mb-3"
                 >
-                  FCn 1 แบบแจ้งรายละเอียดที่พักระหว่างการปฏิบัติงานสหกิจศึกษา{" "}
+                  บทความ{" "}
                 </Form.Label>
                 <div className="flex">
                   <Form.Control
@@ -133,9 +129,7 @@ export default function Uploadfile() {
             </Accordion.Body>
           </Accordion.Item>
           <Accordion.Item eventKey="3">
-            <Accordion.Header>
-              FCn 2 แบบแจ้งโครงร่างรายงานการปฏิบัติงาน
-            </Accordion.Header>
+            <Accordion.Header>โปสเตอร์</Accordion.Header>
             <Accordion.Body>
               <Form.Group className="mb-5 text box " style={{ width: "80%" }}>
                 <Form.Label
@@ -143,7 +137,7 @@ export default function Uploadfile() {
                   style={{ fontSize: "3vh" }}
                   className="mb-3"
                 >
-                  FCn 2 แบบแจ้งโครงร่างรายงานการปฏิบัติงาน{" "}
+                  โปสเตอร์{" "}
                 </Form.Label>
                 <div className="flex">
                   <Form.Control

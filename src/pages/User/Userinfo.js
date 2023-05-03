@@ -497,6 +497,28 @@ function Userinfo() {
                       style={{ fontSize: 20, color: "" }}
                       className="d-flex flex-row"
                     >
+                      เกี่ยวข้องเป็น
+                    </Form.Label>
+                    <Form.Control
+                      value={formData?.beneficiaryRelevant}
+                      onChange={(e) => {
+                        setFormData({
+                          ...formData,
+                          beneficiaryRelevant: e?.target?.value,
+                        });
+                      }}
+                      required
+                      type="text"
+                      placeholder="นามสกุล"
+                    />
+                  </Form.Group>
+                </Row>
+                <Row className="mb-3 mt-4 justify-content-center d-flex flex-column flex-lg-row">
+                  <Form.Group as={Col} sm="8" controlId="formGridEmail">
+                    <Form.Label
+                      style={{ fontSize: 20, color: "" }}
+                      className="d-flex flex-row"
+                    >
                       เบอร์โทรศัพท์
                     </Form.Label>
                     <Form.Control

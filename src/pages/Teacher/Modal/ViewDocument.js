@@ -63,7 +63,7 @@ function ViewDocument({ show, setShow, student, handleClose }) {
                   className="col-form-label-lg d-flex justify-content-center"
                   style={{ fontSize: 22, color: "", fontWeight: "bold" }}
                 >
-                  แบบสำรวจการคัดกรองข้อมูลสหกิจศึกษา{" "}
+                  เอกสารสมบูรณ์{" "}
                   {student?.Pdffile?.pdfName4 ? (
                     ""
                   ) : (
@@ -96,7 +96,7 @@ function ViewDocument({ show, setShow, student, handleClose }) {
                   className="col-form-label-lg d-flex justify-content-center"
                   style={{ fontSize: 22, color: "", fontWeight: "bold" }}
                 >
-                  FCn 1 แบบแจ้งรายละเอียดที่พักระหว่างการปฏิบัติงานสหกิจศึกษา{" "}
+                  บทความ{" "}
                   {student?.Pdffile?.fcn1 ? (
                     ""
                   ) : (
@@ -129,7 +129,7 @@ function ViewDocument({ show, setShow, student, handleClose }) {
                   className="col-form-label-lg d-flex justify-content-center"
                   style={{ fontSize: 22, color: "", fontWeight: "bold" }}
                 >
-                  FCn 2 แบบแจ้งโครงร่างรายงานการปฏิบัติงาน{" "}
+                  โปสเตอร์{" "}
                   {student?.Pdffile?.fcn2 ? (
                     ""
                   ) : (
