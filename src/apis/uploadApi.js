@@ -50,6 +50,7 @@ export const uploadStudentDocumentFile = async (file, signal) => {
     form.append("fcn1", file?.fcn1);
     form.append("fcn2", file?.fcn2);
     form.append("pdfName4", file?.file4);
+    console.log(file)
 
     const { data, status } = await axios.post(
       UPLOAD_PDF_DOCUMENT_FILE_URL,

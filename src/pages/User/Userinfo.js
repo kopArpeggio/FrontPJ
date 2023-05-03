@@ -84,6 +84,15 @@ function Userinfo() {
       zipCode: address[district.value].zipcode,
     });
   };
+  const onChangedistrictOld = (district) => {
+    setOldAddress({
+      ...oldAddress,
+      district: address[district.value].district,
+      amphoe: address[district.value].amphoe,
+      province: address[district.value].province,
+      zipCode: address[district.value].zipcode,
+    });
+  };
 
   const fetchAPI = async () => {
     await fetch(
@@ -502,6 +511,148 @@ function Userinfo() {
                       type="text"
                       placeholder="09XXXXXXXX"
                       maxLength={10}
+                    />
+                  </Form.Group>
+                </Row>
+
+                <Row className="mb-3 ">
+                  <Form.Label
+                    className="mt-4 mb-3"
+                    style={{ fontSize: 22, color: "", fontWeight: "bold" }}
+                  >
+                    ที่อยู่ตามทะเบียนบ้าน
+                  </Form.Label>
+                </Row>
+                <Row className="mb-3 mt-4 justify-content-center d-flex flex-column flex-lg-row">
+                  <Form.Group as={Col} sm="8">
+                    <Form.Label
+                      style={{ fontSize: 20, color: "" }}
+                      className="d-flex flex-row"
+                    >
+                      บ้านเลขที่
+                    </Form.Label>
+                    <Form.Control
+                      type="text"
+                      value={oldAddress?.houseNumber}
+                      required
+                      onChange={(e) => {
+                        setOldAddress({
+                          ...oldAddress,
+                          houseNumber: e?.target?.value,
+                        });
+                      }}
+                    />
+                  </Form.Group>
+                </Row>
+                <Row className="mb-3 mt-4 justify-content-center d-flex flex-column flex-lg-row">
+                  <Form.Group
+                    as={Col}
+                    className="mb-3"
+                    sm="8"
+                    controlId="formGridPassword"
+                  >
+                    <Form.Label
+                      style={{ fontSize: 20, color: "" }}
+                      className="d-flex flex-row"
+                    >
+                      โปรดเลือกตำบล
+                    </Form.Label>
+                    <Select
+                      filterOption={createFilter({ ignoreAccents: false })}
+                      components={{ MenuList }}
+                      options={options}
+                      value={options.value}
+                      placeholder="กรอกชื่อตำบล"
+                      onChange={(e) => onChangedistrictOld(e)}
+                    />
+                  </Form.Group>
+                </Row>
+                <Row className="mb-3 mt-4 justify-content-center d-flex flex-column flex-lg-row">
+                  <Form.Group as={Col} sm="8">
+                    <Form.Label
+                      style={{ fontSize: 20, color: "" }}
+                      className="d-flex flex-row"
+                    >
+                      ตำบล
+                    </Form.Label>
+                    <Form.Control
+                      type="text"
+                      value={oldAddress?.district}
+                      required
+                      disabled
+                      onChange={(e) => {
+                        setOldAddress({
+                          ...oldAddress,
+                          district: e?.target?.value,
+                        });
+                      }}
+                    />
+                  </Form.Group>
+                </Row>
+                <Row className="mb-3 mt-4 justify-content-center d-flex flex-column flex-lg-row">
+                  <Form.Group as={Col} sm="8">
+                    <Form.Label
+                      style={{ fontSize: 20, color: "" }}
+                      className="d-flex flex-row"
+                    >
+                      อำเภอ
+                    </Form.Label>
+                    <Form.Control
+                      type="text"
+                      disabled
+                      value={oldAddress?.amphoe}
+                      required
+                      onChange={(e) => {
+                        setOldAddress({
+                          ...oldAddress,
+                          amphoe: e?.target?.value,
+                        });
+                      }}
+                    />
+                  </Form.Group>
+                </Row>
+                <Row className="mb-3 mt-4 justify-content-center d-flex flex-column flex-lg-row">
+                  <Form.Group as={Col} sm="8">
+                    <Form.Label
+                      style={{ fontSize: 20, color: "" }}
+                      className="d-flex flex-row"
+                    >
+                      จังหวัด
+                    </Form.Label>
+                    <Form.Control
+                      type="text"
+                      disabled
+                      value={oldAddress?.province}
+                      required
+                      onChange={(e) => {
+                        setOldAddress({
+                          ...oldAddress,
+                          province: e?.target?.value,
+                        });
+                      }}
+                    />
+                  </Form.Group>
+                </Row>
+
+                <Row className="mb-3 mt-4 justify-content-center d-flex flex-column flex-lg-row">
+                  <Form.Group as={Col} sm="8">
+                    <Form.Label
+                      style={{ fontSize: 20, color: "" }}
+                      className="d-flex flex-row"
+                    >
+                      รหัสไปรษณีย์
+                    </Form.Label>
+                    <Form.Control
+                      type="text"
+                      required
+                      disabled
+                      onChange={(e) => {
+                        setOldAddress({
+                          ...oldAddress,
+                          zipCode: e?.target?.value,
+                        });
+                      }}
+                      value={oldAddress?.zipCode}
                     />
                   </Form.Group>
                 </Row>
@@ -946,105 +1097,6 @@ function Userinfo() {
                           idCardNumber: event?.target?.value,
                         });
                       }}
-                    />
-                  </Form.Group>
-                </Row>
-                <Row className="mb-3 ">
-                  <Form.Label
-                    className="mt-4 mb-3"
-                    style={{ fontSize: 22, color: "", fontWeight: "bold" }}
-                  >
-                    ที่อยู่ตามทะเบียนบ้าน
-                  </Form.Label>
-                </Row>
-                <Row className="mb-3 mt-4 justify-content-center d-flex flex-column flex-lg-row">
-                  <Form.Group as={Col} sm="8">
-                    <Form.Label
-                      style={{ fontSize: 20, color: "" }}
-                      className="d-flex flex-row"
-                    >
-                      บ้านเลขที่
-                    </Form.Label>
-                    <Form.Control
-                      type="text"
-                      disabled
-                      value={oldAddress?.houseNumber}
-                    />
-                  </Form.Group>
-                </Row>
-                <Row className="mb-3 mt-4 justify-content-center d-flex flex-column flex-lg-row">
-                  <Form.Group as={Col} sm="8">
-                    <Form.Label
-                      style={{ fontSize: 20, color: "" }}
-                      className="d-flex flex-row"
-                    >
-                      ตำบล
-                    </Form.Label>
-                    <Form.Control
-                      type="text"
-                      disabled
-                      value={oldAddress?.district}
-                    />
-                  </Form.Group>
-                </Row>
-                <Row className="mb-3 mt-4 justify-content-center d-flex flex-column flex-lg-row">
-                  <Form.Group as={Col} sm="8">
-                    <Form.Label
-                      style={{ fontSize: 20, color: "" }}
-                      className="d-flex flex-row"
-                    >
-                      อำเภอ
-                    </Form.Label>
-                    <Form.Control
-                      type="text"
-                      disabled
-                      value={oldAddress?.amphoe}
-                    />
-                  </Form.Group>
-                </Row>
-                <Row className="mb-3 mt-4 justify-content-center d-flex flex-column flex-lg-row">
-                  <Form.Group as={Col} sm="8">
-                    <Form.Label
-                      style={{ fontSize: 20, color: "" }}
-                      className="d-flex flex-row"
-                    >
-                      จังหวัด
-                    </Form.Label>
-                    <Form.Control
-                      type="text"
-                      disabled
-                      value={oldAddress?.province}
-                    />
-                  </Form.Group>
-                </Row>
-                <Row className="mb-3 mt-4 justify-content-center d-flex flex-column flex-lg-row">
-                  <Form.Group as={Col} sm="8">
-                    <Form.Label
-                      style={{ fontSize: 20, color: "" }}
-                      className="d-flex flex-row"
-                    >
-                      จังหวัด
-                    </Form.Label>
-                    <Form.Control
-                      type="text"
-                      disabled
-                      value={oldAddress?.province}
-                    />
-                  </Form.Group>
-                </Row>
-
-                <Row className="mb-3 mt-4 justify-content-center d-flex flex-column flex-lg-row">
-                  <Form.Group as={Col} sm="8">
-                    <Form.Label
-                      style={{ fontSize: 20, color: "" }}
-                      className="d-flex flex-row"
-                    >
-                      รหัสไปรษณีย์
-                    </Form.Label>
-                    <Form.Control
-                      type="text"
-                      disabled
-                      value={oldAddress?.zipCode}
                     />
                   </Form.Group>
                 </Row>

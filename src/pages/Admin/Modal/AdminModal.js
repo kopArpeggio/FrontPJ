@@ -223,30 +223,7 @@ function AdminModal({
               <Form.Group
                 className="mb-3"
                 as={Col}
-                sm="4"
-                controlId="ControlInput1"
-              >
-                <Form.Label className="d-flex flex-row modalLabel">
-                  ชั้นปีที่
-                </Form.Label>
-                <Form.Control
-                  type="text"
-                  required
-                  placeholder="4"
-                  maxLength={1}
-                  value={student?.yearClass}
-                  onChange={(event) =>
-                    setStudent({
-                      ...student,
-                      yearClass: event?.target?.value,
-                    })
-                  }
-                />
-              </Form.Group>
-              <Form.Group
-                className="mb-3"
-                as={Col}
-                sm="4"
+                sm="6"
                 controlId="ControlInput1"
               >
                 <Form.Label className="d-flex flex-row modalLabel">
@@ -267,7 +244,7 @@ function AdminModal({
                   }
                 />
               </Form.Group>
-              <Form.Group as={Col} sm="4" controlId="ControlInput1">
+              <Form.Group as={Col} sm="6" controlId="ControlInput1">
                 <Form.Label className="d-flex flex-row modalLabel">
                   เกรดเฉลี่ยสะสม
                 </Form.Label>

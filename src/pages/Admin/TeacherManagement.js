@@ -297,11 +297,7 @@ function TeacherManagement() {
         "firstname",
         "lastname",
         "major",
-        "stu_no",
-        "gpa",
-        "phone_number",
-        "email",
-        "id_card_number",
+        "username",
       ]).font = { bold: true };
 
       const firstRow = worksheet.getRow(1);

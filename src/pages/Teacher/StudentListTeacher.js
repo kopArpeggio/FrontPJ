@@ -33,6 +33,7 @@ import {
 import { getAllBranchByStatus } from "../../apis/branchAPi";
 import StudentListTeacherModal from "./Modal/StudentListTeacherModal";
 import { sweetAlertSubmit, sweetAlertSuccess } from "../../swal2/swal2";
+import ViewDocument from "./Modal/ViewDocument";
 
 function StudentListTeacher() {
   const [student, setStudent] = useState([]);
@@ -48,11 +49,12 @@ function StudentListTeacher() {
   });
   const [createMode, setCreateMode] = useState(false);
   const [show, setShow] = useState(false);
+  const [showDocument, setShowDocument] = useState(false);
+
   const [branch, setBranch] = useState([]);
   const [studentYear, setStudentYear] = useState([]);
 
   const handleShow = (param) => {
-    setShow(true);
     setModalStudent(param);
     setModalAddress(param?.Work?.Workplace?.Address);
     setModalWork(param?.Work);
@@ -61,12 +63,28 @@ function StudentListTeacher() {
 
   const [q, SetQ] = useState("");
 
+  const CheckDocument = (param) => {
+    return (
+      <>
+        <FontAwesomeIcon
+          icon={faPenToSquare}
+          onClick={() => {
+            setShowDocument(true);
+            handleShow(param);
+          }}
+          className="tableAction"
+        />
+      </>
+    );
+  };
+
   const edit = (param) => {
     return (
       <>
         <FontAwesomeIcon
           icon={faPenToSquare}
           onClick={() => {
+            setShow(true);
             handleShow(param);
           }}
           className="tableAction"
@@ -85,8 +103,8 @@ function StudentListTeacher() {
             param.documentStatus === "2"
               ? (param.documentStatus = "10")
               : param.documentStatus === "10"
-                ? (param.documentStatus = "7")
-                : (param.documentStatus = "2");
+              ? (param.documentStatus = "7")
+              : (param.documentStatus = "2");
             sweetAlertSubmit(undefined, "อนุมัติหรือไม่ ?").then(
               async (results) => {
                 if (results.isConfirmed) {
@@ -195,7 +213,6 @@ function StudentListTeacher() {
 
       // Loop through the users and add them to the worksheet
       users.forEach((user) => {
-        console.log(user);
         const row = [
           user?.stuNo,
           user?.firstname,
@@ -316,6 +333,7 @@ function StudentListTeacher() {
 
   const handleClose = () => {
     setShow(false);
+    setShowDocument(false);
     setCreateMode(false);
     getStudent();
   };
@@ -370,12 +388,14 @@ function StudentListTeacher() {
     },
 
     {
-      name: "อนุมัติ",
+      name: params?.status === "7" ? "ตรวจสอบเอกสาร" : "อนุมัติ",
       center: true,
       cell: (row) => (
         <div>
           {params?.status === "10" || params?.status === "2"
             ? updateStatus(row)
+            : params?.status === "7"
+            ? CheckDocument(row)
             : edit(row)}
         </div>
       ),
@@ -426,21 +446,98 @@ function StudentListTeacher() {
     },
     {
       name: "คะแนน Fcn9.2",
-      selector: (row) => console.log(row),
+      width: "11%",
+
+      selector: (row) => {
+        return row?.Evaluate?.fcn9_2Point ? (
+          <div> {row?.Evaluate?.fcn9_2Point}</div>
+        ) : (
+          <div style={{ color: "red" }}> ยังไม่ได้ประเมิน</div>
+        );
+      },
       sortable: true,
       center: true,
     },
 
     {
-      name: "อนุมัติ",
+      name: "คะแนน Fcn10",
+      width: "11%",
+
+      selector: (row) => {
+        return row?.Evaluate?.fcn10Point ? (
+          <div> {row?.Evaluate?.fcn10Point}</div>
+        ) : (
+          <div style={{ color: "red" }}> ยังไม่ได้ประเมิน</div>
+        );
+      },
+      sortable: true,
       center: true,
-      cell: (row) => (
-        <div>
-          {params?.status === "10" || params?.status === "2"
-            ? updateStatus(row)
-            : edit(row)}
-        </div>
-      ),
+    },
+
+    {
+      name: "คะแนน Fcn11",
+      width: "11%",
+      selector: (row) => {
+        return row?.Evaluate?.fcn11Point ? (
+          <div> {row?.Evaluate?.fcn11Point}</div>
+        ) : (
+          <div style={{ color: "red" }}> ยังไม่ได้ประเมิน</div>
+        );
+      },
+      sortable: true,
+      center: true,
+    },
+    {
+      name: "คะแนน Fcn12",
+      width: "11%",
+      selector: (row) => {
+        return row?.Evaluate?.fcn12Point ? (
+          <div> {row?.Evaluate?.fcn12Point}</div>
+        ) : (
+          <div style={{ color: "red" }}> ยังไม่ได้ประเมิน</div>
+        );
+      },
+      sortable: true,
+      center: true,
+    },
+    {
+      name: "คะแนน Fcn13",
+      width: "11%",
+      selector: (row) => {
+        return row?.Evaluate?.fcn13Point ? (
+          <div> {row?.Evaluate?.fcn13Point}</div>
+        ) : (
+          <div style={{ color: "red" }}> ยังไม่ได้ประเมิน</div>
+        );
+      },
+      sortable: true,
+      center: true,
+    },
+    {
+      name: "คะแนน Fcn14",
+      width: "11%",
+      selector: (row) => {
+        return row?.Evaluate?.fcn14Point ? (
+          <div> {row?.Evaluate?.fcn14Point}</div>
+        ) : (
+          <div style={{ color: "red" }}> ยังไม่ได้ประเมิน</div>
+        );
+      },
+      sortable: true,
+      center: true,
+    },
+    {
+      name: "คะแนน Fcn15",
+      width: "11%",
+      selector: (row) => {
+        return row?.Evaluate?.fcn15Point ? (
+          <div> {row?.Evaluate?.fcn15Point}</div>
+        ) : (
+          <div style={{ color: "red" }}> ยังไม่ได้ประเมิน</div>
+        );
+      },
+      sortable: true,
+      center: true,
     },
   ];
 
@@ -493,6 +590,12 @@ function StudentListTeacher() {
         handleClose={handleClose}
         work={modalWork}
       />
+
+      <ViewDocument
+        show={showDocument}
+        student={modalStudent}
+        handleClose={handleClose}
+      />
       <Container className="tablecustom ">
         {/* <AdminModal
           show={show}
@@ -522,12 +625,16 @@ function StudentListTeacher() {
             params?.status === "10"
               ? "ระบบจัดการหนังสือส่งตัว"
               : params?.status === "2"
-                ? "ระบบจัดการหนังสือขอความอนุเคราะห์"
-                : "ระบบจัดการ Job Description"
+              ? "ระบบจัดการหนังสือขอความอนุเคราะห์"
+              : params?.status === "7"
+              ? "ระบบตรวจสอบเอกสาร"
+              : params?.status === "0"
+              ? "ตรวจสอบคะแนน"
+              : "ระบบจัดการ Job Description"
           }
           columns={params?.status === "0" ? columnsSuccess : columns}
           data={Searchtest(student)}
-          expandableRows
+          expandableRows={params?.status === "0" ? true : false}
           expandableRowsComponent={(value) => <pre>{value.data.firstname}</pre>}
           pagination
           fixedHeader
@@ -575,7 +682,7 @@ function StudentListTeacher() {
                   </option>
                   <option value="2">รอหนังสือขอความอนุเคราะห์</option>
                   <option value="10">รอหนังสือส่งตัว</option>
-                  <option value="7">รอส่งเอกสาร</option>
+                  <option value="7">รอตรวจสอบเอกสาร</option>
                   <option value="0">สำเร็จ</option>
                 </Form.Select>
               </Form.Group>
@@ -610,8 +717,8 @@ function StudentListTeacher() {
                     params?.status === "10"
                       ? false
                       : params?.status === "2"
-                        ? false
-                        : true
+                      ? false
+                      : true
                   }
                   onClick={() => handleExportXLSX(Searchtest(student), true)}
                 >

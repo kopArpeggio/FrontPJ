@@ -11,7 +11,7 @@ import { useNavigate } from "react-router-dom";
 function TextLinkExample() {
     const navigate = useNavigate();
     const Goto_login = () => {
-        navigate('/login')
+        navigate('/')
     }
     return (
         <Navbar className='nav-color'>

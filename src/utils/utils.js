@@ -32,6 +32,9 @@ export const MenuList = (props) => {
 export const getImageUrl = (filename) => {
   return `${process.env.REACT_APP_UPLOAD_HOST}/${process.env.REACT_APP_IMAGE_PATH}/${filename}`;
 };
+export const getPDFUrl = (filename) => {
+  return `${process.env.REACT_APP_UPLOAD_HOST}/${process.env.REACT_APP_PDF_PATH}/${filename}`;
+};
 
 export const fileToBase64 = (file) => {
   return new Promise((resolve, reject) => {
